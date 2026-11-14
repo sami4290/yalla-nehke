@@ -858,12 +858,12 @@ const BASE=location.origin+location.pathname;
 let cloudT=null,cloudBusy=false;
 function cloudSave(){try{if(!SB||!ACC.user||!P)return;clearTimeout(cloudT);cloudT=setTimeout(cloudPush,700)}catch(e){}}
 async function cloudPush(){if(!SB||!ACC.user||!P)return;if(cloudBusy){cloudSave();return}cloudBusy=true;cloudT=null;
- try{if(!ACC.child){const r=await SB.from('children').insert({profile:P,progress:G}).select('id').single();if(!r.error&&r.data){ACC.child=r.data.id;store.set('yn2_child',r.data.id)}}
+ try{if(!ACC.child){let cid=store.get('yn2_cid',null);if(!cid){cid=(crypto.randomUUID?crypto.randomUUID():'10000000-1000-4000-8000-100000000000'.replace(/[018]/g,c=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15>>c/4).toString(16)));store.set('yn2_cid',cid)}const r=await SB.from('children').upsert({id:cid,profile:P,progress:G},{onConflict:'id'}).select('id').single();if(!r.error&&r.data){ACC.child=r.data.id;store.set('yn2_child',r.data.id)}}
   else{const r=await SB.from('children').update({profile:P,progress:G,updated_at:new Date().toISOString()}).eq('id',ACC.child);if(r.error)cloudSave()}}catch(e){setTimeout(cloudSave,5000)}
  cloudBusy=false}
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&cloudT){clearTimeout(cloudT);cloudPush()}});
-function useChild(row){ACC.child=row.id;store.set('yn2_child',row.id);P=row.profile;G=Object.assign(fresh(),row.progress||{});store.set('yn2_profile',P);store.set('yn2_progress',G);parentOK=false;route.init=0;tab='map';route()}
-function newChild(){ACC.child=null;store.set('yn2_child',null);P=null;G=fresh();route.init=0;tab='map';setup(true)}
+function useChild(row){ACC.child=row.id;store.set('yn2_child',row.id);store.set('yn2_cid',row.id);P=row.profile;G=Object.assign(fresh(),row.progress||{});store.set('yn2_profile',P);store.set('yn2_progress',G);parentOK=false;route.init=0;tab='map';route()}
+function newChild(){ACC.child=null;store.set('yn2_child',null);store.set('yn2_cid',null);P=null;G=fresh();route.init=0;tab='map';setup(true)}
 function authScreen(msg){
  let mode='in';
  const draw=()=>{app.innerHTML=`<div class="screen auth"><div class="welcome"><h1>Yalla Nehke!</h1><p class="sub">Parents: sign in to save your children's progress and continue on any device.</p></div>
@@ -912,7 +912,7 @@ async function kidsScreen(){
  const d=$('kdev');if(d)d.onclick=async()=>{ACC.child=null;await cloudPush();route.init=0;tab='map';route()};
  $('kout').onclick=signOut;
 }
-async function signOut(){try{await SB.auth.signOut()}catch(e){}ACC.user=null;ACC.child=null;ACC.kids=[];['yn2_child','yn2_profile','yn2_progress'].forEach(k=>{try{localStorage.removeItem(k)}catch(e){}});P=null;G=fresh();parentOK=false;route.init=0;tab='map';authScreen()}
+async function signOut(){try{await SB.auth.signOut()}catch(e){}ACC.user=null;ACC.child=null;ACC.kids=[];['yn2_child','yn2_cid','yn2_profile','yn2_progress'].forEach(k=>{try{localStorage.removeItem(k)}catch(e){}});P=null;G=fresh();parentOK=false;route.init=0;tab='map';authScreen()}
 function acctButtons(){const a=$('acct');if(a)a.onclick=()=>{ACC.local=false;store.set('yn2_local',false);authScreen()};const w=$('swc');if(w)w.onclick=()=>{cloudPush();kidsScreen()};const o=$('out');if(o)o.onclick=()=>sheet(`<h2>Sign out?</h2><p class="sub">Progress is saved in your account. You can sign in again on any device.</p><button class="btn wide" id="oy">Sign out</button><div style="height:10px"></div><button class="btn ghost wide" id="on">Cancel</button>`,()=>{$('oy').onclick=()=>{closeSheet();signOut()};$('on').onclick=closeSheet})}
 function newPasswordSheet(){sheet(`<h2>Choose a new password</h2><label for="npw">New password</label><input type="password" id="npw" autocomplete="new-password" placeholder="At least 8 characters"><p class="err" id="npe"></p><button class="btn wide" id="npg">Save password</button>`,()=>{$('npg').onclick=async()=>{const pw=$('npw').value;if(pw.length<8){$('npe').textContent='Use at least 8 characters.';return}const r=await SB.auth.updateUser({password:pw});if(r.error){$('npe').textContent=r.error.message;return}closeSheet();toast('Password saved ✅')}})}
 async function boot(){
