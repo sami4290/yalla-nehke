@@ -30,7 +30,7 @@ window.YN_WORDS = {
   khayyi:{ar:'خيّي',tr:'khayyi',en:'my brother',pic:'👦'},
   ikhti:{ar:'إختي',tr:'ikhti',en:'my sister',pic:'👧'},
   teta:{ar:'تيتا',tr:'teta',en:'grandma',pic:'👵'},
-  jeddo:{ar:'جدّو',tr:'jeddo',en:'grandpa',pic:'👴'},
+  jeddo:{ar:'جدّو',tr:'jiddo',en:'grandpa',pic:'👴'},
   ammo:{ar:'عمّو',tr:'ʿammo',en:'uncle',pic:'🧔'},
   khalto:{ar:'خالتو',tr:'khalto',en:'auntie',pic:'👩‍🦱'},
   habibi:{ar:['حبيبي','حبيبتي'],tr:['ḥabībi','ḥabībti'],en:'my darling',pic:null},
@@ -138,9 +138,9 @@ window.YN_COURSE = [
      {q:{ar:'',tr:'👨',en:'And who is this?'},a:'baba',after:'Bravo, bāba!'}]},
    {title:'Big family',words:['teta','jeddo','ammo','khalto'],talk:[
      {q:{ar:'',tr:'👵',en:'Who is this?'},a:'teta',after:'Teta! She makes the best food!'},
-     {q:{ar:'',tr:'👴',en:'And who is this?'},a:'jeddo',after:'Jeddo! He tells funny stories!'}]},
+     {q:{ar:'',tr:'👴',en:'And who is this?'},a:'jeddo',after:'Jiddo! He tells funny stories!'}]},
    {title:'Who is this?',words:['habibi','hayda','hayde','minhayda'],talk:[
-     {q:{ar:'مين هيدا؟ 👴',tr:'mīn hayda? 👴',en:'Who is this?'},a:{ar:'هيدا جدّو',tr:'hayda jeddo'},after:'Yes! Hayda jeddo!'},
+     {q:{ar:'مين هيدا؟ 👴',tr:'mīn hayda? 👴',en:'Who is this?'},a:{ar:'هيدا جدّو',tr:'hayda jiddo'},after:'Yes! Hayda jiddo!'},
      {q:{ar:'مين هيدي؟ 👵',tr:'mīn hayde? 👵',en:'Who is this?'},a:{ar:'هيدي تيتا',tr:'hayde teta'},after:'Bravo! Hayde teta!'}]},
    {title:'At home',words:['bet','uda','takhet','matbakh'],talk:[
      {q:{ar:'شو هيدا؟ 🛏️',tr:'shu hayda? 🛏️',en:'What is this?'},a:'takhet',after:'Yes, a takhet. Sleepy time!'},

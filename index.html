@@ -69,10 +69,13 @@ input[type=text],input[type=number]{width:100%;font:inherit;font-size:18px;paddi
 .bar i{display:block;height:100%;background:var(--green);width:0;transition:width .4s;border-radius:8px}
 .guide{display:flex;align-items:flex-end;gap:10px;margin-bottom:12px}
 .av{width:84px;height:84px;border-radius:50%;background-color:#fff;background-repeat:no-repeat;background-size:290%;background-position:50% 4%;border:3px solid var(--line);flex-shrink:0}
+.av.full{border:none;border-radius:0;background-color:transparent;background-size:contain;background-position:center bottom;width:104px;height:112px}
+.clip{display:block;margin:0 auto 8px;border-radius:28px;object-fit:cover;background:#FFF6E5}
 .av.jump{animation:jump .5s}.av.no{animation:shake .4s}
 @keyframes jump{40%{transform:translateY(-14px) scale(1.05)}}
 @keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 .bubble{background:#fff;border:2px solid var(--line);border-radius:20px 20px 20px 6px;padding:11px 14px;font-size:18px;line-height:1.35;flex:1;position:relative}
+button.spk{cursor:pointer;font-family:inherit}
 .spk{position:absolute;top:-12px;right:10px;background:#EAF6F5;color:var(--teal-d);border-radius:10px;font-size:11px;font-weight:800;padding:1px 7px;border:2px solid #CBEBE8}
 .qline{font-size:24px;color:var(--teal-d);font-weight:800}
 .word{text-align:center}
@@ -135,12 +138,13 @@ input[type=text],input[type=number]{width:100%;font:inherit;font-size:18px;paddi
 const W=window.YN_WORDS, COURSE=window.YN_COURSE;
 // ---------- reusable character asset library (poses & clips) ----------
 // Each key will point to its own generated picture / short clip. Until those are made, all poses use the approved portrait.
-const ASSETS={
- zena:{name:'Zena',portrait:'zena.webp',happy:'zena.webp',cheer:'zena.webp',think:'zena.webp',oops:'zena.webp',wave:'zena.webp'},
- karim:{name:'Karim',portrait:'karim.webp',happy:'karim.webp',cheer:'karim.webp',think:'karim.webp',oops:'karim.webp',wave:'karim.webp'},
- bisseh:{wave:'marhaba.webp'}
-};
+const mk=n=>({name:n[0].toUpperCase()+n.slice(1),portrait:n==='bisseh'?'marhaba.webp':n+'.webp',wave:n==='bisseh'?'marhaba.webp':n+'_wave.webp',happy:n+'_happy.webp',think:n+'_think.webp',cheer:n+'_cheer.webp',oops:n+'_oops.webp',clip:{wave:n+'_wave.mp4',cheer:n+'_cheer.mp4',dabke:n==='bisseh'?null:n+'_dabke.mp4'}});
+const ASSETS={zena:mk('zena'),karim:mk('karim'),bisseh:mk('bisseh')};
+const clipHTML=(who,kind,size)=>{const a=ASSETS[who];return `<video class="clip" src="${a.clip[kind]}" poster="${a[kind==='dabke'?'happy':kind]}" autoplay loop muted playsinline style="width:${size||200}px;height:${size||200}px"></video>`};
 const IMG={marhaba:'marhaba.webp'};
+// word pictures (Level 1)
+const PICS=["ammo", "asfour", "baba", "barra", "bet", "bisse", "ein", "enab", "falafel", "halib", "hummus", "ijr", "ikhti", "jebne", "jeddo", "juan", "kaake", "kalb", "khalto", "khayyi", "khebz", "laymuna", "mabsut", "mama", "manoushe", "masa", "matbakh", "mayy", "moze", "sabah", "sabahnour", "samake", "shams", "taban", "tabe", "takhet", "teta", "tiffaha", "tisbah", "uda", "zalan"];
+PICS.forEach(id=>{if(W[id]){W[id].pic='img:'+id;IMG[id]='pics/'+id+'.webp'}});
 
 // ---------- storage ----------
 const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
@@ -179,6 +183,18 @@ function optVisual(p){
 
 // ---------- sound effects (generated, no files) ----------
 let actx;function tone(fs,dur=.12,type='sine',gap=.09){if(!G.sound)return;try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();let t=actx.currentTime;fs.forEach(f=>{const o=actx.createOscillator(),g=actx.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.18,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(g);g.connect(actx.destination);o.start(t);o.stop(t+dur+.02);t+=gap})}catch(e){}}
+// ---------- character voices (audio sprites per voice) ----------
+const VO={idx:null,buf:{},cur:null,last:null};
+fetch('audio/index.json').then(r=>r.json()).then(j=>VO.idx=j).catch(()=>{});
+function vctx(){actx=actx||new (window.AudioContext||window.webkitAudioContext)();if(actx.state==='suspended')actx.resume();return actx}
+document.addEventListener('pointerdown',()=>{try{vctx()}catch(e){}},{once:true});
+function vbuf(g){const k=P.char+'_'+g;if(!VO.buf[k])VO.buf[k]=fetch('audio/'+k+'.mp3').then(r=>r.arrayBuffer()).then(b=>new Promise((res,rej)=>vctx().decodeAudioData(b,res,rej))).catch(e=>{delete VO.buf[k];throw e});return VO.buf[k]}
+function vkey(id){const ix=VO.idx&&P&&VO.idx[P.char];if(!ix||!id)return null;const s=boy()?'_b':'_g';return ix[id+s]?id+s:ix[id]?id:null}
+function vstop(){if(VO.cur){try{VO.cur.stop()}catch(e){}VO.cur=null}}
+async function say(id){VO.last=id;const k=vkey(id);if(!G.sound||!k)return;const [g,off,dur]=VO.idx[P.char][k];
+ try{const b=await vbuf(g);if(VO.last!==id)return;vstop();const c=vctx(),src=c.createBufferSource();src.buffer=b;src.connect(c.destination);src.start(0,off,dur);VO.cur=src}catch(e){}}
+function vwarm(gs){if(!VO.idx){setTimeout(()=>vwarm(gs),400);return}gs.forEach(g=>vbuf(g).catch(()=>{}))}
+document.addEventListener('click',e=>{const b=e.target.closest('.spk');if(b&&b.dataset.v){e.stopPropagation();say(b.dataset.v)}});
 const sfx={ok:()=>tone([660,880]),no:()=>tone([300,220],.16,'triangle',.12),done:()=>tone([523,659,784,1047],.16,'sine',.12),tap:()=>tone([520],.05)};
 function confetti(){const c=document.createElement('div');c.className='confetti';const cols=['#FFC93C','#14A39A','#E5484D','#2FA866','#7F77DD'];for(let i=0;i<80;i++){const b=document.createElement('i');b.style.left=Math.random()*100+'%';b.style.background=cols[i%5];b.style.animationDelay=Math.random()*.8+'s';b.style.animationDuration=2+Math.random()*1.5+'s';c.appendChild(b)}document.body.appendChild(c);setTimeout(()=>c.remove(),4300)}
 
@@ -194,7 +210,7 @@ function listen(ar,tr,box,onDone,label){
  if(!SR||micBlocked)return onDone(null);
  let tries=0,errs=0;
  const ui=(msg,live)=>{box.innerHTML=`<button class="mic ${live?'live':''}" id="mic" aria-label="Speak">🎤</button><div class="heard">${msg}</div><div class="meter"><i id="mt"></i></div>`;$('mic').onclick=go};
- const go=()=>{let rec;try{rec=new SR()}catch(e){micBlocked=true;return onDone(null)}
+ const go=()=>{vstop();let rec;try{rec=new SR()}catch(e){micBlocked=true;return onDone(null)}
   rec.lang='ar-LB';rec.maxAlternatives=5;rec.interimResults=false;ui('Listening… say it now!',true);let got=false;
   rec.onresult=e=>{got=true;const alts=[];for(const r of e.results)for(let k=0;k<r.length;k++)alts.push(r[k].transcript);
    const sc=score(alts,ar,tr),pct=Math.round(sc*100);tries++;const col=sc>=PASS?'var(--green)':'var(--yellow)';
@@ -238,7 +254,7 @@ function route(){if(!P)return setup(true);if(!route.init){route.init=1;const ope
 function mapScreen(){
  const L=lvl(viewLevel);
  let h=`<div class="ltabs">${COURSE.map(l=>`<button class="ltab ${l.id===viewLevel?'on':''}" data-l="${l.id}">Level ${l.id} · ${l.name}${l.soon?' (soon)':!levelOpen(l)?' 🔒':''}</button>`).join('')}</div>`;
- h+=`<div class="guide" style="margin-top:6px"><div class="av" style="background-image:url(${CH().wave})"></div><div class="bubble">${L.soon?`Level ${L.id} is coming soon!`:!levelOpen(L)?`Finish Level ${L.id-1} to open this level! 🔒`:greetLine()}</div></div>`;
+ h+=`<div class="guide" style="margin-top:6px"><div class="av full" style="background-image:url(${CH().wave})"></div><div class="bubble">${L.soon?`Level ${L.id} is coming soon!`:!levelOpen(L)?`Finish Level ${L.id-1} to open this level! 🔒`:greetLine()}</div></div>`;
  if(L.soon){h+=L.units.map(u=>`<div class="unit" style="background:${u.color};opacity:.75"><div class="ui">${u.icon}</div><div><b>Unit ${u.id} · ${u.title}</b><span>Coming soon</span></div></div><div class="soon note"><b>Planned:</b> ${esc(u.plan)}</div>`).join('');shell(h);bindMap();return}
  const cur=currentNode(L);
  L.units.forEach(u=>{
@@ -271,9 +287,10 @@ function closeSheet(){const s=$('sheet');if(s)s.remove()}
 let RUN=null; // {title, items, i, mistakes, ok, n, mode, onEnd}
 function startLesson(L,n){
  const ls=n.ls,newW=ls.words,items=[];
- items.push({t:'talk',text:`Marḥaba ${esc(P.name)}! Today on “${esc(ls.title)}” island we learn ${newW.length} new words. Yalla!`});
+ const vb=`${n.u.id}_${n.i+1}`;vwarm(['w','u'+n.u.id,'p']);
+ items.push({t:'talk',vid:'intro_'+vb,text:`Marḥaba ${esc(P.name)}! Today on “${esc(ls.title)}” island we learn ${newW.length} new words. Yalla!`});
  newW.forEach((id,i)=>{items.push({t:'teach',id});if(i%2===1||i===newW.length-1){const pair=newW.slice(i-(i%2===1?1:0),i+1);pair.forEach(p=>items.push({t:'meaning',id:p,pool:newW}))}});
- ls.talk.forEach(tk=>items.push({t:'convo',tk}));
+ ls.talk.forEach((tk,j)=>items.push({t:'convo',tk,vb:vb+'_'+j}));
  items.push({t:'match',ids:shuffle(newW).slice(0,4)});
  shuffle(newW).forEach(id=>items.push({t:'arabic',id,pool:newW}));
  const rev=dueWords(3,newW);rev.forEach(id=>items.push(Math.random()<.5?{t:'meaning',id,pool:null,review:true}:{t:'say',id,review:true}));
@@ -282,7 +299,7 @@ function startLesson(L,n){
 }
 function startTest(L,u,jumpTo){
  const ws=unitWords(u),items=[];
- items.push({t:'talk',text:`Test time for “${esc(u.title)}”! No hints this time. Get 7 out of 10 to win the trophy 🏆`});
+ vwarm(['w','p']);items.push({t:'talk',vid:'test_intro',text:`Test time for “${esc(u.title)}”! No hints this time. Get 7 out of 10 to win the trophy 🏆`});
  const s=shuffle(ws);
  s.slice(0,4).forEach(id=>items.push({t:'meaning',id,pool:ws,test:true}));
  s.slice(4,7).forEach(id=>items.push({t:'arabic',id,pool:ws,test:true}));
@@ -293,7 +310,7 @@ function startTest(L,u,jumpTo){
 }
 function startPractice(){
  const ws=dueWords(8);if(ws.length<2){toast('Finish a lesson first, then practise here!');return}
- const items=[{t:'talk',text:'Practice time! Let’s make your words super strong 💪'}];
+ vwarm(['w','p']);const items=[{t:'talk',vid:'practice_intro',text:'Practice time! Let’s make your words super strong 💪'}];
  ws.forEach((id,i)=>items.push(i%3===2?{t:'say',id,review:true}:i%3===1?{t:'arabic',id,pool:learned(),review:true}:{t:'meaning',id,pool:learned(),review:true}));
  if(ws.length>=4)items.push({t:'match',ids:ws.slice(0,4)});
  RUN={title:'Practice',items,i:0,ok:0,n:0,mode:'practice'};step();
@@ -303,8 +320,10 @@ function frame(inner){
  app.innerHTML=`<div class="screen" style="padding-bottom:180px"><div class="ltop"><button class="x" id="quit" aria-label="Quit">✕</button><div class="bar"><i style="width:${pct}%"></i></div></div>${inner}</div>`;
  $('quit').onclick=()=>sheet(`<h2>Leave the lesson?</h2><p class="sub">Your progress on this island will be lost.</p><button class="btn wide" id="stay">Keep learning</button><div style="height:10px"></div><button class="btn ghost wide" id="leave">Leave</button>`,()=>{$('stay').onclick=closeSheet;$('leave').onclick=()=>{closeSheet();RUN=null;tab='map';route()}});
 }
-function guideHTML(html,pose){return `<div class="guide"><div class="av" id="gav" style="background-image:url(${CH()[pose||'portrait']})"></div><div class="bubble"><span class="spk" title="Voice coming soon">🔊 ${CH().name}</span>${html}</div></div>`}
-function react(ok){const a=$('gav');if(!a)return;a.classList.remove('jump','no');void a.offsetWidth;a.classList.add(ok?'jump':'no')}
+let WHO=null;
+function guideHTML(html,pose,who,vid){const a=who?ASSETS[who]:CH();WHO=a;const v=vkey(vid);return `<div class="guide"><div class="av full" id="gav" style="background-image:url(${a[pose||'happy']})"></div><div class="bubble">${v?`<button class="spk" data-v="${vid}" aria-label="Play again">🔊 ${a.name}</button>`:`<span class="spk">${a.name}</span>`}${html}</div></div>`}
+function praise(silent){const i=Math.floor(Math.random()*4);if(!silent)say(['p_bravo',boy()?'p_shater':'p_shatra','p_yalla','p_ktirhelo'][i]);return praiseWords()[i]}
+function react(ok){const a=$('gav');if(!a)return;a.style.backgroundImage=`url(${(WHO||CH())[ok?'cheer':'oops']})`;a.classList.remove('jump','no');void a.offsetWidth;a.classList.add(ok?'jump':'no')}
 function foot(ok,msg,extra=''){
  const f=document.createElement('div');f.className='foot '+(ok===true?'good':ok===false?'bad':'');f.id='foot';
  f.innerHTML=`${msg?`<div class="msg">${msg}</div>`:''}${extra}<button class="btn wide" id="cont">Continue</button>`;
@@ -314,26 +333,26 @@ function checkBtn(onCheck){const f=document.createElement('div');f.className='fo
 function result(ok,id,correctTxt){
  RUN.n++;if(ok)RUN.ok++;if(id)mark(id,ok);
  ok?sfx.ok():sfx.no();react(ok);
- foot(ok,ok?pick(praiseWords())+' ⭐':'Not quite!',ok?'':`<div style="margin-bottom:10px">Correct answer: <b>${correctTxt}</b></div>`);
+ if(!ok)say('p_tryagain');foot(ok,ok?praise()+' ⭐':'Not quite!',ok?'':`<div style="margin-bottom:10px">Correct answer: <b>${correctTxt}</b></div>`);
 }
 function step(){
  if(RUN.i>=RUN.items.length)return finish();
  const it=RUN.items[RUN.i];({talk:exTalk,teach:exTeach,meaning:exMeaning,arabic:exArabic,match:exMatch,convo:exConvo,say:exSay}[it.t])(it);
 }
-function exTalk(it){frame(guideHTML(it.text,'wave'));foot(null,'')}
+function exTalk(it){const who=RUN.mode==='practice'?'bisseh':P.char;frame(`<div style="height:8px"></div>${clipHTML(who,'wave',220)}`+guideHTML(it.text,'wave',RUN.mode==='practice'?'bisseh':null,it.vid));foot(null,'');say(it.vid)}
 function exTeach(it){
  const w=word(it.id);
- frame(guideHTML(`New word! <span class="note">(${esc(w.en)})</span>`,'happy')+`<div class="word">${picHTML(w.pic)}<p class="big-ar ar">${w.ar}</p><p class="tr">${esc(w.tr)}</p><p class="en">${esc(w.en)}</p></div><div class="yourturn" id="yt"></div>`);
+ say('w_'+it.id);frame(guideHTML(`New word! <span class="note">(${esc(w.en)})</span>`,'happy',null,'w_'+it.id)+`<div class="word">${picHTML(w.pic)}<p class="big-ar ar">${w.ar}</p><p class="tr">${esc(w.tr)}</p><p class="en">${esc(w.en)}</p></div><div class="yourturn" id="yt"></div>`);
  const yt=$('yt');
  const manual=()=>{let n=3;yt.innerHTML=`<div class="ring" id="rg">${n}</div><div class="note">Say <b>${esc(w.tr)}</b> out loud!</div>`;const iv=setInterval(()=>{n--;const r=$('rg');if(!r){clearInterval(iv);return}if(n>0)r.textContent=n;else{clearInterval(iv);yt.innerHTML='';G.w[it.id]=G.w[it.id]||{s:0,due:0,ok:0,bad:0};foot(true,'Nice! You said it 🗣️')}},1000)};
- if(SR&&!micBlocked){listen(w.ar,w.tr,yt,(res)=>{G.w[it.id]=G.w[it.id]||{s:0,due:0,ok:0,bad:0};if(res===null)return manual();G.speak.n++;if(res)G.speak.ok++;res?(sfx.ok(),react(true),foot(true,pick(praiseWords())+' Great speaking! ⭐')):foot(null,'Good try! Keep going.')});
+ if(SR&&!micBlocked){listen(w.ar,w.tr,yt,(res)=>{G.w[it.id]=G.w[it.id]||{s:0,due:0,ok:0,bad:0};if(res===null)return manual();G.speak.n++;if(res)G.speak.ok++;res?(sfx.ok(),react(true),foot(true,praise()+' Great speaking! ⭐')):foot(null,'Good try! Keep going.')});
   const f=document.createElement('div');f.className='foot';f.id='foot';f.innerHTML=`<button class="btn ghost wide" id="skp">Can't speak now</button>`;app.appendChild(f);$('skp').onclick=()=>{G.w[it.id]=G.w[it.id]||{s:0,due:0,ok:0,bad:0};RUN.i++;step()};}
  else manual();
 }
 function options(id,pool,n=4){const others=shuffle((pool||learned()).filter(x=>x!==id&&W[x]&&word(x).en!==word(id).en));let extra=shuffle(Object.keys(W).filter(x=>x!==id&&!others.includes(x)));return shuffle([id,...others.concat(extra).slice(0,n-1)])}
 function exMeaning(it){
  const w=word(it.id),opts=options(it.id,it.pool);
- frame(guideHTML(`${it.review?'<span class="note">Review · </span>':''}What does this mean?<div class="ar" style="font-size:32px">${w.ar}</div><div class="qline">${esc(w.tr)}</div>`,'think')+`<div class="opts">${opts.map(o=>{const x=word(o);return `<button class="opt" data-o="${o}" data-k="${o===it.id?1:0}">${optVisual(x.pic)}<span>${esc(x.en)}</span></button>`}).join('')}</div>`);
+ say('w_'+it.id);frame(guideHTML(`${it.review?'<span class="note">Review · </span>':''}What does this mean?<div class="ar" style="font-size:32px">${w.ar}</div><div class="qline">${esc(w.tr)}</div>`,'think',null,'w_'+it.id)+`<div class="opts">${opts.map(o=>{const x=word(o);return `<button class="opt" data-o="${o}" data-k="${o===it.id?1:0}">${optVisual(x.pic)}<span>${esc(x.en)}</span></button>`}).join('')}</div>`);
  choose(it,o=>o===it.id,w.en);
 }
 function exArabic(it){
@@ -349,17 +368,17 @@ function exMatch(it){
  const ids=it.ids.filter(x=>W[x]);const left=shuffle(ids),right=shuffle(ids);let a=null,b=null,left_=ids.length,mist=0;
  frame(guideHTML('Match the pairs! Tap a Lebanese word, then its meaning.','think')+`<div class="match">${left.map((id,i)=>`<button class="mt" data-s="L" data-id="${id}"><span><span class="ar">${word(id).ar}</span><br><span style="color:var(--teal-d)">${esc(word(id).tr)}</span></span></button><button class="mt" data-s="R" data-id="${right[i]}">${esc(word(right[i]).en)}</button>`).join('')}</div>`);
  const tryPair=()=>{if(!a||!b)return;const A=a,B=b;a=b=null;if(A.dataset.id===B.dataset.id){sfx.ok();A.classList.add('done');B.classList.add('done');A.classList.remove('sel');B.classList.remove('sel');mark(A.dataset.id,true);left_--;if(left_===0){RUN.n++;if(mist<=1)RUN.ok++;react(true);foot(true,mist?'All matched! ⭐':'Perfect matching! ⭐⭐')}}else{sfx.no();mist++;mark(A.dataset.id,false);[A,B].forEach(x=>{x.classList.add('no');setTimeout(()=>x.classList.remove('no','sel'),400)})}};
- app.querySelectorAll('.mt').forEach(el=>el.onclick=()=>{sfx.tap();if(el.dataset.s==='L'){if(a)a.classList.remove('sel');a=el}else{if(b)b.classList.remove('sel');b=el}el.classList.add('sel');tryPair()});
+ app.querySelectorAll('.mt').forEach(el=>el.onclick=()=>{sfx.tap();if(el.dataset.s==='L'){say('w_'+el.dataset.id);if(a)a.classList.remove('sel');a=el}else{if(b)b.classList.remove('sel');b=el}el.classList.add('sel');tryPair()});
 }
 function exConvo(it){
  const tk=it.tk,q={ar:gx(tk.q.ar),tr:gx(tk.q.tr),en:tk.q.en};
  const ans=typeof tk.a==='string'?word(tk.a):{ar:fillName(gx(tk.a.ar)),tr:fillName(gx(tk.a.tr))};
- const chk=tk.check?{ar:tk.check.ar,tr:tk.check.tr}:ans;const wid=typeof tk.a==='string'?tk.a:null;
- frame(guideHTML(`${q.ar?`<div class="ar" style="font-size:28px">${q.ar}</div>`:''}<div class="qline">${esc(q.tr)}</div><div class="note">${esc(q.en)}</div>`,'happy')+`<p class="note" style="text-align:center;margin:4px 0">💬 Answer ${CH().name} out loud!</p><div class="yourturn" id="cy"></div><div id="hb" style="margin-top:12px"></div>`);
+ const chk=tk.check?{ar:tk.check.ar,tr:tk.check.tr}:ans;const wid=typeof tk.a==='string'?tk.a:null;const qv='q_'+it.vb,av=vkey('a_'+it.vb)?'a_'+it.vb:(wid?'w_'+wid:null),fv='after_'+it.vb;say(qv);
+ frame(guideHTML(`${q.ar?`<div class="ar" style="font-size:28px">${q.ar}</div>`:''}<div class="qline">${esc(q.tr)}</div><div class="note">${esc(q.en)}</div>`,'happy',null,qv)+`<p class="note" style="text-align:center;margin:4px 0">💬 Answer ${CH().name} out loud!</p><div class="yourturn" id="cy"></div><div id="hb" style="margin-top:12px"></div>`);
  let hinted=RUN.mode==='test';
- const hb=$('hb');const showHint=()=>{hinted=true;hb.innerHTML=`<div class="hint">You can say:<br><span class="ar" style="font-size:26px">${ans.ar}</span><br><b style="font-size:22px;color:var(--teal-d)">${esc(ans.tr)}</b></div>`};
+ const hb=$('hb');const showHint=()=>{hinted=true;say(av);hb.innerHTML=`<div class="hint">You can say:<br><span class="ar" style="font-size:26px">${ans.ar}</span><br><b style="font-size:22px;color:var(--teal-d)">${esc(ans.tr)}</b></div>`};
  if(RUN.mode!=='test')hb.innerHTML=`<div style="text-align:center"><button class="btn ghost" id="hnt">💡 Need help?</button></div>`,$('hnt').onclick=showHint;
- const after=ok=>{RUN.n++;if(ok)RUN.ok++;if(wid)mark(wid,ok);ok?sfx.ok():sfx.no();react(ok);$('cy').innerHTML=`<div class="kid">🗣️ ${esc(ans.tr)}</div>`;hb.innerHTML=guideHTML(esc(fillName(tk.after)),'cheer');foot(ok?true:null,ok?pick(praiseWords())+' ⭐':'Good try!')};
+ const after=ok=>{RUN.n++;if(ok)RUN.ok++;if(wid)mark(wid,ok);ok?sfx.ok():sfx.no();react(ok);$('cy').innerHTML=`<div class="kid">🗣️ ${esc(ans.tr)}</div>`;hb.innerHTML=guideHTML(esc(fillName(tk.after)),'cheer',null,fv);say(fv);foot(ok?true:null,ok?praise(true)+' ⭐':'Good try!')};
  const manual=()=>{showHint();$('cy').innerHTML='';const f=document.createElement('div');f.className='foot';f.id='foot';f.innerHTML=`<button class="btn wide" id="did">I said it! ✅</button>`;const o=$('foot');if(o)o.remove();app.appendChild(f);$('did').onclick=()=>after(true)};
  if(SR&&!micBlocked){listen(chk.ar,chk.tr,$('cy'),res=>{if(res===null)return manual();G.speak.n++;if(res)G.speak.ok++;after(!!res)},'Tap the mic and answer!');
   const f=document.createElement('div');f.className='foot';f.id='foot';f.innerHTML=`<button class="btn ghost wide" id="skp">Can't speak now</button>`;app.appendChild(f);$('skp').onclick=()=>{RUN.i++;step()}}
@@ -369,7 +388,7 @@ function exSay(it){
  const w=word(it.id);
  frame(guideHTML(`${it.review?'<span class="note">Review · </span>':''}Say this in Lebanese:<div style="font-size:24px;font-weight:800">“${esc(w.en)}”</div>`,'think')+`${w.pic?`<div style="text-align:center">${optVisual(w.pic)}</div>`:''}<div class="yourturn" id="sy"></div><div id="hb" style="margin-top:10px"></div>`);
  const reveal=()=>{$('hb').innerHTML=`<div class="hint"><span class="ar" style="font-size:26px">${w.ar}</span><br><b style="font-size:22px;color:var(--teal-d)">${esc(w.tr)}</b></div>`};
- const done=ok=>{RUN.n++;if(ok)RUN.ok++;mark(it.id,ok);ok?sfx.ok():sfx.no();react(ok);reveal();foot(ok,ok?pick(praiseWords())+' ⭐':'Keep practising!',ok?'':'')};
+ const done=ok=>{RUN.n++;if(ok)RUN.ok++;mark(it.id,ok);ok?sfx.ok():sfx.no();react(ok);reveal();if(!ok)say('w_'+it.id);foot(ok,ok?praise()+' ⭐':'Keep practising!',ok?'':'')};
  if(SR&&!micBlocked){listen(w.ar,w.tr,$('sy'),res=>{if(res===null)return self();G.speak.n++;if(res)G.speak.ok++;done(!!res)},'Tap the mic and say it!');
   if(RUN.mode!=='test'){$('hb').innerHTML=`<div style="text-align:center"><button class="btn ghost" id="hnt">💡 Show me</button></div>`;$('hnt').onclick=reveal}
   const f=document.createElement('div');f.className='foot';f.id='foot';f.innerHTML=`<button class="btn ghost wide" id="skp">Can't speak now</button>`;app.appendChild(f);$('skp').onclick=()=>{RUN.i++;step()}}
@@ -398,21 +417,22 @@ function finish(){
   html=passed?`<div class="bigstar">🏆</div><h1>Test passed!</h1><p class="sub">${pct}% correct on “${esc(R.u.title)}”. ${R.jumpTo?`Unit ${R.jumpTo.id} is now open!`:'The next unit is open!'}</p><div class="chips"><div class="chip">+30<small>XP</small></div><div class="chip">${pct}%<small>score</small></div></div>${extra}`
    :`<div class="bigstar">💪</div><h1>Almost there!</h1><p class="sub">You got ${pct}%. You need 70% to win the trophy. Practise the islands again, then try the test.</p>`;
  }else{addXP(10);html=`<div class="bigstar">💪</div><h1>Practice done!</h1><div class="chips"><div class="chip">+10<small>XP</small></div><div class="chip">${pct}%<small>correct</small></div></div>`}
- save();sfx.done();confetti();
- app.innerHTML=`<div class="screen center">${html}${guideHTML(R.mode==='test'&&pct<70?'Don’t worry, we’ll practise together! 💪':'Yalla bye! See you on the next island!','cheer')}</div>`;
+ save();sfx.done();confetti();say(R.mode==='test'?(pct>=70?'test_pass':'test_fail'):'end_lesson');
+ const failed=R.mode==='test'&&pct<70,fwho=R.mode==='practice'?'bisseh':P.char;
+ app.innerHTML=`<div class="screen center" style="padding-bottom:130px">${failed?'':clipHTML(fwho,'cheer',180)}${html}${guideHTML(failed?'Don’t worry, we’ll practise together! 💪':'Yalla bye! See you on the next island!',failed?'oops':'cheer',R.mode==='practice'?'bisseh':null,R.mode==='test'?(pct>=70?'test_pass':'test_fail'):'end_lesson')}</div>`;
  const f=document.createElement('div');f.className='foot good';f.innerHTML=`<button class="btn wide" id="home">Continue</button>`;app.appendChild(f);
  $('home').onclick=()=>{RUN=null;tab='map';route();const L=lvl(viewLevel);if(nodes(L).every(n=>G.done[n.k])&&!G.certs[L.id]){G.certs[L.id]=true;save();certificate(L)}};
 }
 function certificate(L){
- app.innerHTML=`<div class="screen"><div class="cert"><div style="font-size:60px">🎓</div><p class="note">Certificate of achievement</p><h1>${esc(P.name)}</h1><p class="sub">finished <b>Level ${L.id} · ${L.name}</b> of Yalla Nehke!</p><div style="font-size:38px">${L.units.map(u=>u.sticker?u.sticker.e:'').join(' ')}</div><p><b>${learned().length} Lebanese words learned</b></p><p class="ar" style="font-size:26px">${boy()?'برافو يا بطل!':'برافو يا بطلة!'}</p></div><div style="height:14px"></div><button class="btn wide" id="bk">Back to the map</button></div>`;
- confetti();sfx.done();$('bk').onclick=()=>{tab='map';route()};
+ app.innerHTML=`<div class="screen"><div class="cert">${clipHTML(P.char,'dabke',200)}<div style="font-size:44px">🎓</div><p class="note">Certificate of achievement</p><h1>${esc(P.name)}</h1><p class="sub">finished <b>Level ${L.id} · ${L.name}</b> of Yalla Nehke!</p><div style="font-size:38px">${L.units.map(u=>u.sticker?u.sticker.e:'').join(' ')}</div><p><b>${learned().length} Lebanese words learned</b></p><p class="ar" style="font-size:26px">${boy()?'برافو يا بطل!':'برافو يا بطلة!'}</p></div><div style="height:14px"></div><button class="btn wide" id="bk">Back to the map</button></div>`;
+ confetti();sfx.done();say('cert');$('bk').onclick=()=>{tab='map';route()};
 }
 
 // ---------- practice / rewards / parents ----------
 function practiceScreen(){
  const ws=learned(),weak=ws.filter(k=>G.w[k].s<=1);
  shell(`<h1>Practice 🔁</h1><p class="sub">Keep your words strong. Words you find tricky come back more often.</p>
- ${guideHTML(ws.length?`You know <b>${ws.length}</b> words! ${weak.length?`${weak.length} need a little practice.`:'They are all strong! 💪'}`:'Finish your first island, then come back to practise!','happy')}
+ ${guideHTML(ws.length?`You know <b>${ws.length}</b> words! ${weak.length?`${weak.length} need a little practice.`:'They are all strong! 💪'}`:'Finish your first island, then come back to practise!','happy','bisseh')}
  <button class="btn wide" id="pr" ${ws.length<2?'disabled':''}>Start practice (+10 XP)</button>
  ${ws.length?`<h3 style="margin-top:18px">My words</h3><div>${ws.map(k=>{const w=word(k),s=G.w[k].s;return `<span class="pill" style="background:${s>=3?'var(--green-bg)':s>=1?'#FFF1C9':'var(--red-bg)'};color:var(--ink)">${esc(w.tr)}</span>`}).join('')}</div><p class="note">🟢 strong · 🟡 getting there · 🔴 needs practice</p>`:''}`);
  const b=$('pr');if(b)b.onclick=startPractice;
