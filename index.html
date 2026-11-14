@@ -142,8 +142,8 @@ const mk=n=>({name:n[0].toUpperCase()+n.slice(1),portrait:n==='bisseh'?'marhaba.
 const ASSETS={zena:mk('zena'),karim:mk('karim'),bisseh:mk('bisseh')};
 const clipHTML=(who,kind,size)=>{const a=ASSETS[who];return `<video class="clip" src="${a.clip[kind]}" poster="${a[kind==='dabke'?'happy':kind]}" autoplay loop muted playsinline style="width:${size||200}px;height:${size||200}px"></video>`};
 const IMG={marhaba:'marhaba.webp'};
-// word pictures (Level 1)
-const PICS=["ammo", "asfour", "baba", "barra", "bet", "bisse", "ein", "enab", "falafel", "halib", "hummus", "ijr", "ikhti", "jebne", "jeddo", "juan", "kaake", "kalb", "khalto", "khayyi", "khebz", "laymuna", "mabsut", "mama", "manoushe", "masa", "matbakh", "mayy", "moze", "sabah", "sabahnour", "samake", "shams", "taban", "tabe", "takhet", "teta", "tiffaha", "tisbah", "uda", "zalan"];
+// word pictures (Levels 1–2)
+const PICS=["alam", "albet", "ammo", "asfour", "baara", "baba", "bahr", "bard", "barra", "bas", "bektob", "belab", "bersom", "bet", "bisse", "bsura", "daftar", "dahr", "dikkene", "ein", "elmasa", "enab", "falafel", "ghummayda", "hadiqa", "halib", "hummus", "ijr", "ikhti", "istez", "jabal", "jaket", "jebne", "jeddo", "juan", "kaake", "kalb", "kanze", "khalto", "khayef", "khayyi", "khebz", "kteb", "laymuna", "lel", "maabaad", "mabsut", "madrase", "mama", "manoushe", "marjouha", "masa", "masari", "matbakh", "mayy", "mialme", "moze", "nott", "oud", "ramel", "rbeht", "rkod", "sabah", "sabahnour", "saff", "samake", "sayyara", "shajra", "shams", "shanta", "shiti", "shmel", "shob", "shwayshway", "sobbat", "stanna", "subh", "taban", "tabe", "takhet", "talj", "tariq", "teta", "tiffaha", "tisbah", "ubbaa", "uda", "warde", "wselna", "yamin", "zahliqa", "zalan"];
 PICS.forEach(id=>{if(W[id]){W[id].pic='img:'+id;IMG[id]='pics/'+id+'.webp'}});
 
 // ---------- storage ----------

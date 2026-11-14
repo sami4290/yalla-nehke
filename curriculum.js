@@ -82,33 +82,33 @@ window.YN_WORDS = {
   // ===== Level 2 · Elementary =====
   madrase:{ar:'مدرسة',tr:'madrase',en:'school',pic:'🏫'}, saff:{ar:'صفّ',tr:'ṣaff',en:'class',pic:'🧑‍🏫'},
   kteb:{ar:'كتاب',tr:'ktēb',en:'book',pic:'📕'}, daftar:{ar:'دفتر',tr:'daftar',en:'notebook',pic:'📓'}, alam:{ar:'قلم',tr:'ʾalam',en:'pen',pic:'🖊️'},
-  istez:{ar:'أستاذ',tr:'istēz',en:'teacher (man)',pic:'👨‍🏫'}, mialme:{ar:'معلّمة',tr:'miʿalme',en:'teacher (woman)',pic:'👩‍🏫'},
+  istez:{ar:'أستاذ',tr:'istēz',en:'teacher (man)',pic:'👨‍🏫'}, mialme:{ar:'معلّمة',tr:'mʿallme',en:'teacher (woman)',pic:'👩‍🏫'},
   rfii:{ar:['رفيقي','رفيقتي'],tr:['rfīʾi','rfīʾti'],en:'my friend',pic:null}, shanta:{ar:'شنطة',tr:'shanṭa',en:'bag',pic:'🎒'},
-  fiyye:{ar:'فيي…؟',tr:'fiyye…?',en:'can I…?',pic:null}, mafhemt:{ar:'ما فهمت',tr:'ma fhemt',en:"I didn't understand",pic:null},
-  idmarra:{ar:'عيد مرّة',tr:'ʿīd marra',en:'say it again',pic:null}, khalast:{ar:'خلّصت',tr:'khallaṣt',en:"I've finished",pic:null},
+  fiyye:{ar:'فيّي…؟',tr:'fiyyi…?',en:'can I…?',pic:null}, mafhemt:{ar:'ما فهمت',tr:'ma fhemt',en:"I didn't understand",pic:null},
+  idmarra:{ar:'عيد كمان مرّة',tr:'ʿīd kamēn marra',en:'say it again',pic:null}, khalast:{ar:'خلّصت',tr:'khallaṣt',en:"I've finished",pic:null},
   shu:{ar:'شو؟',tr:'shu?',en:'what?',pic:null}, min:{ar:'مين؟',tr:'mīn?',en:'who?',pic:null}, wen:{ar:'وين؟',tr:'wēn?',en:'where?',pic:null},
   lesh:{ar:'ليش؟',tr:'lēsh?',en:'why?',pic:null}, emta:{ar:'إيمتى؟',tr:'emta?',en:'when?',pic:null},
   baara:{ar:'بقرا',tr:'baʾra',en:'I read',pic:'📖'}, bektob:{ar:'بكتب',tr:'bektob',en:'I write',pic:'✍️'}, bersom:{ar:'برسم',tr:'bersom',en:'I draw',pic:'🎨'}, belab:{ar:'بلعب',tr:'belʿab',en:'I play',pic:'🧸'},
-  hadiqa:{ar:'حديقة',tr:'ḥadīʾa',en:'park / garden',pic:'🏞️'}, marjouha:{ar:'مرجوحة',tr:'marjūḥa',en:'swing',pic:'🎠'},
-  zahliqa:{ar:'زحليقة',tr:'zaḥlīʾa',en:'slide',pic:'🛝'}, ramel:{ar:'رمل',tr:'ramel',en:'sand',pic:'🏖️'},
+  hadiqa:{ar:'جنينة',tr:'jnēne',en:'park / garden',pic:'🏞️'}, marjouha:{ar:'مرجوحة',tr:'marjūḥa',en:'swing',pic:'🎠'},
+  zahliqa:{ar:'زحليطة',tr:'zoḥlayṭa',en:'slide',pic:'🛝'}, ramel:{ar:'رمل',tr:'ramel',en:'sand',pic:'🏖️'},
   rkod:{ar:['اركض','اركضي'],tr:['rkoḍ','rkoḍi'],en:'run!',pic:'🏃'}, nott:{ar:['نطّ','نطّي'],tr:['nuṭṭ','nuṭṭi'],en:'jump!',pic:'🦘'},
-  oud:{ar:['قعود','قعودي'],tr:['ʾʿod','ʾʿode'],en:'sit down',pic:'🪑'}, taa:{ar:['تعا','تعي'],tr:['taʿa','taʿi'],en:'come here!',pic:null},
-  ghummayda:{ar:'غمّيضة',tr:'ghummayḍa',en:'hide and seek',pic:'🙈'}, dawri:{ar:'دوري',tr:'dawri',en:'my turn',pic:null},
+  oud:{ar:['قعود','قعودي'],tr:['ʾʿod','ʾʿodi'],en:'sit down',pic:'🪑'}, taa:{ar:['تعا','تعي'],tr:['taʿa','taʿi'],en:'come here!',pic:null},
+  ghummayda:{ar:'غمّيضة',tr:'ghummayḍa',en:'hide and seek',pic:'🙈'}, dawri:{ar:'دوري',tr:'dōri',en:'my turn',pic:null},
   rbeht:{ar:'ربحت',tr:'rbeḥt',en:'I won',pic:'🥇'}, khsert:{ar:'خسرت',tr:'khsert',en:'I lost',pic:null},
   khayef:{ar:['خايف','خايفة'],tr:['khāyef','khāyfe'],en:'scared',pic:'😨'}, baadshway:{ar:'بعد شوي',tr:'baʿd shway',en:'in a little while',pic:null},
   bsura:{ar:'يلّا بسرعة',tr:'yalla bsurʿa',en:'quick, hurry!',pic:'⚡'}, shwayshway:{ar:'شوي شوي',tr:'shway shway',en:'slowly',pic:'🐢'},
   atini:{ar:'عطيني',tr:'ʿaṭīni',en:'give me',pic:null}, khod:{ar:['خود','خدي'],tr:['khod','khedi'],en:'take it',pic:null},
   maabaad:{ar:'مع بعض',tr:'maʿ baʿḍ',en:'together',pic:'🤝'}, maaleh:{ar:'معليه',tr:'maʿlē',en:"never mind / it's ok",pic:null},
-  dikkene:{ar:'دكّانة',tr:'dikkēne',en:'shop',pic:'🏪'}, sayyara:{ar:'سيّارة',tr:'sayyāra',en:'car',pic:'🚗'}, bas:{ar:'باص',tr:'bāṣ',en:'bus',pic:'🚌'}, tariq:{ar:'طريق',tr:'ṭarīʾ',en:'road',pic:'🛣️'},
+  dikkene:{ar:'دكّان',tr:'dikkēn',en:'shop',pic:'🏪'}, sayyara:{ar:'سيّارة',tr:'sayyāra',en:'car',pic:'🚗'}, bas:{ar:'باص',tr:'bāṣ',en:'bus',pic:'🚌'}, tariq:{ar:'طريق',tr:'ṭarīʾ',en:'road',pic:'🛣️'},
   bahr:{ar:'بحر',tr:'baḥr',en:'sea',pic:'🌊'}, jabal:{ar:'جبل',tr:'jabal',en:'mountain',pic:'⛰️'}, shajra:{ar:'شجرة',tr:'shajra',en:'tree',pic:'🌳'}, warde:{ar:'وردة',tr:'warde',en:'flower',pic:'🌸'},
   hon:{ar:'هون',tr:'hōn',en:'here',pic:null}, honik:{ar:'هونيك',tr:'honīk',en:'over there',pic:null}, yamin:{ar:'عاليمين',tr:'ʿal-yamīn',en:'on the right',pic:'👉'}, shmel:{ar:'عالشمال',tr:'ʿal-shmēl',en:'on the left',pic:'👈'},
   addesh:{ar:'قدّيش؟',tr:'addēsh?',en:'how much? / how many?',pic:null}, masari:{ar:'مصاري',tr:'maṣāri',en:'money',pic:'💰'}, ghali:{ar:'غالي',tr:'ghāli',en:'expensive',pic:null}, rkhis:{ar:'رخيص',tr:'rkhīṣ',en:'cheap',pic:null},
-  nrouh:{ar:'يلّا نروح',tr:'yalla nrūḥ',en:"let's go",pic:null}, wselna:{ar:'وصلنا',tr:'wṣelna',en:"we've arrived",pic:'🏁'}, stanna:{ar:['استنّى','استنّي'],tr:['stanna','stanni'],en:'wait!',pic:'✋'}, albet:{ar:'عالبيت',tr:'ʿal-bēt',en:'(to) home',pic:'🏠'},
+  nrouh:{ar:'يلّا نروح',tr:'yalla nrūḥ',en:"let's go",pic:null}, wselna:{ar:'وصلنا',tr:'wṣelna',en:"we've arrived",pic:'🏁'}, stanna:{ar:['انطر','انطري'],tr:['ontor','ontori'],en:'wait!',pic:'✋'}, albet:{ar:'عالبيت',tr:'ʿal-bēt',en:'(to) home',pic:'🏠'},
   elyom:{ar:'اليوم',tr:'el-yōm',en:'today',pic:null}, bukra:{ar:'بكرا',tr:'bukra',en:'tomorrow',pic:null}, mbereh:{ar:'مبارح',tr:'mbēreḥ',en:'yesterday',pic:null}, hallaa:{ar:'هلّق',tr:'hallaʾ',en:'now',pic:null},
   shob:{ar:'شوب',tr:'shōb',en:'hot (weather)',pic:'🥵'}, bard:{ar:'برد',tr:'bard',en:'cold',pic:'🥶'}, shiti:{ar:'شتي',tr:'shiti',en:'rain',pic:'🌧️'}, talj:{ar:'تلج',tr:'talj',en:'snow',pic:'❄️'},
   jemaa:{ar:'الجمعة',tr:'el-jemʿa',en:'Friday',pic:null}, sabt:{ar:'السبت',tr:'el-sabt',en:'Saturday',pic:null}, ahad:{ar:'الأحد',tr:'el-aḥad',en:'Sunday',pic:null}, tanen:{ar:'التنين',tr:'el-tanēn',en:'Monday',pic:null},
-  subh:{ar:'الصبح',tr:'eṣ-ṣubḥ',en:'(in the) morning',pic:'🌄'}, dahr:{ar:'الضهر',tr:'eḍ-ḍahr',en:'(at) noon',pic:'🕛'}, elmasa:{ar:'المسا',tr:'el-masa',en:'(in the) evening',pic:'🌇'}, lel:{ar:'الليل',tr:'el-lēl',en:'(at) night',pic:'🌃'},
-  kanze:{ar:'كنزة',tr:'kanze',en:'sweater',pic:'🧶'}, jaket:{ar:'جاكيت',tr:'jakēt',en:'jacket',pic:'🧥'}, ubbaa:{ar:'قبّعة',tr:'ʾubbaʿa',en:'hat',pic:'🧢'}, sobbat:{ar:'صبّاط',tr:'ṣobbāṭ',en:'shoe',pic:'👟'}
+  subh:{ar:'الصبح',tr:'eṣ-ṣubḥ',en:'(in the) morning',pic:'🌄'}, dahr:{ar:'الضهر',tr:'eḍ-ḍuhur',en:'(at) noon',pic:'🕛'}, elmasa:{ar:'المسا',tr:'el-masa',en:'(in the) evening',pic:'🌇'}, lel:{ar:'الليل',tr:'el-lēl',en:'(at) night',pic:'🌃'},
+  kanze:{ar:'كنزة',tr:'kanze',en:'sweater',pic:'🧶'}, jaket:{ar:'جاكيت',tr:'jakēt',en:'jacket',pic:'🧥'}, ubbaa:{ar:'برنيطة',tr:'bornayṭa',en:'hat',pic:'🧢'}, sobbat:{ar:'صبّاط',tr:'ṣobbāṭ',en:'shoe',pic:'👟'}
 };
 
 
@@ -204,8 +204,8 @@ window.YN_COURSE = [
   ]},
   {id:2,title:'Playtime',color:'#E5484D',icon:'🛝',sticker:{e:'🛝',n:'Play Champion'},lessons:[
    {title:'At the park',words:['hadiqa','marjouha','zahliqa','ramel'],talk:[
-     {q:{ar:['وين بدّك تروح؟','وين بدِّك تروحي؟'],tr:['wēn baddak trūḥ?','wēn baddik trūḥi?'],en:'Where do you want to go?'},a:{ar:'عالحديقة',tr:'ʿal-ḥadīʾa'},check:{ar:'حديقة',tr:'hadiqa'},after:'Yalla, to the park!'},
-     {q:{ar:'شو هيدي؟ 🛝',tr:'shu hayde? 🛝',en:'What is this?'},a:'zahliqa',after:'Wheee! A zaḥlīʾa!'}]},
+     {q:{ar:['وين بدّك تروح؟','وين بدِّك تروحي؟'],tr:['wēn baddak trūḥ?','wēn baddik trūḥi?'],en:'Where do you want to go?'},a:{ar:'عالجنينة',tr:'ʿal-jnēne'},check:{ar:'جنينة',tr:'jnene'},after:'Yalla, to the park!'},
+     {q:{ar:'شو هيدي؟ 🛝',tr:'shu hayde? 🛝',en:'What is this?'},a:'zahliqa',after:'Wheee! A zoḥlayṭa!'}]},
    {title:'Run & jump',words:['rkod','nott','oud','taa'],talk:[
      {q:{ar:'',tr:'🐱💨',en:'Tell Bisseh to run!'},a:{ar:'اركضي يا بسّة!',tr:'rkoḍi ya Bisseh!'},check:{ar:'اركضي',tr:'rkodi'},after:'Bisseh runs super fast! 🐾'},
      {q:{ar:'',tr:'🐱🦘',en:'Now tell Bisseh to jump!'},a:{ar:'نطّي يا بسّة!',tr:'nuṭṭi ya Bisseh!'},check:{ar:'نطي',tr:'nutti'},after:'Boing! Bisseh jumps high!'}]},
