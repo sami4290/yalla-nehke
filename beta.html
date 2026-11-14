@@ -485,6 +485,125 @@ input[type=email]:focus,input[type=password]:focus{border-color:var(--sky);backg
  .screen.auth .btn{min-height:50px}
  .screen.auth p.center{margin-top:10px!important}
 }
+
+/* ==========================================================
+   ART DIRECTION v3 – master brief (presentation only)
+   ========================================================== */
+:root{
+ --sky:#3495F5;--sky-d:#1E74D0;--sky-l:#E6F4FF;
+ --turq:#20C4B6;--turq-d:#12968B;--turq-l:#E0F7F4;
+ --orange:#FF9638;--orange-d:#E06D12;--orange-l:#FFF0E1;
+ --purple:#A66BEF;--purple-d:#7F45D2;--purple-l:#F3EBFF;
+ --pink:#F477AF;--pink-d:#D6528D;--pink-l:#FFEAF3;
+ --cream:#FFF5E9;--navy:#102858;--navy-2:#2A426F;--soft:#5D6C8E;--line:#E5EAF0;
+ --green:#35C879;--green-bg:#E3F8EC;--red:#F2545B;--yellow:#FFC83D;--yellow-d:#E0A214;
+ --sh-1:0 2px 0 rgba(16,40,88,.05),0 8px 20px rgba(16,40,88,.08);
+ --sh-2:0 3px 0 rgba(16,40,88,.06),0 16px 34px rgba(16,40,88,.14);
+}
+html,body{font-size:16.5px}
+/* ---------- icons ---------- */
+.ic{display:inline-block;width:1.3em;height:1.3em;object-fit:contain;vertical-align:-.28em;filter:drop-shadow(0 2px 2px rgba(16,40,88,.16));pointer-events:none;user-select:none}
+.ic.in{width:1.35em;height:1.35em;vertical-align:-.32em}
+.ic.h{width:1.15em;height:1.15em;vertical-align:-.18em;margin-left:4px}
+.ic.st{width:18px;height:18px;margin:0 -1px;filter:drop-shadow(0 1px 1px rgba(16,40,88,.25))}
+.ic.mid{width:58px;height:58px;margin:0 4px}
+.ic.big{width:92px;height:92px;filter:drop-shadow(0 8px 10px rgba(16,40,88,.22))}
+.stat .ic{width:24px;height:24px}
+.goal .ic{width:24px;height:24px}
+.nav button i{width:auto;height:auto;background:none!important}
+.nav button i .ic{width:34px;height:34px;transition:transform .15s}
+.nav button.on i .ic{transform:translateY(-3px) scale(1.12)}
+.nav button.on{position:relative}
+.nav button.on::after{content:'';position:absolute;bottom:-2px;left:30%;right:30%;height:4px;border-radius:4px;background:currentColor}
+.unit .ui .ic{width:46px;height:46px;vertical-align:middle}
+.node .ic{width:40px;height:40px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.2))}
+.stk .e .ic{width:46px;height:46px}
+.stk .e{background:none!important;box-shadow:none!important}
+.stk.got .e{background:radial-gradient(circle,#FFF5D1 50%,#FFE08A)!important;box-shadow:0 0 0 3px var(--yellow)!important}
+.mic .ic{width:52px;height:52px}
+.certcap{margin:6px 0}.certstk{margin:8px 0}
+/* ---------- typography ---------- */
+h1{font-size:34px;letter-spacing:-.015em;color:var(--navy)}
+h2{font-size:25px}h3{font-size:20px}
+.sub{font-size:16.5px}
+.screen>h1:first-child{font-size:32px}
+.jhead h2{font-size:25px}
+@media (min-width:768px){h1{font-size:40px}.screen>h1:first-child{font-size:40px}h2,.jhead h2{font-size:28px}h3{font-size:21px}}
+/* ---------- buttons: primary orange, secondary purple, tertiary white ---------- */
+.btn{background:linear-gradient(180deg,#FFB466 0%,var(--orange) 55%,#FF8424 100%);box-shadow:0 5px 0 var(--orange-d),0 12px 22px rgba(224,109,18,.28);border-radius:var(--r-pill);letter-spacing:.02em}
+.btn:active{box-shadow:0 1px 0 var(--orange-d)}
+.btn.y{background:linear-gradient(180deg,#BF92FF,var(--purple));color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.15);box-shadow:0 5px 0 var(--purple-d),0 12px 22px rgba(127,69,210,.25)}
+.btn.y:active{box-shadow:0 1px 0 var(--purple-d)}
+.btn.ghost{background:#fff;border:2px solid var(--line);color:var(--navy);box-shadow:0 4px 0 #D9E0EA,0 8px 16px rgba(16,40,88,.06)}
+.foot.good .btn{background:linear-gradient(180deg,#5FDB98,var(--green));box-shadow:0 5px 0 #1F9A57,0 12px 22px rgba(31,154,87,.25)}
+.foot.bad .btn{box-shadow:0 5px 0 #C9363D}
+.seg button.on{border-color:var(--purple);background:var(--purple-l);color:var(--purple-d)}
+/* ---------- stats & nav ---------- */
+.stats{background:rgba(255,255,255,.9)}
+.stat{background:#fff!important;box-shadow:0 2px 0 var(--line),0 4px 10px rgba(16,40,88,.06);color:var(--navy)!important;padding:4px 12px 4px 8px}
+.goal{background:#fff!important}
+.nav{background:rgba(255,255,255,.96)}
+.nav button[data-t=map].on{color:var(--sky)}.nav button[data-t=practice].on{color:var(--orange-d)}.nav button[data-t=rewards].on{color:var(--purple-d)}.nav button[data-t=parents].on{color:var(--pink-d)}
+/* ---------- page scenery (layered backgrounds per screen) ---------- */
+body:has(.ltop)::before,body:has(#pr)::before{background:url(ui/bg_lesson.webp) center bottom/100% auto no-repeat,linear-gradient(180deg,#9ED3FA 0,#C9E8FD 45%,#E2F3FE 100%)}
+body:has(.bigstar)::before,body:has(.cert)::before{background:url(ui/bg_celebrate.webp) center bottom/cover no-repeat,#FFD45E}
+body:has(.book)::before,body:has(.grid2)::before,body:has(#pg)::before,body:has(.kids)::before{background:url(ui/bg_rewards.webp) center bottom/100% auto no-repeat,linear-gradient(180deg,#8FCDF8 0,#C3E6FC 50%,#DDF1FD 100%)}
+@media (min-aspect-ratio:4/3){body:has(.ltop)::before,body:has(#pr)::before,body:has(.book)::before,body:has(.grid2)::before,body:has(#pg)::before,body:has(.kids)::before{background-size:cover,auto}}
+.ltop .bar{box-shadow:inset 0 2px 4px rgba(16,40,88,.12),0 2px 0 #fff}
+/* ---------- characters stand in the scene ---------- */
+.av.full,.guide .av.full{background-color:transparent!important;border:none!important;border-radius:0!important;box-shadow:none!important;filter:drop-shadow(0 8px 8px rgba(16,40,88,.22))}
+.guide .av.full{width:116px;height:132px}
+.hero .av.full{width:178px;height:214px;background-size:contain;background-position:center bottom}
+.hero-ch{flex-basis:170px;margin-bottom:-14px}
+.hero-ch::after{content:'';position:absolute;left:18%;right:18%;bottom:6px;height:16px;border-radius:50%;background:radial-gradient(closest-side,rgba(16,40,88,.28),transparent);z-index:-1}
+@media (min-width:768px){.hero .av.full{width:220px;height:262px}.hero-ch{flex-basis:220px}}
+@media (min-width:1100px){.hero .av.full{width:260px;height:310px}.hero-ch{flex-basis:260px}}
+@media (max-width:380px){.hero .av.full{width:126px;height:160px}.hero-ch{flex-basis:118px}}
+.bubble{border:2px solid rgba(255,255,255,.9)}
+/* ---------- journey maps ---------- */
+.sea.map{background-size:cover;background-position:center;padding:46px 0 34px}
+.sea.map::before{background:linear-gradient(90deg,rgba(255,255,255,0) 0,rgba(255,255,255,.18) 35%,rgba(255,255,255,.18) 65%,rgba(255,255,255,0) 100%);opacity:1}
+.sea.map .wave{display:none}
+.sea.map .path::before{border-left-color:rgba(255,255,255,.95);filter:drop-shadow(0 1px 1px rgba(16,40,88,.25))}
+.sea.map .isle::after{display:none}
+.sea.map .isle::before{height:30px;inset:auto 14px 2px 14px;background:radial-gradient(closest-side,rgba(16,40,88,.35),transparent);box-shadow:none}
+.sea.map .node{border-width:5px;box-shadow:0 7px 0 rgba(0,0,0,.2),0 14px 22px rgba(16,40,88,.3)}
+.sea.map .node.locked{background:linear-gradient(180deg,#F4F6FB,#D9DFEC)!important;box-shadow:0 7px 0 #AEB8CF,0 14px 22px rgba(16,40,88,.28)}
+.sea.map .stz{background:rgba(255,255,255,.92);border-radius:999px;padding:0 6px;bottom:-30px}
+/* ---------- unit banners: illustrated badge ---------- */
+.unit .ui{background:radial-gradient(circle at 35% 30%,#fff,#EEF4FF);box-shadow:0 3px 0 rgba(0,0,0,.12),inset 0 -3px 0 rgba(16,40,88,.06)}
+/* ---------- lesson cards ---------- */
+.word{background:rgba(255,255,255,.96)}
+.opt,.mt{background:#fff}
+.yourturn:not(:empty){background:rgba(255,255,255,.95)}
+.mic{background:radial-gradient(circle at 35% 30%,#fff,#FFE3F0);border:5px solid #fff;box-shadow:0 0 0 4px var(--pink),0 8px 0 var(--pink-d),0 14px 26px rgba(214,82,141,.3)}
+.mic.live{box-shadow:0 0 0 4px var(--pink),0 0 0 14px rgba(244,119,175,.28),0 8px 0 var(--pink-d)}
+.spk .ic{width:15px;height:15px;vertical-align:-3px;filter:none}
+/* ---------- results ---------- */
+.center .bigstar{background:radial-gradient(closest-side,rgba(255,255,255,.8),rgba(255,255,255,0));padding:10px 22px}
+.center .bigstar .ic.big{margin:0 -6px}
+.center h1{text-shadow:0 2px 0 #fff}
+.center .sub{color:var(--navy-2);font-weight:700}
+.chip{border-top-color:var(--orange)}
+/* ---------- panels over scenery ---------- */
+.screen>h1:first-child+.sub,.screen:has(#pr)>.sub{background:rgba(255,255,255,.88);border-radius:var(--r-md);padding:8px 14px;box-shadow:var(--sh-1)}
+.screen:has(.book) h3,.screen:has(.grid2) h3{background:rgba(255,255,255,.88);display:inline-flex;padding:4px 14px 4px 10px;border-radius:999px;box-shadow:var(--sh-1)}
+.book{background:rgba(255,255,255,.82)}
+.kgrid .kid-card{background:rgba(255,255,255,.96)}
+
+/* art v3 fixes */
+body:has(.ltop)::before,body:has(#pr)::before{background:url(ui/bg_lesson.webp) center bottom/cover no-repeat,#BFE3FB}
+body:has(.book)::before,body:has(.grid2)::before,body:has(#pg)::before,body:has(.kids)::before{background:url(ui/bg_rewards.webp) center bottom/cover no-repeat,#A9D9F9}
+.hero-txt{min-width:0;flex:1 1 56%}
+.hero-ch{flex:0 0 120px}
+.hero .av.full{margin-left:-46px}
+.hero .bubble{font-size:18px}
+.kick{white-space:nowrap;font-size:12px}
+@media (min-width:768px){.hero-ch{flex-basis:190px}.hero .av.full{margin-left:-20px}.hero .bubble{font-size:22px}.kick{font-size:13px}}
+@media (min-width:1100px){.hero-ch{flex-basis:230px}}
+@media (max-width:380px){.hero-ch{flex-basis:96px}.hero .av.full{margin-left:-30px}.hero .bubble{font-size:16px}}
+.guide .av.full{width:128px;height:146px}
+@media (max-width:380px){.guide .av.full{width:96px;height:112px}}
 </style>
 </head>
 <body>
@@ -525,6 +644,10 @@ const pick=a=>a[Math.floor(Math.random()*a.length)];
 const today=()=>{const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()};
 const CH=()=>ASSETS[P.char];
 const praiseWords=()=>['Bravo!',boy()?'Shāṭer!':'Shāṭra!','Yalla!','Ktīr ḥelo!','Wow!'];
+const IC=(n,c='')=>`<img class="ic ${c}" src="ui/i_${n}.webp" alt="" draggable="false">`;
+const UIMG={'1-1':'hello','1-2':'family','1-3':'food','1-4':'world','2-1':'school','2-2':'play','2-3':'out','2-4':'weather'};
+const UI=(L,u,c='')=>UIMG[L.id+'-'+u.id]?`<img class="ic ${c}" src="ui/u_${UIMG[L.id+'-'+u.id]}.webp" alt="" draggable="false">`:u.icon;
+const MAP=(L,u)=>UIMG[L.id+'-'+u.id]?`ui/map_${L.id}_${u.id}.webp`:'';
 function picHTML(p,big){
  if(!p)return '';
  if(p.startsWith('img:'))return `<div class="pic"><img src="${IMG[p.slice(4)]}" alt=""></div>`;
@@ -568,7 +691,7 @@ function score(alts,ar,tr){let b=0;const ta=normAr(ar),tl=normLat(tr);for(const 
 function listen(ar,tr,box,onDone,label){
  if(!SR||micBlocked)return onDone(null);
  let tries=0,errs=0;
- const ui=(msg,live)=>{box.innerHTML=`<button class="mic ${live?'live':''}" id="mic" aria-label="Speak">🎤</button><div class="heard">${msg}</div><div class="meter"><i id="mt"></i></div>`;$('mic').onclick=go};
+ const ui=(msg,live)=>{box.innerHTML=`<button class="mic ${live?'live':''}" id="mic" aria-label="Speak">${IC('mic')}</button><div class="heard">${msg}</div><div class="meter"><i id="mt"></i></div>`;$('mic').onclick=go};
  let langs=['ar-LB','ar-SA','ar'],li=0;
  const go=()=>{vstop();let rec;try{rec=new SR()}catch(e){micBlocked=true;return onDone(null)}
   // iPad/iPhone: release the audio session used for voice playback so the mic can capture
@@ -610,10 +733,10 @@ function dueWords(n,exclude=[]){const now=Date.now();return learned().filter(k=>
 let tab='map',viewLevel=1;
 function shell(inner){
  const streak=G.streak.n,xpToday=G.daily[today()]||0,goal=Math.min(100,Math.round(xpToday/20*100));
- app.innerHTML=`<div class="stats"><div class="stat fire">🔥 ${streak}</div><div class="stat xp">✨ ${G.xp}</div><div class="stat wd">📚 ${learned().length}</div>
- <div class="goal" title="Daily goal" style="background:conic-gradient(var(--green) ${goal}%,#fff 0);border:2px solid var(--line)"><span style="background:var(--bg);width:28px;height:28px;border-radius:50%;display:grid;place-items:center">${goal>=100?'✅':'🎯'}</span></div></div>
+ app.innerHTML=`<div class="stats"><div class="stat fire">${IC('flame')} ${streak}</div><div class="stat xp">${IC('star')} ${G.xp}</div><div class="stat wd">${IC('book')} ${learned().length}</div>
+ <div class="goal" title="Daily goal" style="background:conic-gradient(var(--green) ${goal}%,#fff 0);border:2px solid var(--line)"><span style="background:var(--bg);width:28px;height:28px;border-radius:50%;display:grid;place-items:center">${IC(goal>=100?'star':'target')}</span></div></div>
  <div class="screen">${inner}</div>
- <div class="nav">${[['map','🏝️','Learn'],['practice','🔁','Practice'],['rewards','⭐','Rewards'],['parents','👤','Parents']].map(([k,i,t])=>`<button data-t="${k}" class="${tab===k?'on':''}"><i>${i}</i>${t}</button>`).join('')}</div>`;
+ <div class="nav">${[['map','learn','Learn'],['practice','practice','Practice'],['rewards','rewards','Rewards'],['parents','parents','Parents']].map(([k,i,t])=>`<button data-t="${k}" class="${tab===k?'on':''}"><i>${IC(i)}</i>${t}</button>`).join('')}</div>`;
  app.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{sfx.tap();tab=b.dataset.t;route()});
  window.scrollTo(0,0);
 }
@@ -622,23 +745,23 @@ function route(){if(!P)return setup(true);if(!route.init){route.init=1;const ope
 function mapScreen(){
  const L=lvl(viewLevel);
  const hN=L.soon?[]:nodes(L),hD=hN.filter(n=>G.done[n.k]).length;
- let h=`<section class="hero"><div class="hero-in"><div class="hero-txt"><span class="kick">Level ${L.id} · ${L.name}</span><div class="bubble">${L.soon?`Level ${L.id} is coming soon!`:!levelOpen(L)?`Finish Level ${L.id-1} to open this level! 🔒`:greetLine()}</div>${hN.length?`<div class="hprog"><div class="hbar"><i style="width:${Math.round(hD/hN.length*100)}%"></i></div><span>⭐ ${hD}/${hN.length} islands</span></div>`:''}</div>
+ let h=`<section class="hero"><div class="hero-in"><div class="hero-txt"><span class="kick">Level ${L.id} · ${L.name}</span><div class="bubble">${L.soon?`Level ${L.id} is coming soon!`:!levelOpen(L)?`Finish Level ${L.id-1} to open this level! ${IC('lock','in')}`:greetLine()}</div>${hN.length?`<div class="hprog"><div class="hbar"><i style="width:${Math.round(hD/hN.length*100)}%"></i></div><span>${IC('star','in')} ${hD}/${hN.length} islands</span></div>`:''}</div>
  <div class="hero-ch"><div class="av full" style="background-image:url(${CH().wave})"></div></div></div></section>`;
- h+=`<div class="jhead"><h2>🗺️ My learning journey</h2></div><div class="ltabs">${COURSE.map(l=>`<button class="ltab ${l.id===viewLevel?'on':''}" data-l="${l.id}">Level ${l.id} · ${l.name}${l.soon?' (soon)':!levelOpen(l)?' 🔒':''}</button>`).join('')}</div>`;
- if(L.soon){h+=L.units.map(u=>`<div class="unit" style="background:${u.color};opacity:.75"><div class="ui">${u.icon}</div><div><b>Unit ${u.id} · ${u.title}</b><span>Coming soon</span></div></div><div class="soon note"><b>Planned:</b> ${esc(u.plan)}</div>`).join('');shell(h);bindMap();return}
+ h+=`<div class="jhead"><h2>${IC('learn','h')} My learning journey</h2></div><div class="ltabs">${COURSE.map(l=>`<button class="ltab ${l.id===viewLevel?'on':''}" data-l="${l.id}">Level ${l.id} · ${l.name}${l.soon?' (soon)':!levelOpen(l)?' '+IC('lock','in'):''}</button>`).join('')}</div>`;
+ if(L.soon){h+=L.units.map(u=>`<div class="unit" style="background:${u.color};opacity:.75"><div class="ui">${UI(L,u)}</div><div><b>Unit ${u.id} · ${u.title}</b><span>Coming soon</span></div></div><div class="soon note"><b>Planned:</b> ${esc(u.plan)}</div>`).join('');shell(h);bindMap();return}
  const cur=currentNode(L);
  L.units.forEach(u=>{
   const uNodes=nodes(L).filter(n=>n.u===u),doneN=uNodes.filter(n=>G.done[n.k]).length,firstLocked=!isUnlocked(L,uNodes[0]);
-  h+=`<div class="unit" style="background:${u.color}"><div class="ui">${u.icon}</div><div><b>Unit ${u.id} · ${u.title}</b><span>${doneN}/${uNodes.length} islands · ${u.lessons.length} lessons + test</span><div class="ubar"><i style="width:${Math.round(doneN/uNodes.length*100)}%"></i></div></div>${firstLocked&&u.id>1?`<button class="jump" data-jump="${u.id}">Jump here?</button>`:''}</div>`;
-  h+=`<div class="sea"><div class="wave" style="top:6px"></div><div class="path">`;
+  h+=`<div class="unit" style="background:${u.color}"><div class="ui">${UI(L,u)}</div><div><b>Unit ${u.id} · ${u.title}</b><span>${doneN}/${uNodes.length} islands · ${u.lessons.length} lessons + test</span><div class="ubar"><i style="width:${Math.round(doneN/uNodes.length*100)}%"></i></div></div>${firstLocked&&u.id>1?`<button class="jump" data-jump="${u.id}">Jump here?</button>`:''}</div>`;
+  h+=`<div class="sea${MAP(L,u)?' map':''}"${MAP(L,u)?` style="background-image:url(${MAP(L,u)})"`:''}><div class="wave" style="top:6px"></div><div class="path">`;
   uNodes.forEach((n,i)=>{const off=[0,60,80,40,-30,-70,-40][i%7];const un=isUnlocked(L,n),dn=G.done[n.k],isCur=cur&&cur.k===n.k;
-   const st=dn&&n.type==='lesson'?'⭐'.repeat(G.done[n.k].stars||1):'';
+   const st=dn&&n.type==='lesson'?IC('star','st').repeat(G.done[n.k].stars||1):'';
    h+=`<div class="isle" style="transform:translateX(${off}px)">${isCur?`<div class="tip">${n.type==='test'?'TEST!':'START'}</div>`:''}
-    <button class="node ${n.type==='test'?'chest':''} ${un?'':'locked'} ${isCur?'cur':''}" data-k="${n.k}" style="background:${dn?'var(--yellow)':u.color}">${!un?'🔒':n.type==='test'?(dn?'🏆':'🧰'):(dn?'✔':n.i+1)}<span class="stz">${st}</span></button></div>`});
+    <button class="node ${n.type==='test'?'chest':''} ${un?'':'locked'} ${isCur?'cur':''}" data-k="${n.k}" style="background:${dn?'var(--yellow)':u.color}">${!un?IC('lock'):n.type==='test'?(dn?IC('rewards'):IC('chest')):(dn?'✔':n.i+1)}<span class="stz">${st}</span></button></div>`});
   h+=`</div><div class="wave" style="bottom:4px"></div></div>`;
  });
  const lvDone=nodes(L).every(n=>G.done[n.k]);
- if(lvDone)h+=`<button class="btn y wide" id="certb">🎓 Level ${L.id} certificate</button>`;
+ if(lvDone)h+=`<button class="btn y wide" id="certb">${IC('cert','in')} Level ${L.id} certificate</button>`;
  shell(h);bindMap();
  const cb=$('certb');if(cb)cb.onclick=()=>certificate(L);
  const cn=app.querySelector('.node.cur');if(cn)setTimeout(()=>cn.scrollIntoView({block:'center',behavior:'smooth'}),150);
@@ -691,7 +814,7 @@ function frame(inner){
  $('quit').onclick=()=>sheet(`<h2>Leave the lesson?</h2><p class="sub">Your progress on this island will be lost.</p><button class="btn wide" id="stay">Keep learning</button><div style="height:10px"></div><button class="btn ghost wide" id="leave">Leave</button>`,()=>{$('stay').onclick=closeSheet;$('leave').onclick=()=>{closeSheet();RUN=null;tab='map';route()}});
 }
 let WHO=null;
-function guideHTML(html,pose,who,vid){const a=who?ASSETS[who]:CH();WHO=a;const v=vkey(vid);return `<div class="guide"><div class="av full" id="gav" style="background-image:url(${a[pose||'happy']})"></div><div class="bubble">${v?`<button class="spk" data-v="${vid}" aria-label="Play again">🔊 ${a.name}</button>`:`<span class="spk">${a.name}</span>`}${html}</div></div>`}
+function guideHTML(html,pose,who,vid){const a=who?ASSETS[who]:CH();WHO=a;const v=vkey(vid);return `<div class="guide"><div class="av full" id="gav" style="background-image:url(${a[pose||'happy']})"></div><div class="bubble">${v?`<button class="spk" data-v="${vid}" aria-label="Play again">${IC('speaker','in')} ${a.name}</button>`:`<span class="spk">${a.name}</span>`}${html}</div></div>`}
 function praise(silent){const i=Math.floor(Math.random()*4);if(!silent)say(['p_bravo',boy()?'p_shater':'p_shatra','p_yalla','p_ktirhelo'][i]);return praiseWords()[i]}
 function react(ok){const a=$('gav');if(!a)return;a.style.backgroundImage=`url(${(WHO||CH())[ok?'cheer':'oops']})`;a.classList.remove('jump','no');void a.offsetWidth;a.classList.add(ok?'jump':'no')}
 function foot(ok,msg,extra=''){
@@ -776,17 +899,17 @@ function finish(){
  if(R.mode==='lesson'){
   const stars=pct>=90?3:pct>=70?2:1,prev=G.done[R.key];G.done[R.key]={stars:Math.max(stars,prev?prev.stars:0),pct};
   const xp=10+stars*5;addXP(xp);
-  html=`<div class="bigstar">${'⭐'.repeat(stars)}</div><h1>${boy()?'Shāṭer':'Shāṭra'}, ${esc(P.name)}!</h1><p class="sub">You finished “${esc(R.title)}” island!</p>
-  <div class="chips"><div class="chip">+${xp}<small>XP</small></div><div class="chip">${pct}%<small>correct</small></div><div class="chip">🔥 ${G.streak.n}<small>day streak</small></div></div>`;
+  html=`<div class="bigstar">${IC('star','big').repeat(stars)}</div><h1>${boy()?'Shāṭer':'Shāṭra'}, ${esc(P.name)}!</h1><p class="sub">You finished “${esc(R.title)}” island!</p>
+  <div class="chips"><div class="chip">+${xp}<small>XP</small></div><div class="chip">${pct}%<small>correct</small></div><div class="chip">${IC('flame','in')} ${G.streak.n}<small>day streak</small></div></div>`;
  }else if(R.mode==='test'){
   const passed=pct>=70;G.tests[R.key]=Math.max(G.tests[R.key]||0,pct);
   if(passed){G.done[R.key]={stars:3,pct};G.trophies[R.key]=true;addXP(30);
    R.u.lessons.forEach((l,i)=>{const k=`${R.L.id}-${R.u.id}-${i+1}`;if(!G.done[k])G.done[k]={stars:1,pct:0,skipped:true}});
    if(R.jumpTo)G.unlocked[`${R.L.id}-${R.jumpTo.id}`]=true;
    if(!G.stickers[`${R.L.id}-${R.u.id}`]){G.stickers[`${R.L.id}-${R.u.id}`]=true;extra=`<div class="card" style="margin:12px 0"><div class="note">New sticker!</div><div class="newstk">${R.u.sticker.e}</div><b>${esc(R.u.sticker.n)}</b></div>`}}
-  html=passed?`<div class="bigstar">🏆</div><h1>Test passed!</h1><p class="sub">${pct}% correct on “${esc(R.u.title)}”. ${R.jumpTo?`Unit ${R.jumpTo.id} is now open!`:'The next unit is open!'}</p><div class="chips"><div class="chip">+30<small>XP</small></div><div class="chip">${pct}%<small>score</small></div></div>${extra}`
-   :`<div class="bigstar">💪</div><h1>Almost there!</h1><p class="sub">You got ${pct}%. You need 70% to win the trophy. Practise the islands again, then try the test.</p>`;
- }else{addXP(10);html=`<div class="bigstar">💪</div><h1>Practice done!</h1><div class="chips"><div class="chip">+10<small>XP</small></div><div class="chip">${pct}%<small>correct</small></div></div>`}
+  html=passed?`<div class="bigstar">${IC('rewards','big')}</div><h1>Test passed!</h1><p class="sub">${pct}% correct on “${esc(R.u.title)}”. ${R.jumpTo?`Unit ${R.jumpTo.id} is now open!`:'The next unit is open!'}</p><div class="chips"><div class="chip">+30<small>XP</small></div><div class="chip">${pct}%<small>score</small></div></div>${extra}`
+   :`<div class="bigstar">${IC('target','big')}</div><h1>Almost there!</h1><p class="sub">You got ${pct}%. You need 70% to win the trophy. Practise the islands again, then try the test.</p>`;
+ }else{addXP(10);html=`<div class="bigstar">${IC('practice','big')}</div><h1>Practice done!</h1><div class="chips"><div class="chip">+10<small>XP</small></div><div class="chip">${pct}%<small>correct</small></div></div>`}
  save();sfx.done();confetti();say(R.mode==='test'?(pct>=70?'test_pass':'test_fail'):'end_lesson');
  const failed=R.mode==='test'&&pct<70,fwho=R.mode==='practice'?'bisseh':P.char;
  app.innerHTML=`<div class="screen center" style="padding-bottom:130px">${failed?'':clipHTML(fwho,'cheer',180)}${html}${guideHTML(failed?'Don’t worry, we’ll practise together! 💪':'Yalla bye! See you on the next island!',failed?'oops':'cheer',R.mode==='practice'?'bisseh':null,R.mode==='test'?(pct>=70?'test_pass':'test_fail'):'end_lesson')}</div>`;
@@ -794,14 +917,14 @@ function finish(){
  $('home').onclick=()=>{RUN=null;tab='map';route();const L=lvl(viewLevel);if(nodes(L).every(n=>G.done[n.k])&&!G.certs[L.id]){G.certs[L.id]=true;save();certificate(L)}};
 }
 function certificate(L){
- app.innerHTML=`<div class="screen"><div class="cert">${clipHTML(P.char,'dabke',200)}<div style="font-size:44px">🎓</div><p class="note">Certificate of achievement</p><h1>${esc(P.name)}</h1><p class="sub">finished <b>Level ${L.id} · ${L.name}</b> of Yalla Nehke!</p><div style="font-size:38px">${L.units.map(u=>u.sticker?u.sticker.e:'').join(' ')}</div><p><b>${learned().length} Lebanese words learned</b></p><p class="ar" style="font-size:26px">${boy()?'برافو يا بطل!':'برافو يا بطلة!'}</p></div><div style="height:14px"></div><button class="btn wide" id="bk">Back to the map</button></div>`;
+ app.innerHTML=`<div class="screen"><div class="cert">${clipHTML(P.char,'dabke',200)}<div class="certcap">${IC('cert','big')}</div><p class="note">Certificate of achievement</p><h1>${esc(P.name)}</h1><p class="sub">finished <b>Level ${L.id} · ${L.name}</b> of Yalla Nehke!</p><div class="certstk">${L.units.map(u=>u.sticker?UI(L,u,'mid'):'').join(' ')}</div><p><b>${learned().length} Lebanese words learned</b></p><p class="ar" style="font-size:26px">${boy()?'برافو يا بطل!':'برافو يا بطلة!'}</p></div><div style="height:14px"></div><button class="btn wide" id="bk">Back to the map</button></div>`;
  confetti();sfx.done();say('cert');$('bk').onclick=()=>{tab='map';route()};
 }
 
 // ---------- practice / rewards / parents ----------
 function practiceScreen(){
  const ws=learned(),weak=ws.filter(k=>G.w[k].s<=1);
- shell(`<h1>Practice 🔁</h1><p class="sub">Keep your words strong. Words you find tricky come back more often.</p>
+ shell(`<h1>Practice ${IC('practice','h')}</h1><p class="sub">Keep your words strong. Words you find tricky come back more often.</p>
  ${guideHTML(ws.length?`You know <b>${ws.length}</b> words! ${weak.length?`${weak.length} need a little practice.`:'They are all strong! 💪'}`:'Finish your first island, then come back to practise!','happy','bisseh')}
  <button class="btn wide" id="pr" ${ws.length<2?'disabled':''}>Start practice (+10 XP)</button>
  ${ws.length?`<h3 style="margin-top:18px">My words</h3><div>${ws.map(k=>{const w=word(k),s=G.w[k].s;return `<span class="pill" style="background:${s>=3?'var(--green-bg)':s>=1?'#FFF1C9':'var(--red-bg)'};color:var(--ink)">${esc(w.tr)}</span>`}).join('')}</div><p class="note">🟢 strong · 🟡 getting there · 🔴 needs practice</p>`:''}`);
@@ -809,15 +932,15 @@ function practiceScreen(){
 }
 function rewardsScreen(){
  const built=COURSE.filter(l=>!l.soon);
- shell(`<h1>Rewards ⭐</h1>${built.map(L=>`<h3>Level ${L.id} stickers</h3><div class="book">${L.units.map(u=>`<div class="stk ${G.stickers[`${L.id}-${u.id}`]?'got':''}"><span class="e">${u.sticker.e}</span>${G.stickers[`${L.id}-${u.id}`]?esc(u.sticker.n):'Unit '+u.id+' test'}</div>`).join('')}</div>`).join('')}
- <h3>Trophies</h3><div class="book">${built.flatMap(L=>L.units.map(u=>`<div class="stk ${G.trophies[`${L.id}-${u.id}-T`]?'got':''}"><span class="e">🏆</span>${esc(u.title)}</div>`)).join('')}</div>
- <h3>Certificates</h3>${COURSE.map(l=>`<div class="stk ${G.certs[l.id]?'got':''}" style="margin-bottom:8px;text-align:left;padding:10px 14px;font-size:15px">🎓 Level ${l.id} · ${l.name} ${G.certs[l.id]?'<button class="btn y" style="float:right;padding:4px 12px;font-size:14px" data-c="'+l.id+'">View</button>':''}</div>`).join('')}
- <div class="chips"><div class="chip">${G.xp}<small>total XP</small></div><div class="chip">🔥 ${G.streak.n}<small>day streak</small></div><div class="chip">${learned().length}<small>words</small></div></div>`);
+ shell(`<h1>Rewards ${IC('rewards','h')}</h1>${built.map(L=>`<h3>Level ${L.id} stickers</h3><div class="book">${L.units.map(u=>`<div class="stk ${G.stickers[`${L.id}-${u.id}`]?'got':''}"><span class="e">${UI(L,u)}</span>${G.stickers[`${L.id}-${u.id}`]?esc(u.sticker.n):'Unit '+u.id+' test'}</div>`).join('')}</div>`).join('')}
+ <h3>Trophies</h3><div class="book">${built.flatMap(L=>L.units.map(u=>`<div class="stk ${G.trophies[`${L.id}-${u.id}-T`]?'got':''}"><span class="e">${IC('rewards')}</span>${esc(u.title)}</div>`)).join('')}</div>
+ <h3>Certificates</h3>${COURSE.map(l=>`<div class="stk ${G.certs[l.id]?'got':''}" style="margin-bottom:8px;text-align:left;padding:10px 14px;font-size:15px">${IC('cert','in')} Level ${l.id} · ${l.name} ${G.certs[l.id]?'<button class="btn y" style="float:right;padding:4px 12px;font-size:14px" data-c="'+l.id+'">View</button>':''}</div>`).join('')}
+ <div class="chips"><div class="chip">${G.xp}<small>total XP</small></div><div class="chip">${IC('flame','in')} ${G.streak.n}<small>day streak</small></div><div class="chip">${learned().length}<small>words</small></div></div>`);
  app.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>certificate(lvl(+b.dataset.c)));
 }
 let parentOK=false;
 function parentGate(next){if(parentOK)return next();const a=3+Math.floor(Math.random()*6),b=4+Math.floor(Math.random()*5);
- shell(`<h1>Grown-ups only 👤</h1><p class="sub">Answer to open the parent area.</p><div class="card"><label for="pg">What is ${a} × ${b}?</label><input type="number" id="pg" inputmode="numeric"><p class="err" id="pe"></p><button class="btn wide" id="pgo">Open</button></div>`);
+ shell(`<h1>Grown-ups only ${IC('parents','h')}</h1><p class="sub">Answer to open the parent area.</p><div class="card"><label for="pg">What is ${a} × ${b}?</label><input type="number" id="pg" inputmode="numeric"><p class="err" id="pe"></p><button class="btn wide" id="pgo">Open</button></div>`);
  $('pg').oninput=()=>$('pe').textContent='';$('pgo').onclick=()=>{if(+$('pg').value===a*b){parentOK=true;next()}else{$('pe').textContent='That’s not right. Try again.'}}}
 function parentScreen(){
  const ws=learned(),acc=G.acc.n?Math.round(G.acc.ok/G.acc.n*100):0,spk=G.speak.n?Math.round(G.speak.ok/G.speak.n*100):null;
@@ -826,15 +949,15 @@ function parentScreen(){
  shell(`<h1>Parent dashboard</h1><p class="sub">${esc(P.name)} · ${boy()?'boy':'girl'} · guide: ${CH().name}</p>
  <div class="grid2"><div class="kpi"><b>${ws.length}</b><span>words learned</span></div><div class="kpi"><b>${Object.keys(G.done).filter(k=>!G.done[k].skipped).length}</b><span>islands completed</span></div>
  <div class="kpi"><b>${acc}%</b><span>answers correct</span></div><div class="kpi"><b>${spk===null?'–':spk+'%'}</b><span>speaking checks passed (70%+)</span></div>
- <div class="kpi"><b>🔥 ${G.streak.n}</b><span>day streak</span></div><div class="kpi"><b>${G.xp}</b><span>total XP</span></div></div>
+ <div class="kpi"><b>${IC('flame','in')} ${G.streak.n}</b><span>day streak</span></div><div class="kpi"><b>${G.xp}</b><span>total XP</span></div></div>
  <h3 style="margin-top:16px">Last 7 days (XP)</h3><div class="card" style="display:flex;align-items:flex-end;gap:8px;height:120px">${days.map(d=>`<div style="flex:1;text-align:center"><div style="height:${Math.round(d.x/mx*70)}px;background:var(--teal);border-radius:6px 6px 0 0;min-height:3px"></div><small class="note">${d.l}</small></div>`).join('')}</div>
- ${COURSE.filter(l=>!l.soon).map(L=>`<h3 style="margin-top:16px">Unit progress · Level ${L.id}</h3>`+L.units.map(u=>{const ns=nodes(L).filter(n=>n.u===u),d=ns.filter(n=>G.done[n.k]).length;return `<div class="prow"><span style="width:130px">${u.icon} ${esc(u.title)}</span><div class="pb"><i style="width:${Math.round(d/ns.length*100)}%"></i></div><b>${G.tests[`${L.id}-${u.id}-T`]!=null?G.tests[`${L.id}-${u.id}-T`]+'%':'–'}</b></div>`}).join('')).join('')}<p class="note">The % on the right is the best unit-test score (70% passes).</p>
+ ${COURSE.filter(l=>!l.soon).map(L=>`<h3 style="margin-top:16px">Unit progress · Level ${L.id}</h3>`+L.units.map(u=>{const ns=nodes(L).filter(n=>n.u===u),d=ns.filter(n=>G.done[n.k]).length;return `<div class="prow"><span style="width:130px">${UI(L,u,'in')} ${esc(u.title)}</span><div class="pb"><i style="width:${Math.round(d/ns.length*100)}%"></i></div><b>${G.tests[`${L.id}-${u.id}-T`]!=null?G.tests[`${L.id}-${u.id}-T`]+'%':'–'}</b></div>`}).join('')).join('')}<p class="note">The % on the right is the best unit-test score (70% passes).</p>
  <h3 style="margin-top:16px">Words to practise</h3><div>${weak.length?weak.map(k=>`<span class="pill">${esc(word(k).tr)} · ${esc(word(k).en)}</span>`).join(''):'<span class="note">None yet 👍</span>'}</div>
  <h3 style="margin-top:20px">Settings</h3><div class="card">
  <button class="btn ghost wide" id="edit">Edit name, boy/girl, level</button><div style="height:10px"></div>
  <button class="btn ghost wide" id="snd">Sound effects: ${G.sound?'On':'Off'}</button><div style="height:10px"></div>
  <button class="btn ghost wide" id="rst" style="color:var(--red)">Reset all progress</button></div>
- <h3 style="margin-top:20px">Account</h3><div class="card acct">${ACC.user?`<p class="note" style="margin:0 0 10px">Signed in as <b>${esc(ACC.user.email||'')}</b>. Progress is saved online, so ${esc(P.name)} can continue on any device.</p><button class="btn ghost wide" id="swc">👨‍👩‍👧 Switch or add a child</button><div style="height:10px"></div><button class="btn ghost wide" id="out">Sign out</button>`:`<p class="note" style="margin:0 0 10px">Progress is saved on this device only. Create a free parent account to keep it safe and continue on any device.</p><button class="btn wide" id="acct">Sign in or create an account</button>`}</div>
+ <h3 style="margin-top:20px">Account</h3><div class="card acct">${ACC.user?`<p class="note" style="margin:0 0 10px">Signed in as <b>${esc(ACC.user.email||'')}</b>. Progress is saved online, so ${esc(P.name)} can continue on any device.</p><button class="btn ghost wide" id="swc">${IC('parents','in')} Switch or add a child</button><div style="height:10px"></div><button class="btn ghost wide" id="out">Sign out</button>`:`<p class="note" style="margin:0 0 10px">Progress is saved on this device only. Create a free parent account to keep it safe and continue on any device.</p><button class="btn wide" id="acct">Sign in or create an account</button>`}</div>
  <p class="note" style="margin-top:12px">Privacy: progress is saved on this device${ACC.user?' and in your Yalla Nehke parent account':' only'}. The speaking check uses the browser's speech service (Google or Apple); no recordings are kept by this app.</p>`);
  $('edit').onclick=()=>setup(false);acctButtons();$('snd').onclick=()=>{G.sound=!G.sound;save();parentScreen()};
  $('rst').onclick=()=>sheet(`<h2>Reset everything?</h2><p class="sub">All XP, streaks, stickers and word progress for ${esc(P.name)} will be deleted. This can't be undone.</p><button class="btn wide" id="ry" style="background:var(--red);box-shadow:0 5px 0 #B5363A">Yes, reset</button><div style="height:10px"></div><button class="btn ghost wide" id="rn">Cancel</button>`,()=>{$('ry').onclick=()=>{G=fresh();save();closeSheet();parentScreen()};$('rn').onclick=closeSheet});
@@ -897,7 +1020,7 @@ function authScreen(msg){
 }
 async function afterLogin(user){
  if(ACC.busy)return;ACC.busy=true;ACC.user=user;ACC.local=false;store.set('yn2_local',false);
- app.innerHTML=`<div class="screen center"><div class="bigstar">🏝️</div><p class="sub">Loading your family…</p></div>`;
+ app.innerHTML=`<div class="screen center"><div class="bigstar">${IC('learn','big')}</div><p class="sub">Loading your family…</p></div>`;
  let rows=null;try{const r=await SB.from('children').select('*').order('created_at');if(!r.error)rows=r.data}catch(e){}
  ACC.busy=false;
  if(rows===null){return P?route():setup(true)}
@@ -912,7 +1035,7 @@ async function kidsScreen(){
  if(ACC.user){try{const r=await SB.from('children').select('*').order('created_at');if(!r.error)ACC.kids=r.data}catch(e){}}
  const rows=ACC.kids,orphan=P&&!ACC.child&&!rows.some(r=>r.profile&&r.profile.name===P.name)?P:null;
  app.innerHTML=`<div class="screen kids"><h1>Who's learning today?</h1><p class="sub">Pick a child to continue their adventure.</p>
- <div class="kgrid">${rows.map((r,i)=>{const p=r.profile||{},g=r.progress||{};return `<button class="kid-card" data-i="${i}"><span class="kav" style="background-image:url(${(ASSETS[p.char]||ASSETS.zena).portrait})"></span><b>${esc(p.name||'Child')}</b><span class="kmeta">Level ${p.level||1} · ✨ ${g.xp||0} XP</span></button>`}).join('')}
+ <div class="kgrid">${rows.map((r,i)=>{const p=r.profile||{},g=r.progress||{};return `<button class="kid-card" data-i="${i}"><span class="kav" style="background-image:url(${(ASSETS[p.char]||ASSETS.zena).portrait})"></span><b>${esc(p.name||'Child')}</b><span class="kmeta">Level ${p.level||1} · ${IC('star','in')} ${g.xp||0} XP</span></button>`}).join('')}
  ${orphan?`<button class="kid-card dev" id="kdev"><span class="kav" style="background-image:url(${(ASSETS[orphan.char]||ASSETS.zena).portrait})"></span><b>${esc(orphan.name)}</b><span class="kmeta">On this device · tap to save online</span></button>`:''}
  <button class="kid-card add" id="kadd"><span class="kplus">＋</span><b>Add a child</b><span class="kmeta">New profile</span></button></div>
  <p class="note center" style="margin-top:18px">Signed in as <b>${esc(ACC.user?ACC.user.email||'':'')}</b> · <button class="linkb" id="kout">Sign out</button></p></div>`;
