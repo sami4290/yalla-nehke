@@ -211,7 +211,8 @@ function listen(ar,tr,box,onDone,label){
 // ---------- course map / unlock logic ----------
 const lvl=id=>COURSE.find(l=>l.id===id);
 function nodes(L){const out=[];L.units.forEach(u=>{(u.lessons||[]).forEach((ls,i)=>out.push({k:`${L.id}-${u.id}-${i+1}`,type:'lesson',u,ls,i}));if(u.lessons)out.push({k:`${L.id}-${u.id}-T`,type:'test',u})});return out}
-function isUnlocked(L,n){const all=nodes(L),idx=all.findIndex(x=>x.k===n.k);if(idx===0)return true;if(G.unlocked[`${L.id}-${n.u.id}`]&&(n.type==='lesson'||nodes(L).filter(x=>x.u===n.u&&x.type==='lesson').every(x=>G.done[x.k])))return true;return !!G.done[all[idx-1].k]}
+function levelOpen(L){if(L.soon)return false;if(L.id===1)return true;if(P&&P.level>=L.id)return true;const prev=lvl(L.id-1);return nodes(prev).every(n=>G.done[n.k])}
+function isUnlocked(L,n){const all=nodes(L),idx=all.findIndex(x=>x.k===n.k);if(idx===0)return levelOpen(L);if(G.unlocked[`${L.id}-${n.u.id}`]&&(n.type==='lesson'||nodes(L).filter(x=>x.u===n.u&&x.type==='lesson').every(x=>G.done[x.k])))return true;return !!G.done[all[idx-1].k]}
 function currentNode(L){return nodes(L).find(n=>isUnlocked(L,n)&&!G.done[n.k])}
 function unitWords(u){return [...new Set(u.lessons.flatMap(l=>l.words))]}
 const learned=()=>Object.keys(G.w).filter(k=>W[k]);
@@ -232,12 +233,12 @@ function shell(inner){
  app.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{sfx.tap();tab=b.dataset.t;route()});
  window.scrollTo(0,0);
 }
-function route(){if(!P)return setup(true);({map:mapScreen,practice:practiceScreen,rewards:rewardsScreen,parents:()=>parentGate(parentScreen)}[tab])()}
+function route(){if(!P)return setup(true);if(!route.init){route.init=1;const open=COURSE.filter(l=>levelOpen(l));const act=[...open].reverse().find(l=>l.id<=P.level&&currentNode(l))||open.find(l=>currentNode(l))||open[open.length-1];if(act)viewLevel=act.id}({map:mapScreen,practice:practiceScreen,rewards:rewardsScreen,parents:()=>parentGate(parentScreen)}[tab])()}
 
 function mapScreen(){
  const L=lvl(viewLevel);
- let h=`<div class="ltabs">${COURSE.map(l=>`<button class="ltab ${l.id===viewLevel?'on':''}" data-l="${l.id}">Level ${l.id} · ${l.name}${l.soon?' 🔒':''}</button>`).join('')}</div>`;
- h+=`<div class="guide" style="margin-top:6px"><div class="av" style="background-image:url(${CH().wave})"></div><div class="bubble">${L.soon?`Level ${L.id} is coming soon! Finish Level 1 first.`:greetLine()}</div></div>`;
+ let h=`<div class="ltabs">${COURSE.map(l=>`<button class="ltab ${l.id===viewLevel?'on':''}" data-l="${l.id}">Level ${l.id} · ${l.name}${l.soon?' (soon)':!levelOpen(l)?' 🔒':''}</button>`).join('')}</div>`;
+ h+=`<div class="guide" style="margin-top:6px"><div class="av" style="background-image:url(${CH().wave})"></div><div class="bubble">${L.soon?`Level ${L.id} is coming soon!`:!levelOpen(L)?`Finish Level ${L.id-1} to open this level! 🔒`:greetLine()}</div></div>`;
  if(L.soon){h+=L.units.map(u=>`<div class="unit" style="background:${u.color};opacity:.75"><div class="ui">${u.icon}</div><div><b>Unit ${u.id} · ${u.title}</b><span>Coming soon</span></div></div><div class="soon note"><b>Planned:</b> ${esc(u.plan)}</div>`).join('');shell(h);bindMap();return}
  const cur=currentNode(L);
  L.units.forEach(u=>{
@@ -417,9 +418,9 @@ function practiceScreen(){
  const b=$('pr');if(b)b.onclick=startPractice;
 }
 function rewardsScreen(){
- const L=lvl(1);
- shell(`<h1>Rewards ⭐</h1><h3>Sticker book</h3><div class="book">${L.units.map(u=>`<div class="stk ${G.stickers[`1-${u.id}`]?'got':''}"><span class="e">${u.sticker.e}</span>${G.stickers[`1-${u.id}`]?esc(u.sticker.n):'Unit '+u.id+' test'}</div>`).join('')}</div>
- <h3>Trophies</h3><div class="book">${L.units.map(u=>`<div class="stk ${G.trophies[`1-${u.id}-T`]?'got':''}"><span class="e">🏆</span>${esc(u.title)}</div>`).join('')}</div>
+ const built=COURSE.filter(l=>!l.soon);
+ shell(`<h1>Rewards ⭐</h1>${built.map(L=>`<h3>Level ${L.id} stickers</h3><div class="book">${L.units.map(u=>`<div class="stk ${G.stickers[`${L.id}-${u.id}`]?'got':''}"><span class="e">${u.sticker.e}</span>${G.stickers[`${L.id}-${u.id}`]?esc(u.sticker.n):'Unit '+u.id+' test'}</div>`).join('')}</div>`).join('')}
+ <h3>Trophies</h3><div class="book">${built.flatMap(L=>L.units.map(u=>`<div class="stk ${G.trophies[`${L.id}-${u.id}-T`]?'got':''}"><span class="e">🏆</span>${esc(u.title)}</div>`)).join('')}</div>
  <h3>Certificates</h3>${COURSE.map(l=>`<div class="stk ${G.certs[l.id]?'got':''}" style="margin-bottom:8px;text-align:left;padding:10px 14px;font-size:15px">🎓 Level ${l.id} · ${l.name} ${G.certs[l.id]?'<button class="btn y" style="float:right;padding:4px 12px;font-size:14px" data-c="'+l.id+'">View</button>':''}</div>`).join('')}
  <div class="chips"><div class="chip">${G.xp}<small>total XP</small></div><div class="chip">🔥 ${G.streak.n}<small>day streak</small></div><div class="chip">${learned().length}<small>words</small></div></div>`);
  app.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>certificate(lvl(+b.dataset.c)));
@@ -430,14 +431,14 @@ function parentGate(next){if(parentOK)return next();const a=3+Math.floor(Math.ra
  $('pg').oninput=()=>$('pe').textContent='';$('pgo').onclick=()=>{if(+$('pg').value===a*b){parentOK=true;next()}else{$('pe').textContent='That’s not right. Try again.'}}}
 function parentScreen(){
  const ws=learned(),acc=G.acc.n?Math.round(G.acc.ok/G.acc.n*100):0,spk=G.speak.n?Math.round(G.speak.ok/G.speak.n*100):null;
- const L=lvl(1),weak=ws.filter(k=>G.w[k].bad>G.w[k].ok||G.w[k].s===0).slice(0,12);
+ const weak=ws.filter(k=>G.w[k].bad>G.w[k].ok||G.w[k].s===0).slice(0,12);
  const days=[...Array(7)].map((_,i)=>{const d=new Date(Date.now()-(6-i)*864e5);const k=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();return {l:'SMTWTFS'[d.getDay()],x:G.daily[k]||0}});const mx=Math.max(20,...days.map(d=>d.x));
  shell(`<h1>Parent dashboard</h1><p class="sub">${esc(P.name)} · ${boy()?'boy':'girl'} · guide: ${CH().name}</p>
  <div class="grid2"><div class="kpi"><b>${ws.length}</b><span>words learned</span></div><div class="kpi"><b>${Object.keys(G.done).filter(k=>!G.done[k].skipped).length}</b><span>islands completed</span></div>
  <div class="kpi"><b>${acc}%</b><span>answers correct</span></div><div class="kpi"><b>${spk===null?'–':spk+'%'}</b><span>speaking checks passed (70%+)</span></div>
  <div class="kpi"><b>🔥 ${G.streak.n}</b><span>day streak</span></div><div class="kpi"><b>${G.xp}</b><span>total XP</span></div></div>
  <h3 style="margin-top:16px">Last 7 days (XP)</h3><div class="card" style="display:flex;align-items:flex-end;gap:8px;height:120px">${days.map(d=>`<div style="flex:1;text-align:center"><div style="height:${Math.round(d.x/mx*70)}px;background:var(--teal);border-radius:6px 6px 0 0;min-height:3px"></div><small class="note">${d.l}</small></div>`).join('')}</div>
- <h3 style="margin-top:16px">Unit progress · Level 1</h3>${L.units.map(u=>{const ns=nodes(L).filter(n=>n.u===u),d=ns.filter(n=>G.done[n.k]).length;return `<div class="prow"><span style="width:120px">${u.icon} ${esc(u.title)}</span><div class="pb"><i style="width:${Math.round(d/ns.length*100)}%"></i></div><b>${G.tests[`1-${u.id}-T`]!=null?G.tests[`1-${u.id}-T`]+'%':'–'}</b></div>`}).join('')}<p class="note">The % on the right is the best unit-test score (70% passes).</p>
+ ${COURSE.filter(l=>!l.soon).map(L=>`<h3 style="margin-top:16px">Unit progress · Level ${L.id}</h3>`+L.units.map(u=>{const ns=nodes(L).filter(n=>n.u===u),d=ns.filter(n=>G.done[n.k]).length;return `<div class="prow"><span style="width:130px">${u.icon} ${esc(u.title)}</span><div class="pb"><i style="width:${Math.round(d/ns.length*100)}%"></i></div><b>${G.tests[`${L.id}-${u.id}-T`]!=null?G.tests[`${L.id}-${u.id}-T`]+'%':'–'}</b></div>`}).join('')).join('')}<p class="note">The % on the right is the best unit-test score (70% passes).</p>
  <h3 style="margin-top:16px">Words to practise</h3><div>${weak.length?weak.map(k=>`<span class="pill">${esc(word(k).tr)} · ${esc(word(k).en)}</span>`).join(''):'<span class="note">None yet 👍</span>'}</div>
  <h3 style="margin-top:20px">Settings</h3><div class="card">
  <button class="btn ghost wide" id="edit">Edit name, boy/girl, level</button><div style="height:10px"></div>
@@ -455,14 +456,14 @@ function setup(first){
  <label>Boy or girl? <span class="note">(Lebanese words change: kīfak / kīfik)</span></label><div class="seg" id="gd"><button data-v="b" class="${p.gender==='b'?'on':''}">Boy</button><button data-v="g" class="${p.gender==='g'?'on':''}">Girl</button></div>
  <label>Who will be your guide?</label><div class="seg" id="ch">${['zena','karim'].map(c=>`<button data-v="${c}" class="${p.char===c?'on':''}" style="padding:6px"><div class="av" style="width:70px;height:70px;margin:0 auto;background-image:url(${ASSETS[c].portrait})"></div>${ASSETS[c].name}</button>`).join('')}</div>
  <label>Starting level</label><div class="seg" id="lv">${LEVELS.map((l,i)=>`<button data-v="${i+1}" class="${p.level===i+1?'on':''}">${i+1}. ${l.n}<small>${l.d}</small></button>`).join('')}</div>
- <p class="note">Levels 2–4 are being built. Higher starting levels open more of Level 1 so your child can skip what they already know.</p>
+ <p class="note">Levels 3–4 are being built. Starting at Level 2 opens it straight away (Level 1 stays available to practise).</p>
  <p class="err" id="er"></p><button class="btn wide" id="go">${first?"Let's start!":'Save'}</button>${first?'':'<div style="height:10px"></div><button class="btn ghost wide" id="cn">Cancel</button>'}</div></div>`;
  ['gd','ch','lv'].forEach(id=>app.querySelectorAll(`#${id} button`).forEach(b=>b.onclick=()=>{app.querySelectorAll(`#${id} button`).forEach(x=>x.classList.remove('on'));b.classList.add('on')}));
  $('nm').oninput=()=>$('er').textContent='';
  $('go').onclick=()=>{const name=$('nm').value.trim();if(!name){$('er').textContent="Enter your child's first name first.";return}
   const lvl_=+app.querySelector('#lv .on').dataset.v;
   P={name,gender:app.querySelector('#gd .on').dataset.v,char:app.querySelector('#ch .on').dataset.v,level:lvl_};
-  if(lvl_>=2)G.unlocked['1-2']=G.unlocked['1-3']=true;if(lvl_>=3)G.unlocked['1-4']=true;
+  if(lvl_>=2){['1-2','1-3','1-4'].forEach(k=>G.unlocked[k]=true)}route.init=0;
   save();tab='map';route()};
  const c=$('cn');if(c)c.onclick=()=>{tab='parents';route()};
 }
