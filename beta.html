@@ -569,17 +569,26 @@ function listen(ar,tr,box,onDone,label){
  if(!SR||micBlocked)return onDone(null);
  let tries=0,errs=0;
  const ui=(msg,live)=>{box.innerHTML=`<button class="mic ${live?'live':''}" id="mic" aria-label="Speak">🎤</button><div class="heard">${msg}</div><div class="meter"><i id="mt"></i></div>`;$('mic').onclick=go};
+ let langs=['ar-LB','ar-SA','ar'],li=0;
  const go=()=>{vstop();let rec;try{rec=new SR()}catch(e){micBlocked=true;return onDone(null)}
-  rec.lang='ar-LB';rec.maxAlternatives=5;rec.interimResults=false;ui('Listening… say it now!',true);let got=false;
-  rec.onresult=e=>{got=true;const alts=[];for(const r of e.results)for(let k=0;k<r.length;k++)alts.push(r[k].transcript);
+  // iPad/iPhone: release the audio session used for voice playback so the mic can capture
+  try{if(actx&&actx.state==='running')actx.suspend()}catch(e){}
+  const resumeAudio=()=>{try{if(actx&&actx.state==='suspended')actx.resume()}catch(e){}};
+  rec.lang=langs[li];rec.maxAlternatives=5;rec.interimResults=false;rec.continuous=false;ui('Listening… say it now!',true);let got=false,failed=false,done=false;
+  const guard=setTimeout(()=>{if(!got){try{rec.stop()}catch(e){}}},8000);
+  rec.onresult=e=>{got=true;clearTimeout(guard);resumeAudio();const alts=[];for(const r of e.results)for(let k=0;k<r.length;k++)alts.push(r[k].transcript);
    const sc=score(alts,ar,tr),pct=Math.round(sc*100);tries++;const col=sc>=PASS?'var(--green)':'var(--yellow)';
    if(sc>=PASS){ui(`I heard: “${esc(alts[0])}” · ${pct}% match`,false);setTimeout(()=>onDone(true,pct),700)}
    else if(tries<2)ui(`Almost! ${pct}% match. Tap the mic and try once more.`,false);
    else{ui(`Good try! ${pct}% match. We'll practise it again.`,false);setTimeout(()=>onDone(false,pct),1100)}
    const m=$('mt');if(m){m.style.width=pct+'%';m.style.background=col}};
-  rec.onerror=e=>{if(['not-allowed','service-not-allowed','audio-capture'].includes(e.error)){micBlocked=true;onDone(null)}else{errs++;if(errs>=2)onDone(null);else ui("I didn't hear you. Tap the mic and try again!",false)}};
-  rec.onend=()=>{const m=$('mic');if(!got&&m)m.classList.remove('live')};
-  try{rec.start()}catch(e){micBlocked=true;onDone(null)}};
+  rec.onerror=e=>{failed=true;clearTimeout(guard);
+   if(e.error==='language-not-supported'&&li<langs.length-1){li++;ui('Tap the mic and try again!',false);return}
+   if(['not-allowed','service-not-allowed','audio-capture'].includes(e.error)){micBlocked=true;resumeAudio();onDone(null)}else{errs++;if(errs>=3){resumeAudio();onDone(null)}else ui("I didn't hear you. Tap the mic and try again!",false)}};
+  rec.onend=()=>{clearTimeout(guard);if(done)return;done=true;resumeAudio();
+   if(!got&&!failed){errs++;if(errs>=3)onDone(null);else ui("I didn't hear you. Tap the mic and say it a bit louder!",false)}
+   else{const m=$('mic');if(!got&&m)m.classList.remove('live')}};
+  try{rec.start()}catch(e){resumeAudio();micBlocked=true;onDone(null)}};
  ui(label||`Tap the mic and say <b>${esc(tr)}</b>`,false);
 }
 
