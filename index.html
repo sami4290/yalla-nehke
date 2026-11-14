@@ -125,25 +125,25 @@ const kidName=()=>profile.name||'friend';
 // pic: image key or emoji placeholder
 function V(){return {
  marhaba:{ar:'مرحبا',tr:'marḥaba',en:'hello',pic:'img:marhaba'},
- kifak:{ar:g('كيفك؟','كيفِك؟'),tr:g('kīfak?','kīfik?'),en:'how are you?',pic:'🙂'},
- mnih:{ar:g('منيح','منيحة'),tr:g('mnīḥ','mnīḥa'),en:"good / I'm fine",pic:'😄'},
- shukran:{ar:'شكراً',tr:'shukran',en:'thank you',pic:'🎁'},
- ismi:{ar:'إسمي…',tr:'ismi…',en:'my name is…',pic:'🏷️'},
- bye:{ar:'يلّا باي',tr:'yalla bye',en:'bye!',pic:'🚪'},
+ kifak:{ar:g('كيفك؟','كيفِك؟'),tr:g('kīfak?','kīfik?'),en:'how are you?',pic:null},
+ mnih:{ar:g('منيح','منيحة'),tr:g('mnīḥ','mnīḥa'),en:"good / I'm fine",pic:null},
+ shukran:{ar:'شكراً',tr:'shukran',en:'thank you',pic:null},
+ ismi:{ar:'إسمي…',tr:'ismi…',en:'my name is…',pic:null},
+ bye:{ar:'يلّا باي',tr:'yalla bye',en:'bye!',pic:null},
  mama:{ar:'ماما',tr:'māma',en:'mum',pic:'👩'},
  baba:{ar:'بابا',tr:'bāba',en:'dad',pic:'👨'},
  teta:{ar:'تيتا',tr:'teta',en:'grandma',pic:'👵'},
  jeddo:{ar:'جدّو',tr:'jeddo',en:'grandpa',pic:'👴'},
  khayyi:{ar:'خيّي',tr:'khayyi',en:'my brother',pic:'👦'},
  ikhti:{ar:'إختي',tr:'ikhti',en:'my sister',pic:'👧'},
- habibi:{ar:g('حبيبي','حبيبتي'),tr:g('ḥabībi','ḥabībti'),en:'my darling',pic:'❤️'},
- khebz:{ar:'خبز',tr:'khebz',en:'bread',pic:'🫓'},
+ habibi:{ar:g('حبيبي','حبيبتي'),tr:g('ḥabībi','ḥabībti'),en:'my darling',pic:null},
+ khebz:{ar:'خبز',tr:'khebz',en:'bread',pic:'🍞'},
  mayy:{ar:'مَي',tr:'mayy',en:'water',pic:'💧'},
  halib:{ar:'حليب',tr:'ḥalīb',en:'milk',pic:'🥛'},
  tiffaha:{ar:'تفّاحة',tr:'tiffāḥa',en:'apple',pic:'🍎'},
- manoushe:{ar:'منقوشة',tr:"man'ūshe",en:"man'ūshe (za'tar flatbread)",pic:'🍕'},
- baddi:{ar:'بدّي…',tr:'baddi…',en:'I want…',pic:'🙋'},
- zeki:{ar:'زاكي!',tr:'zēki!',en:'tasty!',pic:'😋'}
+ manoushe:{ar:'منقوشة',tr:"man'ūshe",en:"man'ūshe (za'tar flatbread)",pic:'🫓'},
+ baddi:{ar:'بدّي…',tr:'baddi…',en:'I want…',pic:null},
+ zeki:{ar:'زاكي!',tr:'zēki!',en:'tasty!',pic:null}
 };}
 
 // ---------- sessions (Level 1 – Beginner) ----------
@@ -156,7 +156,7 @@ function SESSIONS(){const v=V(),C=charName(),K=kidName();return [
   {t:'chat',say:{ar:v.kifak.ar,tr:v.kifak.tr,en:'How are you?'},lead:`Let's practise! I'll ask you…`,opts:[{w:'mnih',ok:1},{w:'bye'},{w:'shukran'}],after:`${g('Mnīḥ','Mnīḥa')}! Me too!`},
   {t:'word',w:'shukran',line:'When someone gives you something, say thank you…'},
   {t:'word',w:'ismi',line:`To say your name: "ismi ${C}". Now you: ismi… and your name!`},
-  {t:'chat',say:{ar:g('شو إسمك؟','شو إسمِك؟'),tr:g('shu ismak?','shu ismik?'),en:"What's your name?"},lead:'Now I want to know your name…',opts:[{custom:`ismi ${K}`,ar:`إسمي ${K}`,ok:1},{w:'marhaba'},{w:'mnih'}],after:`Tsharrafna, ${K}! (Nice to meet you!)`},
+  {t:'chat',say:{ar:g('شو إسمك؟','شو إسمِك؟'),tr:g('shu ismak?','shu ismik?'),en:"What's your name?"},lead:'Now I want to know your name…',opts:[{custom:`ismi ${K}`,ar:`إسمي ${K}`,ok:1,check:{ar:'إسمي',tr:'ismi'}},{w:'marhaba'},{w:'mnih'}],after:`Tsharrafna, ${K}! (Nice to meet you!)`},
   {t:'chat',say:{ar:'',tr:'🎁',en:'Bisseh brings you a present!'},lead:'Bisseh has a little present for you…',opts:[{w:'shukran',ok:1},{w:'kifak'},{w:'ismi'}],after:'Bisseh says: Miaow! 🐱'},
   {t:'word',w:'bye',line:'And when we leave, Lebanese people say…'},
   {t:'tap',lead:'Game time! Tap the right picture.',items:['marhaba','kifak','mnih','shukran','ismi','bye'],rounds:5},
@@ -189,10 +189,10 @@ function SESSIONS(){const v=V(),C=charName(),K=kidName();return [
   {t:'tap',lead:'Tap the right food!',items:['khebz','mayy','halib','tiffaha','manoushe'],rounds:5},
   {t:'word',w:'baddi',line:'To ask for something, say "baddi" and the thing. "Baddi mayy" means "I want water".'},
   {t:'chat',say:{ar:g('بدّك مَي؟','بدِّك مَي؟'),tr:g('baddak mayy?','baddik mayy?'),en:'Do you want water?'},lead:"You're thirsty! I ask you…",opts:[{custom:'ē, baddi mayy!',ar:'إي، بدّي مَي!',ok:1},{w:'tiffaha'},{w:'bye'}],after:'Tfaḍḍal! Here you go 💧'},
-  {t:'chat',say:{ar:g('شو بدّك؟','شو بدِّك؟'),tr:g('shu baddak?','shu baddik?'),en:'What do you want?'},lead:"It's breakfast time! I ask…",opts:[{custom:"baddi man'ūshe!",ar:'بدّي منقوشة!',ok:1},{w:'mnih'},{w:'teta'}],after:"Yummy! Here's your man'ūshe 🍕"},
+  {t:'chat',say:{ar:g('شو بدّك؟','شو بدِّك؟'),tr:g('shu baddak?','shu baddik?'),en:'What do you want?'},lead:"It's breakfast time! I ask…",opts:[{custom:"baddi man'ūshe!",ar:'بدّي منقوشة!',ok:1},{w:'mnih'},{w:'teta'}],after:"Yummy! Here's your man'ūshe 🫓"},
   {t:'word',w:'zeki',line:'When food is yummy, we say…'},
   {t:'chat',say:{ar:'زاكية؟',tr:'zēkye?',en:'Is it tasty?'},lead:"You're eating your man'ūshe. I ask…",opts:[{custom:'ktīr zēkye!',ar:'كتير زاكية!',ok:1},{w:'bye'},{w:'mama'}],after:'Saḥtein! (Enjoy your food!)'},
-  {t:'chant',lines:[['khebz','khebz w ḥalīb!','🥛'],['tiffaha','tiffāḥa!','🍎'],['baddi','baddi mayy!','💧'],['zeki','zēki, zēki!','😋']]},
+  {t:'chant',lines:[['khebz','khebz w ḥalīb!','🍞'],['tiffaha','tiffāḥa!','🍎'],['baddi','baddi mayy!','💧'],['zeki','zēki, zēki!','😋']]},
   {t:'chat',say:{ar:v.bye.ar,tr:'yalla bye!',en:'Bye!'},lead:'All done! I say…',opts:[{w:'bye',ok:1},{w:'khebz'},{w:'marhaba'}],after:'Bravo! See you soon!'}
  ]}
 ];}
@@ -208,13 +208,14 @@ function normAr(t){return String(t).toLowerCase().replace(/[\u064B-\u0652\u0640]
 function normLat(t){return String(t).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z ]/g,'').replace(/\s+/g,' ').trim()}
 function lev(a,b){const m=a.length,n=b.length;if(!m||!n)return Math.max(m,n);const d=Array.from({length:m+1},(_,i)=>[i]);for(let j=1;j<=n;j++)d[0][j]=j;for(let i=1;i<=m;i++)for(let j=1;j<=n;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d[m][n]}
 function sim(a,b){if(!a||!b)return 0;const L=Math.max(a.length,b.length);return 1-lev(a,b)/L}
+function winBest(heard,target){if(!heard||!target)return 0;const hw=heard.split(' '),n=target.split(' ').length;let b=sim(heard,target);for(let i=0;i+n<=hw.length;i++)b=Math.max(b,sim(hw.slice(i,i+n).join(' '),target));return b}
 function score(heardList,targetAr,targetTr){let best=0;const ta=normAr(targetAr),tl=normLat(targetTr);
- for(const h of heardList){const ha=normAr(h),hl=normLat(h);best=Math.max(best,sim(ha,ta),sim(hl,tl));
+ for(const h of heardList){const ha=normAr(h),hl=normLat(h);best=Math.max(best,winBest(ha,ta),winBest(hl,tl));
   // also allow the target word appearing inside a longer phrase
   if(ta&&ha.includes(ta))best=1;}
  return best}
 let micBlocked=false;
-function listen(targetAr,targetTr,box,onDone){
+function listen(targetAr,targetTr,box,onDone,label){
  // onDone(passed:boolean|null)  null = speaking check not available
  if(!SR||micBlocked){return onDone(null)}
  let tries=0,errs=0;
@@ -231,15 +232,15 @@ function listen(targetAr,targetTr,box,onDone){
   rec.onerror=e=>{if(e.error==='not-allowed'||e.error==='service-not-allowed'||e.error==='audio-capture'){micBlocked=true;onDone(null)}else{errs++;if(errs>=2){onDone(null)}else{ui("I didn't hear you. Tap the mic and try again!",false)}}};
   rec.onend=()=>{if(!got&&!micBlocked&&document.getElementById('mic')){const m=document.getElementById('mic');m.classList.remove('live')}};
   try{rec.start()}catch(e){micBlocked=true;onDone(null)}};
- ui(`Tap the mic and say <b>${esc(targetTr)}</b>`,false);
+ ui(label||`Tap the mic and say <b>${esc(targetTr)}</b>`,false);
 }
 let spoken={ok:0,tries:0};
 
 // ---------- rendering helpers ----------
 const $app=document.getElementById('app');
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-function pic(p,cls){if(p&&p.startsWith('img:'))return `<div class="${cls}"><img src="${IMG[p.slice(4)]}" alt=""></div>`;return `<div class="${cls} dash">${p}<span class="ph">image coming</span></div>`}
-function tilePic(p){return p&&p.startsWith('img:')?`<img src="${IMG[p.slice(4)]}" alt="">`:p}
+function pic(p,cls){if(!p)return '';if(p&&p.startsWith('img:'))return `<div class="${cls}"><img src="${IMG[p.slice(4)]}" alt=""></div>`;return `<div class="${cls} dash">${p}<span class="ph">image coming</span></div>`}
+function tilePic(p,w){if(!p)return `<span style="font-size:20px;font-weight:700;padding:8px;line-height:1.2">${esc(w.en)}</span>`;return p.startsWith('img:')?`<img src="${IMG[p.slice(4)]}" alt="">`:p}
 function guide(html){return `<div class="guide"><div class="av" role="img" aria-label="${charName()}" style="background-image:url(${CH[profile.char].img})"></div><div class="bubble"><span class="vo">🔊 ${charName()}'s voice – coming</span><br>${html}</div></div>`}
 let praiseT;function praise(txt){const p=document.getElementById('praise');p.innerHTML=txt;p.classList.add('show');clearTimeout(praiseT);praiseT=setTimeout(()=>p.classList.remove('show'),900)}
 const PR=()=>[`Bravo! ⭐`,`${g('Shāṭer','Shāṭra')}! ⭐`,`Yalla! ⭐`,`Ktīr ḥelo! ⭐`];
@@ -323,25 +324,27 @@ function word(st,v){
  };
 }
 function chat(st,v){
- const opts=shuffle(st.opts.map(o=>{const w=o.w&&v[o.w];return {ok:!!o.ok,tr:o.custom||w.tr,ar:o.ar||(w?w.ar:'')}}));
+ const okOpt=st.opts.find(o=>o.ok),w=okOpt.w&&v[okOpt.w];
+ const ans={tr:okOpt.custom||w.tr,ar:okOpt.ar||(w?w.ar:'')};
+ const chk=okOpt.check||{ar:ans.ar,tr:ans.tr};
  const sayHtml=st.say.ar?`<span class="ar" style="font-size:26px">${st.say.ar}</span><br><b style="font-size:22px;color:var(--teal-d)">${st.say.tr}</b> <span class="note">(${st.say.en})</span>`:`<b style="font-size:22px">${st.say.tr}</b> <span class="note">${st.say.en}</span>`;
- frame(guide(`${esc(st.lead)}<br>${sayHtml}`)+`<p class="note" style="margin:0">💬 What do you say back? Tap it, then say it out loud!</p><div class="opts">${opts.map((o,i)=>`<button class="opt" data-i="${i}"><b>${esc(o.tr)}</b><span class="ar">${o.ar}</span></button>`).join('')}</div><div id="reply"></div>`);
- let done=false,first=true;
- $app.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(done)return;const o=opts[+b.dataset.i];
-  if(o.ok){done=true;b.classList.add('ok');if(first)stars++;praise(pick(PR()));
-   const rp=document.getElementById('reply');
-   const showAfter=()=>{rp.innerHTML=`<div class="kid">🗣️ ${esc(o.tr)}</div><div style="height:8px"></div>${guide(esc(st.after))}<div style="height:10px"></div><button class="btn wide" id="nx">Next ▶</button>`;document.getElementById('nx').onclick=next};
-   if(SR&&!micBlocked){rp.innerHTML=`<p class="note" style="text-align:center;margin:6px 0">Now say it out loud!</p><div class="yourturn" id="cy"></div>`;
-    listen(o.ar||o.tr,o.tr,document.getElementById('cy'),res=>{if(res===true){spoken.ok++;spoken.tries++;stars++;praise(pick(PR()))}else if(res===false){spoken.tries++}showAfter()});
-   }else showAfter();
-  }else{first=false;b.classList.add('no');setTimeout(()=>b.classList.remove('no'),400);praise('Oops, try again! 🙂')}});
+ frame(guide(`${esc(st.lead)}<br>${sayHtml}`)+`<p class="note" style="margin:0;text-align:center">💬 Answer ${charName()} out loud!</p><div class="yourturn" id="cy"></div><div style="text-align:center"><button class="btn ghost" id="hint">💡 Need help?</button></div><div id="hintbox"></div><div id="reply"></div>`);
+ const hb=document.getElementById('hintbox');
+ const showHint=()=>{hb.innerHTML=`<div class="card" style="text-align:center">You can say:<br><span class="ar" style="font-size:28px">${ans.ar}</span><br><b style="font-size:24px;color:var(--teal-d)">${esc(ans.tr)}</b></div>`;const h=document.getElementById('hint');if(h)h.remove()};
+ document.getElementById('hint').onclick=showHint;
+ const done=passed=>{document.getElementById('cy').innerHTML='';const h=document.getElementById('hint');if(h)h.remove();hb.innerHTML='';
+  if(passed!==false){stars++;praise(pick(PR()))}
+  const rp=document.getElementById('reply');rp.innerHTML=`<div class="kid">🗣️ ${esc(ans.tr)}</div><div style="height:8px"></div>${guide(esc(st.after))}<div style="height:10px"></div><button class="btn wide" id="nx">Next ▶</button>`;document.getElementById('nx').onclick=next};
+ const manual=()=>{showHint();document.getElementById('cy').innerHTML=`<button class="btn" id="did">I said it! ✅</button>`;document.getElementById('did').onclick=()=>done(true)};
+ if(SR&&!micBlocked){listen(chk.ar,chk.tr,document.getElementById('cy'),res=>{if(res===true){spoken.ok++;spoken.tries++;done(true)}else if(res===false){spoken.tries++;done(false)}else manual()},'Tap the mic and answer!')}
+ else manual();
 }
 function tap(st,v){
  const order=shuffle(st.items).slice(0,st.rounds);let r=0;
  const round=()=>{
   if(r>=order.length)return next();
   const target=order[r],choices=shuffle([target,...shuffle(st.items.filter(x=>x!==target)).slice(0,3)]);
-  frame(guide(`${esc(st.lead)}<br><span class="vo" style="margin-top:6px">Round ${r+1} of ${order.length}</span><br><span class="ar" style="font-size:28px">${v[target].ar}</span> <b style="font-size:24px;color:var(--teal-d)">${v[target].tr}</b>`)+`<div class="grid">${choices.map(c=>`<button class="tile" data-w="${c}" aria-label="${v[c].en}">${tilePic(v[c].pic)}</button>`).join('')}</div>`);
+  frame(guide(`${esc(choices.some(c=>!v[c].pic)?'Game time! Tap what it means.':st.lead)}<br><span class="vo" style="margin-top:6px">Round ${r+1} of ${order.length}</span><br><span class="ar" style="font-size:28px">${v[target].ar}</span> <b style="font-size:24px;color:var(--teal-d)">${v[target].tr}</b>`)+`<div class="grid">${choices.map(c=>`<button class="tile" data-w="${c}" aria-label="${v[c].en}">${tilePic(v[c].pic,v[c])}</button>`).join('')}</div>`);
   let first=true;
   $app.querySelectorAll('.tile').forEach(b=>b.onclick=()=>{tapStats.tries++;
    if(b.dataset.w===target){b.classList.add('ok');if(first){tapStats.ok++;stars++}praise(pick(PR()));r++;setTimeout(round,800)}
