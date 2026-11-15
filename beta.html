@@ -786,6 +786,7 @@ let RUN=null; // {title, items, i, mistakes, ok, n, mode, onEnd}
 function startLesson(L,n){
  const ls=n.ls,newW=ls.words,items=[];
  const vb=(L.id>1?L.id+'_':'')+`${n.u.id}_${n.i+1}`;vwarm(L.id>1?['w'+L.id,'l'+L.id+'u'+n.u.id,'p']:['w','u'+n.u.id,'p']);
+ try{newW.forEach(id=>{const k=vkey('w_'+id);if(k&&OVR[P.char].has(k))obuf(k).catch(()=>{})})}catch(e){}
  items.push({t:'talk',vid:'intro_'+vb,text:`Marḥaba ${esc(P.name)}! Today on “${esc(ls.title)}” island we learn ${newW.length} new words. Yalla!`});
  newW.forEach((id,i)=>{items.push({t:'teach',id});if(i%2===1||i===newW.length-1){const pair=newW.slice(i-(i%2===1?1:0),i+1);pair.forEach(p=>items.push({t:'meaning',id:p,pool:newW}))}});
  ls.talk.forEach((tk,j)=>items.push({t:'convo',tk,vb:vb+'_'+j}));
