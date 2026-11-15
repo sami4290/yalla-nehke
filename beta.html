@@ -815,7 +815,7 @@ function frame(inner){
 }
 let WHO=null;
 function guideHTML(html,pose,who,vid){const a=who?ASSETS[who]:CH();WHO=a;const v=vkey(vid);return `<div class="guide"><div class="av full" id="gav" style="background-image:url(${a[pose||'happy']})"></div><div class="bubble">${v?`<button class="spk" data-v="${vid}" aria-label="Play again">${IC('speaker','in')} ${a.name}</button>`:`<span class="spk">${a.name}</span>`}${html}</div></div>`}
-function praise(silent){const i=Math.floor(Math.random()*4);if(!silent)say(['p_bravo',boy()?'p_shater':'p_shatra','p_yalla','p_ktirhelo'][i]);return praiseWords()[i]}
+let pI=-1;function praise(silent){const k=[['p_bravo','Bravo!'],['p_letsgo',"Let's go!"],['p_yalla','Yalla!']];pI=(pI+1)%k.length;if(!silent)say(k[pI][0]);return k[pI][1]}
 function react(ok){const a=$('gav');if(!a)return;a.style.backgroundImage=`url(${(WHO||CH())[ok?'cheer':'oops']})`;a.classList.remove('jump','no');void a.offsetWidth;a.classList.add(ok?'jump':'no')}
 function foot(ok,msg,extra=''){
  const f=document.createElement('div');f.className='foot '+(ok===true?'good':ok===false?'bad':'');f.id='foot';
