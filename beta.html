@@ -722,8 +722,8 @@ function listen(ar,tr,box,onDone,label){
 // ---------- course map / unlock logic ----------
 const lvl=id=>COURSE.find(l=>l.id===id);
 function nodes(L){const out=[];L.units.forEach(u=>{(u.lessons||[]).forEach((ls,i)=>out.push({k:`${L.id}-${u.id}-${i+1}`,type:'lesson',u,ls,i}));if(u.lessons){out.push({k:`${L.id}-${u.id}-R`,type:'review',u});out.push({k:`${L.id}-${u.id}-T`,type:'test',u})}});return out}
-function levelOpen(L){if(L.soon)return false;if(L.id===1)return true;if(P&&P.level>=L.id)return true;const prev=lvl(L.id-1);return nodes(prev).every(n=>G.done[n.k])}
-function isUnlocked(L,n){const all=nodes(L),idx=all.findIndex(x=>x.k===n.k);if(idx===0)return levelOpen(L);if(G.unlocked[`${L.id}-${n.u.id}`]&&(n.type==='lesson'||nodes(L).filter(x=>x.u===n.u&&x.type==='lesson').every(x=>G.done[x.k])))return true;return !!G.done[all[idx-1].k]}
+function levelOpen(L){if(L.soon)return false;return true;if(L.id===1)return true;if(P&&P.level>=L.id)return true;const prev=lvl(L.id-1);return nodes(prev).every(n=>G.done[n.k])}
+function isUnlocked(L,n){return true;const all=nodes(L),idx=all.findIndex(x=>x.k===n.k);if(idx===0)return levelOpen(L);if(G.unlocked[`${L.id}-${n.u.id}`]&&(n.type==='lesson'||nodes(L).filter(x=>x.u===n.u&&x.type==='lesson').every(x=>G.done[x.k])))return true;return !!G.done[all[idx-1].k]}
 function currentNode(L){return nodes(L).find(n=>isUnlocked(L,n)&&!G.done[n.k])}
 function unitWords(u){return [...new Set(u.lessons.flatMap(l=>l.words))]}
 const learned=()=>Object.keys(G.w).filter(k=>W[k]);
