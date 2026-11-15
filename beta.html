@@ -678,7 +678,7 @@ function vstop(){if(VO.cur){try{VO.cur.stop()}catch(e){}VO.cur=null}}
 async function say(id){VO.last=id;const k=vkey(id);if(!G.sound||!k)return;
  if(OVR[P.char].has(k)){try{const o=await obuf(k);if(VO.last!==id)return;vstop();const c=vctx(),src=c.createBufferSource();src.buffer=o.b;src.connect(c.destination);src.start(0,o.off,o.dur);VO.cur=src;return}catch(e){if(!(VO.idx&&VO.idx[P.char]&&VO.idx[P.char][k]))return}}
  const [g,off,dur]=VO.idx[P.char][k];
- try{const b=await vbuf(g);if(VO.last!==id)return;vstop();const c=vctx(),src=c.createBufferSource();src.buffer=b;src.connect(c.destination);src.start(0,off,dur);VO.cur=src}catch(e){}}
+ try{const b=await vbuf(g);if(VO.last!==id)return;vstop();const c=vctx(),src=c.createBufferSource(),gn=c.createGain();src.buffer=b;const vol=k==='p_letsgo'?(P.char==='karim'?.45:.75):1;gn.gain.setValueAtTime(0,c.currentTime);gn.gain.linearRampToValueAtTime(vol,c.currentTime+.06);src.connect(gn);gn.connect(c.destination);src.start(0,off,dur);VO.cur=src}catch(e){}}
 function vwarm(gs){if(!VO.idx){setTimeout(()=>vwarm(gs),400);return}const have=new Set(Object.values(VO.idx[P.char]||{}).map(v=>v[0]));gs.filter(g=>have.has(g)).forEach(g=>vbuf(g).catch(()=>{}))}
 document.addEventListener('click',e=>{const b=e.target.closest('.spk');if(b&&b.dataset.v){e.stopPropagation();say(b.dataset.v)}});
 const sfx={ok:()=>tone([660,880]),no:()=>tone([300,220],.16,'triangle',.12),done:()=>tone([523,659,784,1047],.16,'sine',.12),tap:()=>tone([520],.05)};
@@ -833,7 +833,7 @@ function frame(inner){
 }
 let WHO=null;
 function guideHTML(html,pose,who,vid){const a=who?ASSETS[who]:CH();WHO=a;const v=vkey(vid);return `<div class="guide"><div class="av full" id="gav" style="background-image:url(${a[pose||'happy']})"></div><div class="bubble">${v?`<button class="spk" data-v="${vid}" aria-label="Play again">${IC('speaker','in')} ${a.name}</button>`:`<span class="spk">${a.name}</span>`}${html}</div></div>`}
-let pI=-1;function praise(silent){const k=[['p_bravo','Bravo!'],['p_letsgo',"Let's go!"],['p_yalla','Yalla!']];pI=(pI+1)%k.length;if(!silent)say(k[pI][0]);return k[pI][1]}
+let pI=-1,pN=0;function praise(silent){const k=[['p_bravo','Bravo!'],['p_yalla','Yalla!'],['p_letsgo',"Let's go!"]];if(silent)return k[(pI+1)%k.length][1];pN++;if(pN%2)return 'Bravo!';pI=(pI+1)%k.length;say(k[pI][0]);return k[pI][1]}
 function react(ok){const a=$('gav');if(!a)return;a.style.backgroundImage=`url(${(WHO||CH())[ok?'cheer':'oops']})`;a.classList.remove('jump','no');void a.offsetWidth;a.classList.add(ok?'jump':'no')}
 function foot(ok,msg,extra=''){
  const f=document.createElement('div');f.className='foot '+(ok===true?'good':ok===false?'bad':'');f.id='foot';
