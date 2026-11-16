@@ -17,7 +17,7 @@ window.YN_WORDS = {
   tisbah:{ar:['تصبح على خير','تصبحي على خير'],tr:['tiṣbaḥ ʿala khēr','tiṣbaḥi ʿala khēr'],en:'good night',pic:'🌙'},
   shukran:{ar:'شكراً',tr:'shukran',en:'thank you',pic:null},
   afwan:{ar:'عفواً',tr:'ʿafwan',en:"you're welcome",pic:null},
-  lawsamaht:{ar:'لو سمحت',tr:'law samaḥt',en:'please / excuse me',pic:null},
+  lawsamaht:{ar:['لو سمحت','لو سمحتي'],tr:['law samaḥt','law samaḥti'],en:'please / excuse me',pic:null},
   eh:{ar:'إي',tr:'ē',en:'yes',pic:null},
   la:{ar:'لأ',tr:'laʾ',en:'no',pic:null},
   mabsut:{ar:['مبسوط','مبسوطة'],tr:['mabsūṭ','mabsūṭa'],en:'happy',pic:'😄'},
@@ -85,7 +85,7 @@ window.YN_WORDS = {
   istez:{ar:'أستاذ',tr:'istēz',en:'teacher (man)',pic:'👨‍🏫'}, mialme:{ar:'معلّمة',tr:'mʿallme',en:'teacher (woman)',pic:'👩‍🏫'},
   rfii:{ar:['رفيقي','رفيقتي'],tr:['rfīʾi','rfīʾti'],en:'my friend',pic:null}, shanta:{ar:'شنطة',tr:'shanṭa',en:'bag',pic:'🎒'},
   fiyye:{ar:'فيّي…؟',tr:'fiyyi…?',en:'can I…?',pic:null}, mafhemt:{ar:'ما فهمت',tr:'ma fhemt',en:"I didn't understand",pic:null},
-  idmarra:{ar:'عيد كمان مرّة',tr:'ʿīd kamēn marra',en:'say it again',pic:null}, khalast:{ar:'خلّصت',tr:'khallaṣt',en:"I've finished",pic:null},
+  idmarra:{ar:['عيد كمان مرة','عيدي كمان مرة'],tr:['ʿīd kamēn marra','ʿīdi kamēn marra'],en:'say it again',pic:null}, khalast:{ar:'خلّصت',tr:'khallaṣt',en:"I've finished",pic:null},
   shu:{ar:'شو؟',tr:'shu?',en:'what?',pic:null}, min:{ar:'مين؟',tr:'mīn?',en:'who?',pic:null}, wen:{ar:'وين؟',tr:'wēn?',en:'where?',pic:null},
   lesh:{ar:'ليش؟',tr:'lēsh?',en:'why?',pic:null}, emta:{ar:'إيمتى؟',tr:'emta?',en:'when?',pic:null},
   baara:{ar:'بقرا',tr:'baʾra',en:'I read',pic:'📖'}, bektob:{ar:'بكتب',tr:'bektob',en:'I write',pic:'✍️'}, bersom:{ar:'برسم',tr:'bersom',en:'I draw',pic:'🎨'}, belab:{ar:'بلعب',tr:'belʿab',en:'I play',pic:'🧸'},
@@ -115,7 +115,7 @@ window.YN_WORDS = {
   arnab:{ar:'أرنب',tr:'arnab',en:'rabbit',pic:'🐰'}, bed:{ar:'بيض',tr:'bēḍ',en:'eggs',pic:'🥚'}, frez:{ar:'فريز',tr:'frēz',en:'strawberries',pic:'🍓'}, tabboule:{ar:'تبّولة',tr:'tabbūle',en:'tabbouleh',pic:'🥗'},
   kamen:{ar:'كمان',tr:'kamēn',en:'more / again',pic:null}, helo:{ar:'حلو',tr:'ḥelo',en:'sweet',pic:'🍬'}, timm:{ar:'تمّ',tr:'timm',en:'mouth',pic:'👄'}, amar:{ar:'قمر',tr:'ʾamar',en:'moon',pic:'🌙'},
   mudir:{ar:'مدير',tr:'mudīr',en:'head teacher',pic:'🧑‍💼'}, andisual:{ar:'عندي سؤال',tr:'ʿandi suʾāl',en:'I have a question',pic:'🙋'}, bghanni:{ar:'بغنّي',tr:'bghanni',en:'I sing',pic:'🎤'}, dawwera:{ar:'دوّيرة',tr:'dawwēra',en:'merry-go-round',pic:'🎠'},
-  oum:{ar:['قوم','قومي'],tr:['ʾūm','ʾūmi'],en:'stand up',pic:'🧍'}, laaytak:{ar:['لقيتك','لقيتِك'],tr:['laʾaytak','laʾaytik'],en:'found you!',pic:'🙈'}, sari:{ar:'سريع',tr:'sarīʿ',en:'fast',pic:'⚡'}, nasem:{ar:'خلّينا نقسم',tr:'khallīna nʾassem',en:'let\'s share',pic:'🤲'},
+  oum:{ar:['قوم','قومي'],tr:['ʾūm','ʾūmi'],en:'stand up',pic:'🧍'}, laaytak:{ar:['لقيتك','لقيتِك'],tr:['laʾaytak','laʾaytik'],en:'found you!',pic:'🙈'}, sari:{ar:['سريع','سريعة'],tr:['sarīʿ','sarīʿa'],en:'fast',pic:'⚡'}, nasem:{ar:'خلّينا نقسم',tr:'khallīna nʾassem',en:'let\'s share',pic:'🤲'},
   mhatta:{ar:'محطّة',tr:'mḥaṭṭa',en:'station / bus stop',pic:'🚏'}, nahr:{ar:'نهر',tr:'nahr',en:'river',pic:'🏞️'}, dughri:{ar:'دغري',tr:'dughri',en:'straight on',pic:'⬆️'}, shtaret:{ar:'شتريت',tr:'shtarēt',en:'I bought',pic:'🛍️'},
   khalas:{ar:'خلص',tr:'khalaṣ',en:'that\'s it / done',pic:'✅'}, baadbukra:{ar:'بعد بكرا',tr:'baʿd bukra',en:'day after tomorrow',pic:null}, hawa:{ar:'هوا',tr:'hawa',en:'wind',pic:'💨'}, taleta:{ar:'التلاتا',tr:'el-talēta',en:'Tuesday',pic:null},
   baaddahr:{ar:'بعد الضهر',tr:'baʿd el-ḍuhur',en:'afternoon',pic:'🌤️'}, kfuf:{ar:'كفوف',tr:'kfūf',en:'gloves',pic:'🧤'}, baqara:{ar:'بقرة',tr:'baʾara',en:'cow',pic:'🐄'}, kharuf:{ar:'خاروف',tr:'kharūf',en:'sheep',pic:'🐑'},
@@ -151,8 +151,8 @@ window.YN_WORDS = {
   dou:{ar:['دوق','دوقي'],tr:['dūʾ','dūʾi'],en:'taste!',pic:'👅'}, lmus:{ar:['المس','المسي'],tr:['lmus','lmusi'],en:'touch!',pic:'✋'}, rous:{ar:['ارقص','ارقصي'],tr:['ruʾṣ','ruʾṣi'],en:'dance!',pic:'💃'}, sbah:{ar:['اسبح','اسبحي'],tr:['sbaḥ','sbaḥi'],en:'swim!',pic:'🏊'},
   saffe:{ar:['صفّق','صفّقي'],tr:['ṣaffeʾ','ṣaffʾi'],en:'clap!',pic:'👏'}, tlaa:{ar:['اطلع','اطلعي'],tr:['ṭlaʿ','ṭlaʿi'],en:'climb up!',pic:'🧗'}, nzal:{ar:['انزل','انزلي'],tr:['nzal','nzali'],en:'come down!',pic:'⬇️'}, walad:{ar:'ولد',tr:'walad',en:'boy',pic:'👦'},
   binet:{ar:'بنت',tr:'binet',en:'girl',pic:'👧'}, rajjel:{ar:'رجّال',tr:'rajjēl',en:'man',pic:'👨'}, mara:{ar:'مرا',tr:'mara',en:'woman',pic:'👩'}, bebe:{ar:'بيبي',tr:'bēbē',en:'baby',pic:'👶'},
-  hakim:{ar:'حكيم',tr:'ḥakīm',en:'doctor',pic:'🧑‍⚕️'}, shurti:{ar:'شرطي',tr:'shurṭi',en:'police officer',pic:'👮'}, tabbakh:{ar:'طبّاخ',tr:'ṭabbākh',en:'cook',pic:'🧑‍🍳'}, falleh:{ar:'فلّاح',tr:'fallēḥ',en:'farmer',pic:'🧑‍🌾'},
-  shofer:{ar:'شوفير',tr:'shofēr',en:'driver',pic:'🚕'}, ghinniyye:{ar:'غنّية',tr:'ghinniyye',en:'song',pic:'🎵'}, musia:{ar:'موسيقى',tr:'mūsīʾa',en:'music',pic:'🎶'}, tabl:{ar:'طبل',tr:'ṭabl',en:'drum',pic:'🥁'},
+  hakim:{ar:['حكيم','حكيمة'],tr:['ḥakīm','ḥakīme'],en:'doctor',pic:'🧑‍⚕️'}, shurti:{ar:['شرطي','شرطية'],tr:['shurṭi','shurṭiyye'],en:'police officer',pic:'👮'}, tabbakh:{ar:['طبّاخ','طبّاخة'],tr:['ṭabbākh','ṭabbākha'],en:'cook',pic:'🧑‍🍳'}, falleh:{ar:['فلّاح','فلّاحة'],tr:['fallēḥ','fallēḥa'],en:'farmer',pic:'🧑‍🌾'},
+  shofer:{ar:['شوفير','شوفيرة'],tr:['shofēr','shofēra'],en:'driver',pic:'🚕'}, ghinniyye:{ar:'غنّية',tr:'ghinniyye',en:'song',pic:'🎵'}, musia:{ar:'موسيقى',tr:'mūsīʾa',en:'music',pic:'🎶'}, tabl:{ar:'طبل',tr:'ṭabl',en:'drum',pic:'🥁'},
   oudmusic:{ar:'عود',tr:'ʿūd',en:'oud',pic:'🪕'}, ghanni:{ar:'غنّي',tr:'ghanni',en:'sing!',pic:'🎤'}, bhebb:{ar:'بحبّ',tr:'bḥebb',en:'I like / I love',pic:'❤️'}, mabhebb:{ar:'ما بحبّ',tr:'ma bḥebb',en:'I don\'t like',pic:'👎'},
   shubtehebb:{ar:['شو بتحبّ؟','شو بتحبّي؟'],tr:['shu bteḥebb?','shu bteḥebbi?'],en:'what do you like?',pic:null}, anakamen:{ar:'أنا كمان',tr:'ana kamēn',en:'me too',pic:'🙌'}, wenta:{ar:['وإنت؟','وإنتِ؟'],tr:['w enta?','w enti?'],en:'and you?',pic:null}, mabruk:{ar:'مبروك',tr:'mabrūk',en:'congratulations',pic:'🎊'},
   hdiyye:{ar:'هديّة',tr:'hdiyye',en:'present',pic:'🎁'}, eid:{ar:'عيد',tr:'ʿīd',en:'holiday / feast',pic:'🎉'}, hafle:{ar:'حفلة',tr:'ḥafle',en:'party',pic:'🥳'}, shamaa:{ar:'شمعة',tr:'shamʿa',en:'candle',pic:'🕯️'},
@@ -162,7 +162,7 @@ window.YN_WORDS = {
   tanjara:{ar:'طنجرة',tr:'ṭanjara',en:'pot',pic:'🍲'}, annine:{ar:'قنّينة',tr:'ʾannīne',en:'bottle',pic:'🍼'}, hanafiyye:{ar:'حنفيّة',tr:'ḥanafiyye',en:'tap',pic:'🚰'}, saedni:{ar:['ساعدني','ساعديني'],tr:['sēʿedni','sēʿdīni'],en:'help me',pic:'🙏'},
   rattib:{ar:['رتّب','رتّبي'],tr:['rattib','rattbi'],en:'tidy up',pic:'🧹'}, hutt:{ar:['حطّ','حطّي'],tr:['ḥuṭṭ','ḥuṭṭi'],en:'put',pic:null}, ftah:{ar:['افتح','افتحي'],tr:['ftaḥ','ftaḥi'],en:'open',pic:'🔓'}, sakker:{ar:['سكّر','سكّري'],tr:['sakker','sakkri'],en:'close',pic:'🔒'},
   lbes:{ar:['البس','البسي'],tr:['lbēs','lbsi'],en:'get dressed',pic:'👕'}, amis:{ar:'قميص',tr:'ʾamīṣ',en:'shirt',pic:'👔'}, bantalon:{ar:'بنطلون',tr:'banṭalōn',en:'trousers',pic:'👖'}, kalset:{ar:'كلسات',tr:'kalsēt',en:'socks',pic:'🧦'},
-  misht:{ar:'مشط',tr:'mishṭ',en:'comb',pic:null}, mabsut2:{ar:['مبسوط','مبسوطة'],tr:['mabsūṭ','mabsūṭa'],en:'happy',pic:'😊'}, ghadban:{ar:['غضبان','غضبانة'],tr:['ghaḍbān','ghaḍbāne'],en:'angry',pic:'😠'}, mistahi:{ar:['مستحي','مستحية'],tr:['mistaḥi','mistaḥye'],en:'shy',pic:'😳'},
+  misht:{ar:'مشط',tr:'mishṭ',en:'comb',pic:null}, ghayran:{ar:['غيران','غيرانة'],tr:['ghayrān','ghayrāne'],en:'jealous',pic:'😒'}, ghadban:{ar:['غضبان','غضبانة'],tr:['ghaḍbān','ghaḍbāne'],en:'angry',pic:'😠'}, mistahi:{ar:['مستحي','مستحية'],tr:['mistaḥi','mistaḥye'],en:'shy',pic:'😳'},
   dajran:{ar:['ضجران','ضجرانة'],tr:['ḍajrān','ḍajrāne'],en:'bored',pic:'🥱'}, mithammes:{ar:['متحمّس','متحمّسة'],tr:['mitḥammes','mitḥamse'],en:'excited',pic:'🤩'}, asef:{ar:['آسف','آسفة'],tr:['ʾāsef','ʾāsfe'],en:'sorry',pic:'😔'}, mishasdi:{ar:'مش قصدي',tr:'mish ʾaṣdi',en:'I didn\'t mean it',pic:null},
   matizaal:{ar:['ما تزعل','ما تزعلي'],tr:['ma tizʿal','ma tizʿali'],en:'don\'t be upset',pic:null}, mafimishkle:{ar:'ما في مشكلة',tr:'ma fi mishkle',en:'no problem',pic:'👍'}, tsalahna:{ar:'تصالحنا',tr:'tṣālaḥna',en:'we made up',pic:'🤝'}, shufik:{ar:['شو فيك؟','شو فيكي؟'],tr:['shu fīk?','shu fīki?'],en:'what\'s wrong?',pic:null},
   shusar:{ar:'شو صار؟',tr:'shu ṣār?',en:'what happened?',pic:null}, matkhaf:{ar:['ما تخاف','ما تخافي'],tr:['ma tkhāf','ma tkhāfi'],en:'don\'t be scared',pic:null}, anahon:{ar:'أنا هون',tr:'ana hōn',en:'I\'m here',pic:'🫂'}, kellshi:{ar:'كلّ شي منيح',tr:'kell shi mnīḥ',en:'everything\'s fine',pic:'👌'},
@@ -355,11 +355,11 @@ window.YN_COURSE = [
   ]},
   {id:10,title:'People & fun',color:'#35C879',icon:'🎉',sticker:{e:'🎉',n:'Party Star'},lessons:[
    {title:'People',words:['walad','binet','rajjel','mara','bebe'],talk:[
-     {q:{ar:'شو هيدا؟ 👦',tr:'shu hayda? 👦',en:'What is this?'},a:'walad',after:'Yes! Walad!'},
-     {q:{ar:'شو هيدا؟ 👧',tr:'shu hayda? 👧',en:'What is this?'},a:'binet',after:'Bravo! Binet!'}]},
+     {q:{ar:'مين هيدا؟ 👦',tr:'mīn hayda? 👦',en:'Who is this? (a boy)'},a:'walad',after:'Yes! Walad – a boy!'},
+     {q:{ar:'مين هيدي؟ 👧',tr:'mīn hayde? 👧',en:'Who is this? (a girl)'},a:'binet',after:'Bravo! Binet – a girl!'}]},
    {title:'Jobs',words:['hakim','shurti','tabbakh','falleh','shofer'],talk:[
-     {q:{ar:'شو هيدا؟ 🧑‍⚕️',tr:'shu hayda? 🧑‍⚕️',en:'What is this?'},a:'hakim',after:'Yes! Ḥakīm!'},
-     {q:{ar:'شو هيدي؟ 👮',tr:'shu hayde? 👮',en:'What is this?'},a:'shurti',after:'Bravo! Shurṭi!'}]},
+     {q:{ar:'مين هيدا؟ 👨‍⚕️',tr:'mīn hayda? 👨‍⚕️',en:'Who is this? (a man)'},a:{ar:'هيدا حكيم',tr:'hayda ḥakīm'},check:{ar:'حكيم',tr:'hakim'},after:'Yes! A man doctor is ḥakīm.'},
+     {q:{ar:'مين هيدي؟ 👩‍⚕️',tr:'mīn hayde? 👩‍⚕️',en:'Who is this? (a woman)'},a:{ar:'هيدي حكيمة',tr:'hayde ḥakīme'},check:{ar:'حكيمة',tr:'hakime'},after:'Bravo! A woman doctor is ḥakīme.'}]},
    {title:'Music',words:['ghinniyye','musia','tabl','oudmusic','ghanni'],talk:[
      {q:{ar:'شو هيدي؟ 🎵',tr:'shu hayde? 🎵',en:'What is this?'},a:'ghinniyye',after:'Yes! Ghinniyye!'},
      {q:{ar:'شو هيدا؟ 🎶',tr:'shu hayda? 🎶',en:'What is this?'},a:'musia',after:'Bravo! Mūsīʾa!'}]},
@@ -458,8 +458,8 @@ window.YN_COURSE = [
      {q:{ar:'شو هيدا؟ 👖',tr:'shu hayda? 👖',en:'What is this?'},a:'bantalon',after:'Bravo! Banṭalōn!'}]}
   ]},
   {id:6,title:'Feelings & friends',color:'#F477AF',icon:'💛',sticker:{e:'💛',n:'Kind Heart'},lessons:[
-   {title:'More feelings',words:['mabsut2','ghadban','mistahi','dajran','mithammes'],talk:[
-     {q:{ar:'',tr:'😊',en:'How do you say “happy”?'},a:'mabsut2',after:'Bravo! Perfect!'},
+   {title:'More feelings',words:['ghayran','ghadban','mistahi','dajran','mithammes'],talk:[
+     {q:{ar:'',tr:'😊',en:'How do you say “happy”?'},a:'ghayran',after:'Bravo! Perfect!'},
      {q:{ar:'',tr:'😠',en:'How do you say “angry”?'},a:'ghadban',after:'Bravo! Perfect!'}]},
    {title:'Saying sorry',words:['asef','mishasdi','matizaal','mafimishkle','tsalahna'],talk:[
      {q:{ar:'',tr:'💬',en:'How do you say “I didn\'t mean it”?'},a:'mishasdi',after:'Yes! Mish ʾaṣdi!'},

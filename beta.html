@@ -155,6 +155,7 @@ button.spk{cursor:pointer;font-family:inherit}
 .spk{position:absolute;top:-13px;right:12px;background:var(--turq);color:#fff;border-radius:var(--r-pill);font-size:11px;font-weight:800;padding:2px 9px;border:2px solid #fff;box-shadow:0 2px 6px rgba(14,149,139,.3)}
 .qline{font-size:24px;color:var(--purple-d);font-weight:800}
 .word{text-align:center}
+.gpair{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}.gcard{background:#fff;border:3px solid var(--line);border-radius:18px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;font:inherit;color:var(--navy)}.gcard .gk{font-weight:800;font-size:15px}.gcard .gar{font-size:30px;line-height:1.3}.gcard .gtr{font-weight:800;font-size:20px}.gcard .gplay{font-size:18px}.gcard[data-g=b]{border-color:#9cc7f5}.gcard[data-g=g]{border-color:#f5a3c4}.gcard.me{box-shadow:0 0 0 3px #ffd34d}.gcard.on{background:#fffbe8}
 .pic{width:184px;height:184px;margin:0 auto var(--s2);border-radius:var(--r-xl);background:#fff;border:5px solid #fff;display:grid;place-items:center;font-size:96px;overflow:hidden;box-shadow:var(--sh-2)}
 .pic img{width:100%;height:100%;object-fit:cover;border-radius:calc(var(--r-xl) - 6px)}
 .num{font-size:96px;font-weight:800;color:var(--purple);text-shadow:0 5px 0 var(--purple-l)}
@@ -695,7 +696,7 @@ function score(alts,ar,tr){let b=0;const ta=normAr(ar),tl=normLat(tr);for(const 
 function listen(ar,tr,box,onDone,label){
  if(!SR||micBlocked)return onDone(null);
  let tries=0,errs=0;
- const ui=(msg,live)=>{box.innerHTML=`<button class="mic ${live?'live':''}" id="mic" aria-label="Speak">${IC('mic')}</button><div class="heard">${msg}</div><div class="meter"><i id="mt"></i></div>`;$('mic').onclick=go};
+ const ui=(msg,live)=>{if(!box.isConnected)return;box.innerHTML=`<button class="mic ${live?'live':''}" id="mic" aria-label="Speak">${IC('mic')}</button><div class="heard">${msg}</div><div class="meter"><i id="mt"></i></div>`;box.querySelector('#mic').onclick=go};
  let langs=['ar-LB','ar-SA','ar'],li=0;
  const go=()=>{vstop();let rec;try{rec=new SR()}catch(e){micBlocked=true;return onDone(null)}
   // iPad/iPhone: release the audio session used for voice playback so the mic can capture
@@ -708,7 +709,7 @@ function listen(ar,tr,box,onDone,label){
    if(sc>=PASS){ui(`I heard: “${esc(alts[0])}” · ${pct}% match`,false);setTimeout(()=>onDone(true,pct),700)}
    else if(tries<2)ui(`Almost! ${pct}% match. Tap the mic and try once more.`,false);
    else{ui(`Good try! ${pct}% match. We'll practise it again.`,false);setTimeout(()=>onDone(false,pct),1100)}
-   const m=$('mt');if(m){m.style.width=pct+'%';m.style.background=col}};
+   const m=box.querySelector('#mt');if(m){m.style.width=pct+'%';m.style.background=col}};
   rec.onerror=e=>{failed=true;clearTimeout(guard);
    if(e.error==='language-not-supported'&&li<langs.length-1){li++;ui('Tap the mic and try again!',false);return}
    if(['not-allowed','service-not-allowed','audio-capture'].includes(e.error)){micBlocked=true;resumeAudio();onDone(null)}else{errs++;if(errs>=3){resumeAudio();onDone(null)}else ui("I didn't hear you. Tap the mic and try again!",false)}};
@@ -788,7 +789,7 @@ function startLesson(L,n){
  const vb=(L.id>1?L.id+'_':'')+`${n.u.id}_${n.i+1}`;vwarm(L.id>1?['w'+L.id,'l'+L.id+'u'+n.u.id,'p']:['w','u'+n.u.id,'p']);
  try{newW.forEach(id=>{const k=vkey('w_'+id);if(k&&OVR[P.char].has(k))obuf(k).catch(()=>{})})}catch(e){}
  items.push({t:'talk',vid:'intro_'+vb,text:`Marḥaba ${esc(P.name)}! Today on “${esc(ls.title)}” island we learn ${newW.length} new words. Yalla!`});
- newW.forEach((id,i)=>{items.push({t:'teach',id});if(i%2===1||i===newW.length-1){const pair=newW.slice(i-(i%2===1?1:0),i+1);pair.forEach(p=>items.push({t:'meaning',id:p,pool:newW}))}});
+ newW.forEach((id,i)=>{items.push({t:'teach',id});if(isG(id))items.push({t:'gender',id,tg:boy()?'g':'b'});if(i%2===1||i===newW.length-1){const pair=newW.slice(i-(i%2===1?1:0),i+1);pair.forEach(p=>items.push({t:'meaning',id:p,pool:newW}))}});
  ls.talk.forEach((tk,j)=>items.push({t:'convo',tk,vb:vb+'_'+j}));
  items.push({t:'match',ids:shuffle(newW).slice(0,4)});
  shuffle(newW).forEach(id=>items.push({t:'arabic',id,pool:newW}));
@@ -817,6 +818,7 @@ function startReview(L,u){
  s.slice(15,19).forEach(id=>items.push({t:'say',id}));
  items.push({t:'match',ids:s.slice(19,23)});
  s.slice(23,25).forEach(id=>items.push({t:'meaning',id,pool:ws}));
+ ws.filter(isG).slice(0,3).forEach(id=>items.push({t:'gender',id}));
  RUN={title:u.title+' review',items,i:0,ok:0,n:0,mode:'lesson',key:`${L.id}-${u.id}-R`,L,u};
  step();
 }
@@ -849,15 +851,27 @@ function result(ok,id,correctTxt){
 }
 function step(){
  if(RUN.i>=RUN.items.length)return finish();
- const it=RUN.items[RUN.i];({talk:exTalk,teach:exTeach,meaning:exMeaning,arabic:exArabic,match:exMatch,convo:exConvo,say:exSay}[it.t])(it);
+ const it=RUN.items[RUN.i];({talk:exTalk,teach:exTeach,gender:exGender,meaning:exMeaning,arabic:exArabic,match:exMatch,convo:exConvo,say:exSay}[it.t])(it);
 }
 function exTalk(it){const who=RUN.mode==='practice'?'bisseh':P.char;frame(`<div style="height:8px"></div>${clipHTML(who,'wave',220)}`+guideHTML(it.text,'wave',RUN.mode==='practice'?'bisseh':null,it.vid));foot(null,'');say(it.vid)}
+const isG=id=>W[id]&&Array.isArray(W[id].ar);
+function gPair(id){const w=W[id];return `<div class="gpair">${[0,1].map(i=>`<button class="gcard ${i===(boy()?0:1)?'me':''}" data-g="${i?'g':'b'}"><span class="gk">${i?'👧 Girl':'👦 Boy'}</span><span class="ar gar">${w.ar[i]}</span><span class="gtr">${esc(w.tr[i])}</span><span class="gplay">🔊</span></button>`).join('')}</div>`}
+function bindPair(id){app.querySelectorAll('.gcard').forEach(b=>b.onclick=()=>{sfx.tap();say('w_'+id+'_'+b.dataset.g);app.querySelectorAll('.gcard').forEach(x=>x.classList.remove('on'));b.classList.add('on')})}
+function sayPair(id){const a=boy()?'b':'g',c=a==='b'?'g':'b';say('w_'+id+'_'+a);setTimeout(()=>{if(RUN&&RUN.items[RUN.i]&&RUN.items[RUN.i].id===id)say('w_'+id+'_'+c)},1700)}
+function exGender(it){
+ const w=W[it.id],tg=it.tg||(Math.random()<.5?'b':'g'),opts=shuffle(['b','g']);
+ frame(guideHTML(`Boy or girl? Pick the word for a <b>${tg==='b'?'boy 👦':'girl 👧'}</b><div class="note">(${esc(w.en)})</div>`,'think')+`<div class="opts list">${opts.map(o=>`<button class="opt" data-o="${o}" data-k="${o===tg?1:0}"><span class="ar" style="font-size:28px">${w.ar[o==='b'?0:1]}</span><span>${esc(w.tr[o==='b'?0:1])}</span></button>`).join('')}</div>`);
+ app.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>say('w_'+it.id+'_'+b.dataset.o)));
+ choose(it,o=>o===tg,`👦 Boy: ${w.tr[0]} · 👧 Girl: ${w.tr[1]}`);
+}
 function exTeach(it){
  const w=word(it.id);
- say('w_'+it.id);frame(guideHTML(`New word! <span class="note">(${esc(w.en)})</span>`,'happy',null,'w_'+it.id)+`<div class="word">${picHTML(w.pic)}<p class="big-ar ar">${w.ar}</p><p class="tr">${esc(w.tr)}</p><p class="en">${esc(w.en)}</p></div><div class="yourturn" id="yt"></div>`);
+ if(isG(it.id)){sayPair(it.id);frame(guideHTML(`New word! <span class="note">(${esc(W[it.id].en)})</span><div class="note">Boys and girls say it differently – tap to hear both</div>`,'happy',null,'w_'+it.id)+`<div class="word">${picHTML(w.pic)}${gPair(it.id)}<p class="en">${esc(w.en)}</p></div><div class="yourturn" id="yt"></div>`);bindPair(it.id);}
+ else{
+ say('w_'+it.id);frame(guideHTML(`New word! <span class="note">(${esc(w.en)})</span>`,'happy',null,'w_'+it.id)+`<div class="word">${picHTML(w.pic)}<p class="big-ar ar">${w.ar}</p><p class="tr">${esc(w.tr)}</p><p class="en">${esc(w.en)}</p></div><div class="yourturn" id="yt"></div>`);}
  const yt=$('yt');
  const manual=()=>{let n=3;yt.innerHTML=`<div class="ring" id="rg">${n}</div><div class="note">Say <b>${esc(w.tr)}</b> out loud!</div>`;const iv=setInterval(()=>{n--;const r=$('rg');if(!r){clearInterval(iv);return}if(n>0)r.textContent=n;else{clearInterval(iv);yt.innerHTML='';G.w[it.id]=G.w[it.id]||{s:0,due:0,ok:0,bad:0};foot(true,'Nice! You said it 🗣️')}},1000)};
- if(SR&&!micBlocked){listen(w.ar,w.tr,yt,(res)=>{G.w[it.id]=G.w[it.id]||{s:0,due:0,ok:0,bad:0};if(res===null)return manual();G.speak.n++;if(res)G.speak.ok++;res?(sfx.ok(),react(true),foot(true,praise()+' Great speaking! ⭐')):foot(null,'Good try! Keep going.')});
+ if(SR&&!micBlocked){listen(w.ar,w.tr,yt,(res)=>{if(RUN.items[RUN.i]!==it||!$('yt'))return;G.w[it.id]=G.w[it.id]||{s:0,due:0,ok:0,bad:0};if(res===null)return manual();G.speak.n++;if(res)G.speak.ok++;res?(sfx.ok(),react(true),foot(true,praise()+' Great speaking! ⭐')):foot(null,'Good try! Keep going.')});
   const f=document.createElement('div');f.className='foot';f.id='foot';f.innerHTML=`<button class="btn ghost wide" id="skp">Can't speak now</button>`;app.appendChild(f);$('skp').onclick=()=>{G.w[it.id]=G.w[it.id]||{s:0,due:0,ok:0,bad:0};RUN.i++;step()};}
  else manual();
 }
@@ -946,7 +960,7 @@ function practiceScreen(){
  shell(`<h1>Practice ${IC('practice','h')}</h1><p class="sub">Keep your words strong. Words you find tricky come back more often.</p>
  ${guideHTML(ws.length?`You know <b>${ws.length}</b> words! ${weak.length?`${weak.length} need a little practice.`:'They are all strong! 💪'}`:'Finish your first island, then come back to practise!','happy','bisseh')}
  <button class="btn wide" id="pr" ${ws.length<2?'disabled':''}>Start practice (+10 XP)</button>
- ${ws.length?`<h3 style="margin-top:18px">My words</h3><div>${ws.map(k=>{const w=word(k),s=G.w[k].s;return `<span class="pill" style="background:${s>=3?'var(--green-bg)':s>=1?'#FFF1C9':'var(--red-bg)'};color:var(--ink)">${esc(w.tr)}</span>`}).join('')}</div><p class="note">🟢 strong · 🟡 getting there · 🔴 needs practice</p>`:''}`);
+ ${ws.length?`<h3 style="margin-top:18px">My words</h3><div>${ws.map(k=>{const w=word(k),s=G.w[k].s;return `<span class="pill" style="background:${s>=3?'var(--green-bg)':s>=1?'#FFF1C9':'var(--red-bg)'};color:var(--ink)">${isG(k)?`👦 ${esc(W[k].tr[0])} · 👧 ${esc(W[k].tr[1])}`:esc(w.tr)}</span>`}).join('')}</div><p class="note">🟢 strong · 🟡 getting there · 🔴 needs practice · 👦 boy / 👧 girl form</p>`:''}`);
  const b=$('pr');if(b)b.onclick=startPractice;
 }
 function rewardsScreen(){
