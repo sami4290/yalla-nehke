@@ -125,7 +125,7 @@ window.YN_WORDS = {
   sabune:{ar:'صابونة',tr:'ṣābūne',en:'soap',pic:'🧼'}, minshafe:{ar:'منشفة',tr:'manshafe',en:'towel',pic:'🧻'}, farshaye:{ar:'فرشاية سنان',tr:'farshāyet snēn',en:'toothbrush',pic:'🪥'}, maajun:{ar:'معجون',tr:'maʿjūn',en:'toothpaste',pic:'🦷'},
   ghassil:{ar:['غسّل إيديك','غسّلي إيديكي'],tr:['ghassil idēk','ghassli idēki'],en:'wash your hands',pic:'🧼'}, nadif:{ar:['نضيف','نضيفة'],tr:['naḍīf','naḍīfe'],en:'clean',pic:'✨'}, wesikh:{ar:['وسخ','وسخة'],tr:['wesikh','wiskha'],en:'dirty',pic:'💩'}, sukhn:{ar:'سخن',tr:'sukhn',en:'hot',pic:'🔥'},
   berid:{ar:'بارد',tr:'bērid',en:'cold',pic:'🧊'}, mkhadde:{ar:'مخدّة',tr:'mkhadde',en:'pillow',pic:'🛏️'}, hrem:{ar:'حرام',tr:'ḥrēm',en:'blanket',pic:'🛌'}, daw:{ar:'ضو',tr:'ḍaw',en:'light',pic:'💡'},
-  atme:{ar:'عتمة',tr:'ʿatme',en:'dark',pic:'🌑'}, hilm:{ar:'حلم',tr:'ḥilm',en:'dream',pic:'💭'}, hkeye:{ar:'قصّة',tr:'ʾeṣṣa',en:'story',pic:'📖'}, bose:{ar:'بوسة',tr:'bōse',en:'kiss',pic:'😘'},
+  atme:{ar:'عتمة',tr:'ʿatme',en:'dark',pic:'🌑'}, hilm:{ar:'حلم',tr:'ḥilm',en:'dream',pic:'💭'}, hkeye:{ar:'قصّة',tr:'ʾoṣṣa',en:'story',pic:'📖'}, bose:{ar:'بوسة',tr:'bōse',en:'kiss',pic:'😘'},
   hadne:{ar:'عبطة',tr:'ʿabṭa',en:'hug',pic:'🤗'}, naasan:{ar:['نعسان','نعسانة'],tr:['naʿsān','naʿsāne'],en:'sleepy',pic:'😴'}, nem:{ar:['نام','نامي'],tr:['nēm','nēmi'],en:'go to sleep',pic:'💤'}, liibe:{ar:'لعبة',tr:'liʿbe',en:'toy',pic:'🧸'},
   dabdub:{ar:'دبدوب',tr:'dabdūb',en:'teddy bear',pic:'🧸'}, balon:{ar:'بالون',tr:'balōn',en:'balloon',pic:'🎈'}, alwen:{ar:'ألوان',tr:'alwēn',en:'crayons',pic:'🖍️'},
   aswad:{ar:'أسود',tr:'aswad',en:'black',pic:'⚫'}, zahr:{ar:'زهر',tr:'zahr',en:'pink',pic:'🩷'}, orange:{ar:'أورانج',tr:'orange',en:'orange (colour)',pic:'🟠'}, mauve:{ar:'موف',tr:'mauve',en:'purple',pic:'🟣'},
@@ -291,7 +291,7 @@ window.YN_COURSE = [
      {q:{ar:'شو هيدي؟ 🛏️',tr:'shu hayde? 🛏️',en:'What is this?'},a:'mkhadde',after:'Yes! Mkhadde!'},
      {q:{ar:'شو هيدا؟ 🛌',tr:'shu hayda? 🛌',en:'What is this?'},a:'hrem',after:'Bravo! Ḥrēm!'}]},
    {title:'Bedtime story',words:['hkeye','bose','hadne','naasan','nem'],talk:[
-     {q:{ar:'',tr:'📖',en:'How do you say “story”?'},a:'hkeye',after:'Yes! ʾEṣṣa!'},
+     {q:{ar:'',tr:'📖',en:'How do you say “story”?'},a:'hkeye',after:'Yes! ʾOṣṣa!'},
      {q:{ar:'',tr:'😘',en:'How do you say “kiss”?'},a:'bose',after:'Bravo! Bōse!'}]},
    {title:'My toys',words:['liibe','dabdub','balon','alwen'],talk:[
      {q:{ar:'شو هيدي؟ 🧸',tr:'shu hayde? 🧸',en:'What is this?'},a:'liibe',after:'Yes! Liʿbe!'},
