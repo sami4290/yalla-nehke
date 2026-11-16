@@ -16,8 +16,6 @@ window.YN_WORDS = {
   masa:{ar:'مسا الخير',tr:'masa el-khēr',en:'good evening',pic:'🌆'},
   tisbah:{ar:['تصبح على خير','تصبحي على خير'],tr:['tiṣbaḥ ʿala khēr','tiṣbaḥi ʿala khēr'],en:'good night',pic:'🌙'},
   shukran:{ar:'شكراً',tr:'shukran',en:'thank you',pic:null},
-  afwan:{ar:'عفواً',tr:'ʿafwan',en:"you're welcome",pic:null},
-  lawsamaht:{ar:['لو سمحت','لو سمحتي'],tr:['law samaḥt','law samaḥti'],en:'please / excuse me',pic:null},
   eh:{ar:'إي',tr:'ē',en:'yes',pic:null},
   la:{ar:'لأ',tr:'laʾ',en:'no',pic:null},
   mabsut:{ar:['مبسوط','مبسوطة'],tr:['mabsūṭ','mabsūṭa'],en:'happy',pic:'😄'},
@@ -84,8 +82,7 @@ window.YN_WORDS = {
   kteb:{ar:'كتاب',tr:'ktēb',en:'book',pic:'📕'}, daftar:{ar:'دفتر',tr:'daftar',en:'notebook',pic:'📓'}, alam:{ar:'قلم',tr:'ʾalam',en:'pen',pic:'🖊️'},
   istez:{ar:'أستاذ',tr:'istēz',en:'teacher (man)',pic:'👨‍🏫'}, mialme:{ar:'معلّمة',tr:'mʿallme',en:'teacher (woman)',pic:'👩‍🏫'},
   rfii:{ar:['رفيقي','رفيقتي'],tr:['rfīʾi','rfīʾti'],en:'my friend',pic:null}, shanta:{ar:'شنطة',tr:'shanṭa',en:'bag',pic:'🎒'},
-  fiyye:{ar:'فيّي…؟',tr:'fiyyi…?',en:'can I…?',pic:null}, mafhemt:{ar:'ما فهمت',tr:'ma fhemt',en:"I didn't understand",pic:null},
-  idmarra:{ar:['عيد كمان مرة','عيدي كمان مرة'],tr:['ʿīd kamēn marra','ʿīdi kamēn marra'],en:'say it again',pic:null}, khalast:{ar:'خلّصت',tr:'khallaṣt',en:"I've finished",pic:null},
+  fiyye:{ar:'فيّي…؟',tr:'fiyyi…?',en:'can I…?',pic:null}, mafhemt:{ar:'ما فهمت',tr:'ma fhemt',en:"I didn't understand",pic:null}, khalast:{ar:'خلّصت',tr:'khallaṣt',en:"I've finished",pic:null},
   shu:{ar:'شو؟',tr:'shu?',en:'what?',pic:null}, min:{ar:'مين؟',tr:'mīn?',en:'who?',pic:null}, wen:{ar:'وين؟',tr:'wēn?',en:'where?',pic:null},
   lesh:{ar:'ليش؟',tr:'lēsh?',en:'why?',pic:null}, emta:{ar:'إيمتى؟',tr:'emta?',en:'when?',pic:null},
   baara:{ar:'بقرا',tr:'baʾra',en:'I read',pic:'📖'}, bektob:{ar:'بكتب',tr:'bektob',en:'I write',pic:'✍️'}, bersom:{ar:'برسم',tr:'bersom',en:'I draw',pic:'🎨'}, belab:{ar:'بلعب',tr:'belʿab',en:'I play',pic:'🧸'},
@@ -121,16 +118,16 @@ window.YN_WORDS = {
   baaddahr:{ar:'بعد الضهر',tr:'baʿd el-ḍuhur',en:'afternoon',pic:'🌤️'}, kfuf:{ar:'كفوف',tr:'kfūf',en:'gloves',pic:'🧤'}, baqara:{ar:'بقرة',tr:'baʾara',en:'cow',pic:'🐄'}, kharuf:{ar:'خاروف',tr:'kharūf',en:'sheep',pic:'🐑'},
   djeje:{ar:'دجاجة',tr:'djēje',en:'chicken',pic:'🐔'}, hmar:{ar:'حمار',tr:'ḥmār',en:'donkey',pic:'🫏'}, hsan:{ar:'حصان',tr:'ḥṣān',en:'horse',pic:'🐴'}, asad:{ar:'أسد',tr:'asad',en:'lion',pic:'🦁'},
   fil:{ar:'فيل',tr:'fīl',en:'elephant',pic:'🐘'}, zarafe:{ar:'زرافة',tr:'zarāfe',en:'giraffe',pic:'🦒'}, dibb:{ar:'دبّ',tr:'dibb',en:'bear',pic:'🐻'}, saaden:{ar:'سعدان',tr:'saʿdēn',en:'monkey',pic:'🐒'},
-  farashe:{ar:'فراشة',tr:'farāshe',en:'butterfly',pic:'🦋'}, nemle:{ar:'نملة',tr:'nemle',en:'ant',pic:'🐜'}, nahle:{ar:'نحلة',tr:'naḥle',en:'bee',pic:'🐝'}, difda:{ar:'ضفدع',tr:'ḍifdaʿ',en:'frog',pic:'🐸'},
+  farashe:{ar:'فراشة',tr:'farāshe',en:'butterfly',pic:'🦋'}, nemle:{ar:'نملة',tr:'nemle',en:'ant',pic:'🐜'}, nahle:{ar:'نحلة',tr:'naḥle',en:'bee',pic:'🐝'}, difda:{ar:'ضفدعة',tr:'ḍifdaʿa',en:'frog',pic:'🐸'},
   salhafe:{ar:'سلحفاة',tr:'salḥafe',en:'turtle',pic:'🐢'}, hut:{ar:'حوت',tr:'ḥūt',en:'whale',pic:'🐋'}, dilfin:{ar:'دلفين',tr:'dilfīn',en:'dolphin',pic:'🐬'}, sartan:{ar:'سرطان',tr:'sarṭān',en:'crab',pic:'🦀'},
   akhtabut:{ar:'أخطبوط',tr:'akhṭabūṭ',en:'octopus',pic:'🐙'}, nijmebahr:{ar:'نجمة بحريّة',tr:'nijme baḥriyye',en:'starfish',pic:'⭐'}, batta:{ar:'بطّة',tr:'baṭṭa',en:'duck',pic:'🦆'}, fara:{ar:'فارة',tr:'fāra',en:'mouse',pic:'🐭'},
   hayye:{ar:'حيّة',tr:'ḥayye',en:'snake',pic:'🐍'}, nimer:{ar:'نمر',tr:'nimer',en:'tiger',pic:'🐯'}, bume:{ar:'بومة',tr:'bōme',en:'owl',pic:'🦉'}, hammem:{ar:'حمّام',tr:'ḥammēm',en:'bathroom',pic:'🛁'},
-  sabune:{ar:'صابونة',tr:'ṣābūne',en:'soap',pic:'🧼'}, minshafe:{ar:'منشفة',tr:'minshafe',en:'towel',pic:'🧻'}, farshaye:{ar:'فرشاية سنان',tr:'farshāyet snēn',en:'toothbrush',pic:'🪥'}, maajun:{ar:'معجون',tr:'maʿjūn',en:'toothpaste',pic:'🦷'},
+  sabune:{ar:'صابونة',tr:'ṣābūne',en:'soap',pic:'🧼'}, minshafe:{ar:'منشفة',tr:'manshafe',en:'towel',pic:'🧻'}, farshaye:{ar:'فرشاية سنان',tr:'farshāyet snēn',en:'toothbrush',pic:'🪥'}, maajun:{ar:'معجون',tr:'maʿjūn',en:'toothpaste',pic:'🦷'},
   ghassil:{ar:['غسّل إيديك','غسّلي إيديكي'],tr:['ghassil idēk','ghassli idēki'],en:'wash your hands',pic:'🧼'}, nadif:{ar:['نضيف','نضيفة'],tr:['naḍīf','naḍīfe'],en:'clean',pic:'✨'}, wesikh:{ar:['وسخ','وسخة'],tr:['wesikh','wiskha'],en:'dirty',pic:'💩'}, sukhn:{ar:'سخن',tr:'sukhn',en:'hot',pic:'🔥'},
   berid:{ar:'بارد',tr:'bērid',en:'cold',pic:'🧊'}, mkhadde:{ar:'مخدّة',tr:'mkhadde',en:'pillow',pic:'🛏️'}, hrem:{ar:'حرام',tr:'ḥrēm',en:'blanket',pic:'🛌'}, daw:{ar:'ضو',tr:'ḍaw',en:'light',pic:'💡'},
-  atme:{ar:'عتمة',tr:'ʿatme',en:'dark',pic:'🌑'}, hilm:{ar:'حلم',tr:'ḥilm',en:'dream',pic:'💭'}, hkeye:{ar:'حكاية',tr:'ḥkēye',en:'story',pic:'📖'}, bose:{ar:'بوسة',tr:'bōse',en:'kiss',pic:'😘'},
-  hadne:{ar:'حضنة',tr:'ḥaḍne',en:'hug',pic:'🤗'}, naasan:{ar:['نعسان','نعسانة'],tr:['naʿsān','naʿsāne'],en:'sleepy',pic:'😴'}, nem:{ar:['نام','نامي'],tr:['nēm','nēmi'],en:'go to sleep',pic:'💤'}, liibe:{ar:'لعبة',tr:'liʿbe',en:'toy',pic:'🧸'},
-  dabdub:{ar:'دبدوب',tr:'dabdūb',en:'teddy bear',pic:'🧸'}, balon:{ar:'بالون',tr:'balōn',en:'balloon',pic:'🎈'}, alwen:{ar:'ألوان',tr:'alwēn',en:'crayons',pic:'🖍️'}, mkaabet:{ar:'مكعّبات',tr:'mukaʿʿabēt',en:'building blocks',pic:'🧱'},
+  atme:{ar:'عتمة',tr:'ʿatme',en:'dark',pic:'🌑'}, hilm:{ar:'حلم',tr:'ḥilm',en:'dream',pic:'💭'}, hkeye:{ar:'قصّة',tr:'ʾeṣṣa',en:'story',pic:'📖'}, bose:{ar:'بوسة',tr:'bōse',en:'kiss',pic:'😘'},
+  hadne:{ar:'عبطة',tr:'ʿabṭa',en:'hug',pic:'🤗'}, naasan:{ar:['نعسان','نعسانة'],tr:['naʿsān','naʿsāne'],en:'sleepy',pic:'😴'}, nem:{ar:['نام','نامي'],tr:['nēm','nēmi'],en:'go to sleep',pic:'💤'}, liibe:{ar:'لعبة',tr:'liʿbe',en:'toy',pic:'🧸'},
+  dabdub:{ar:'دبدوب',tr:'dabdūb',en:'teddy bear',pic:'🧸'}, balon:{ar:'بالون',tr:'balōn',en:'balloon',pic:'🎈'}, alwen:{ar:'ألوان',tr:'alwēn',en:'crayons',pic:'🖍️'},
   aswad:{ar:'أسود',tr:'aswad',en:'black',pic:'⚫'}, zahr:{ar:'زهر',tr:'zahr',en:'pink',pic:'🩷'}, orange:{ar:'أورانج',tr:'orange',en:'orange (colour)',pic:'🟠'}, mauve:{ar:'موف',tr:'mauve',en:'purple',pic:'🟣'},
   binny:{ar:'بنّي',tr:'binny',en:'brown',pic:'🟤'}, daira:{ar:'دايرة',tr:'dāʾira',en:'circle',pic:'⚪'}, mrabba:{ar:'مربّع',tr:'mrabbaʿ',en:'square',pic:'⬜'}, mthallath:{ar:'مثلّث',tr:'mthallath',en:'triangle',pic:'🔺'},
   nijme:{ar:'نجمة',tr:'nijme',en:'star',pic:'⭐'}, alb:{ar:'قلب',tr:'ʾalb',en:'heart',pic:'❤️'}, kbir:{ar:['كبير','كبيرة'],tr:['kbīr','kbīre'],en:'big',pic:'🐘'}, zghir:{ar:['زغير','زغيرة'],tr:['zghīr','zghīre'],en:'small',pic:'🐭'},
@@ -148,10 +145,10 @@ window.YN_WORDS = {
   dahrb:{ar:'ضهر',tr:'ḍahr',en:'back',pic:null}, isba:{ar:'إصبع',tr:'iṣbaʿ',en:'finger',pic:'☝️'}, rkbe:{ar:'ركبة',tr:'rkbe',en:'knee',pic:'🦵'}, ktef:{ar:'كتف',tr:'ktēf',en:'shoulder',pic:null},
   byujaani:{ar:'بيوجعني',tr:'byūjaʿni',en:'it hurts',pic:'🤕'}, marid:{ar:['مريض','مريضة'],tr:['mariḍ','mariḍa'],en:'ill',pic:'🤒'}, dawa:{ar:'دوا',tr:'dawa',en:'medicine',pic:'💊'}, salamtak:{ar:['سلامتك','سلامتِك'],tr:['salamtak','salamtik'],en:'get well soon',pic:'💐'},
   harara:{ar:'حرارة',tr:'ḥarāra',en:'fever',pic:'🌡️'}, shuf:{ar:['شوف','شوفي'],tr:['shūf','shūfi'],en:'look!',pic:'👀'}, smaa:{ar:['اسمع','اسمعي'],tr:['smaʿ','smaʿi'],en:'listen!',pic:'👂'}, shimm:{ar:['شمّ','شمّي'],tr:['shimm','shimmi'],en:'smell!',pic:'👃'},
-  dou:{ar:['دوق','دوقي'],tr:['dūʾ','dūʾi'],en:'taste!',pic:'👅'}, lmus:{ar:['المس','المسي'],tr:['lmus','lmusi'],en:'touch!',pic:'✋'}, rous:{ar:['ارقص','ارقصي'],tr:['ruʾṣ','ruʾṣi'],en:'dance!',pic:'💃'}, sbah:{ar:['اسبح','اسبحي'],tr:['sbaḥ','sbaḥi'],en:'swim!',pic:'🏊'},
+  dou:{ar:['دوق','دوقي'],tr:['dūʾ','dūʾi'],en:'taste!',pic:'👅'}, rous:{ar:['ارقص','ارقصي'],tr:['ruʾṣ','ruʾṣi'],en:'dance!',pic:'💃'}, sbah:{ar:['اسبح','اسبحي'],tr:['sbaḥ','sbaḥi'],en:'swim!',pic:'🏊'},
   saffe:{ar:['صفّق','صفّقي'],tr:['ṣaffeʾ','ṣaffʾi'],en:'clap!',pic:'👏'}, tlaa:{ar:['اطلع','اطلعي'],tr:['ṭlaʿ','ṭlaʿi'],en:'climb up!',pic:'🧗'}, nzal:{ar:['انزل','انزلي'],tr:['nzal','nzali'],en:'come down!',pic:'⬇️'}, walad:{ar:'ولد',tr:'walad',en:'boy',pic:'👦'},
   binet:{ar:'بنت',tr:'binet',en:'girl',pic:'👧'}, rajjel:{ar:'رجّال',tr:'rajjēl',en:'man',pic:'👨'}, mara:{ar:'مرا',tr:'mara',en:'woman',pic:'👩'}, bebe:{ar:'بيبي',tr:'bēbē',en:'baby',pic:'👶'},
-  hakim:{ar:['حكيم','حكيمة'],tr:['ḥakīm','ḥakīme'],en:'doctor',pic:'🧑‍⚕️'}, shurti:{ar:['شرطي','شرطية'],tr:['shurṭi','shurṭiyye'],en:'police officer',pic:'👮'}, tabbakh:{ar:['طبّاخ','طبّاخة'],tr:['ṭabbākh','ṭabbākha'],en:'cook',pic:'🧑‍🍳'}, falleh:{ar:['فلّاح','فلّاحة'],tr:['fallēḥ','fallēḥa'],en:'farmer',pic:'🧑‍🌾'},
+  hakim:{ar:['حكيم','حكيمة'],tr:['ḥakīm','ḥakīme'],en:'doctor',pic:'🧑‍⚕️'}, shurti:{ar:'بوليس',tr:'polīs',en:'police officer',pic:'👮'}, tabbakh:{ar:['طبّاخ','طبّاخة'],tr:['ṭabbākh','ṭabbākha'],en:'cook',pic:'🧑‍🍳'}, falleh:{ar:['فلّاح','فلّاحة'],tr:['fallēḥ','fallēḥa'],en:'farmer',pic:'🧑‍🌾'},
   shofer:{ar:['شوفير','شوفيرة'],tr:['shofēr','shofēra'],en:'driver',pic:'🚕'}, ghinniyye:{ar:'غنّية',tr:'ghinniyye',en:'song',pic:'🎵'}, musia:{ar:'موسيقى',tr:'mūsīʾa',en:'music',pic:'🎶'}, tabl:{ar:'طبل',tr:'ṭabl',en:'drum',pic:'🥁'},
   oudmusic:{ar:'عود',tr:'ʿūd',en:'oud',pic:'🪕'}, ghanni:{ar:'غنّي',tr:'ghanni',en:'sing!',pic:'🎤'}, bhebb:{ar:'بحبّ',tr:'bḥebb',en:'I like / I love',pic:'❤️'}, mabhebb:{ar:'ما بحبّ',tr:'ma bḥebb',en:'I don\'t like',pic:'👎'},
   shubtehebb:{ar:['شو بتحبّ؟','شو بتحبّي؟'],tr:['shu bteḥebb?','shu bteḥebbi?'],en:'what do you like?',pic:null}, anakamen:{ar:'أنا كمان',tr:'ana kamēn',en:'me too',pic:'🙌'}, wenta:{ar:['وإنت؟','وإنتِ؟'],tr:['w enta?','w enti?'],en:'and you?',pic:null}, mabruk:{ar:'مبروك',tr:'mabrūk',en:'congratulations',pic:'🎊'},
@@ -162,22 +159,21 @@ window.YN_WORDS = {
   tanjara:{ar:'طنجرة',tr:'ṭanjara',en:'pot',pic:'🍲'}, annine:{ar:'قنّينة',tr:'ʾannīne',en:'bottle',pic:'🍼'}, hanafiyye:{ar:'حنفيّة',tr:'ḥanafiyye',en:'tap',pic:'🚰'}, saedni:{ar:['ساعدني','ساعديني'],tr:['sēʿedni','sēʿdīni'],en:'help me',pic:'🙏'},
   rattib:{ar:['رتّب','رتّبي'],tr:['rattib','rattbi'],en:'tidy up',pic:'🧹'}, hutt:{ar:['حطّ','حطّي'],tr:['ḥuṭṭ','ḥuṭṭi'],en:'put',pic:null}, ftah:{ar:['افتح','افتحي'],tr:['ftaḥ','ftaḥi'],en:'open',pic:'🔓'}, sakker:{ar:['سكّر','سكّري'],tr:['sakker','sakkri'],en:'close',pic:'🔒'},
   lbes:{ar:['البس','البسي'],tr:['lbēs','lbsi'],en:'get dressed',pic:'👕'}, amis:{ar:'قميص',tr:'ʾamīṣ',en:'shirt',pic:'👔'}, bantalon:{ar:'بنطلون',tr:'banṭalōn',en:'trousers',pic:'👖'}, kalset:{ar:'كلسات',tr:'kalsēt',en:'socks',pic:'🧦'},
-  misht:{ar:'مشط',tr:'mishṭ',en:'comb',pic:null}, ghayran:{ar:['غيران','غيرانة'],tr:['ghayrān','ghayrāne'],en:'jealous',pic:'😒'}, ghadban:{ar:['غضبان','غضبانة'],tr:['ghaḍbān','ghaḍbāne'],en:'angry',pic:'😠'}, mistahi:{ar:['مستحي','مستحية'],tr:['mistaḥi','mistaḥye'],en:'shy',pic:'😳'},
-  dajran:{ar:['ضجران','ضجرانة'],tr:['ḍajrān','ḍajrāne'],en:'bored',pic:'🥱'}, mithammes:{ar:['متحمّس','متحمّسة'],tr:['mitḥammes','mitḥamse'],en:'excited',pic:'🤩'}, asef:{ar:['آسف','آسفة'],tr:['ʾāsef','ʾāsfe'],en:'sorry',pic:'😔'}, mishasdi:{ar:'مش قصدي',tr:'mish ʾaṣdi',en:'I didn\'t mean it',pic:null},
+  misht:{ar:'مشط',tr:'mishṭ',en:'comb',pic:null}, ghayran:{ar:['غيران','غيرانة'],tr:['ghayrān','ghayrāne'],en:'jealous',pic:'😒'}, ghadban:{ar:['معصّب','معصّبة'],tr:['mʿaṣṣab','mʿaṣṣbe'],en:'angry',pic:'😠'}, mistahi:{ar:['مستحي','مستحية'],tr:['mistaḥi','mistaḥye'],en:'shy',pic:'😳'},
+  dajran:{ar:['ضجران','ضجرانة'],tr:['ḍajrān','ḍajrāne'],en:'bored',pic:'🥱'}, mithammes:{ar:['متحمّس','متحمّسة'],tr:['mitḥammes','mitḥamse'],en:'excited',pic:'🤩'}, mishasdi:{ar:'مش قصدي',tr:'mish ʾaṣdi',en:'I didn\'t mean it',pic:null},
   matizaal:{ar:['ما تزعل','ما تزعلي'],tr:['ma tizʿal','ma tizʿali'],en:'don\'t be upset',pic:null}, mafimishkle:{ar:'ما في مشكلة',tr:'ma fi mishkle',en:'no problem',pic:'👍'}, tsalahna:{ar:'تصالحنا',tr:'tṣālaḥna',en:'we made up',pic:'🤝'}, shufik:{ar:['شو فيك؟','شو فيكي؟'],tr:['shu fīk?','shu fīki?'],en:'what\'s wrong?',pic:null},
   shusar:{ar:'شو صار؟',tr:'shu ṣār?',en:'what happened?',pic:null}, matkhaf:{ar:['ما تخاف','ما تخافي'],tr:['ma tkhāf','ma tkhāfi'],en:'don\'t be scared',pic:null}, anahon:{ar:'أنا هون',tr:'ana hōn',en:'I\'m here',pic:'🫂'}, kellshi:{ar:'كلّ شي منيح',tr:'kell shi mnīḥ',en:'everything\'s fine',pic:'👌'},
-  ktirhelo:{ar:['كتير حلو','كتير حلوة'],tr:['ktīr ḥelo','ktīr ḥelwe'],en:'really nice',pic:'😍'}, shater:{ar:['شاطر','شاطرة'],tr:['shāṭer','shāṭra'],en:'clever',pic:'🧠'}, azim:{ar:'عظيم',tr:'ʿaẓīm',en:'great',pic:'🌟'}, bijannen:{ar:'بيجنّن',tr:'bijannen',en:'amazing',pic:'🤩'},
+  ktirhelo:{ar:['كتير حلو','كتير حلوة'],tr:['ktīr ḥelo','ktīr ḥelwe'],en:'really nice',pic:'😍'}, shater:{ar:['شاطر','شاطرة'],tr:['shāṭer','shāṭra'],en:'clever',pic:'🧠'}, bijannen:{ar:'بيجنّن',tr:'bijannen',en:'amazing',pic:'🤩'},
   ajabni:{ar:'عجبني',tr:'ʿajabni',en:'I liked it',pic:'👍'}, taalaanna:{ar:['تعا لعنّا','تعي لعنّا'],tr:['taʿa la ʿanna','taʿi la ʿanna'],en:'come to our house',pic:'🏠'}, fiyyaktiji:{ar:['فيك تجي؟','فيكي تجي؟'],tr:['fiyyak tiji?','fiyyik tiji?'],en:'can you come?',pic:null}, akid:{ar:'أكيد',tr:'akīd',en:'of course',pic:'✅'},
   yimken:{ar:'يمكن',tr:'yimken',en:'maybe',pic:'🤷'}, ahlawsahla:{ar:'أهلا وسهلا',tr:'ahla w sahla',en:'welcome',pic:'🤗'}, futbol:{ar:'فوتبول',tr:'fūtbōl',en:'football',pic:'⚽'}, sbeha:{ar:'سباحة',tr:'sbēḥa',en:'swimming',pic:'🏊'},
   bisklet:{ar:'بسكليت',tr:'bisklēt',en:'bike',pic:'🚲'}, rakd:{ar:'ركض',tr:'rakḍ',en:'running',pic:'🏃'}, basket:{ar:'باسكت',tr:'basket',en:'basketball',pic:'🏀'}, rasm:{ar:'رسم',tr:'rasm',en:'drawing',pic:'🎨'},
   iraye:{ar:'قراية',tr:'ʾirāye',en:'reading',pic:'📚'}, tabkh:{ar:'طبخ',tr:'ṭabkh',en:'cooking',pic:'🍳'}, raas:{ar:'رقص',tr:'raʾṣ',en:'dancing',pic:'💃'}, alaabvideo:{ar:'ألعاب ڤيديو',tr:'ʾalʿāb video',en:'video games',pic:'🎮'},
-  farii:{ar:'فريق',tr:'farīʾ',en:'team',pic:'👥'}, gol:{ar:'غول',tr:'gōl',en:'goal',pic:'🥅'}, shut:{ar:['شوط','شوطي'],tr:['shūṭ','shūṭi'],en:'kick!',pic:'🦶'}, marma:{ar:'مرمى',tr:'marma',en:'goal net',pic:'🥅'},
+  farii:{ar:'فريق',tr:'farīʾ',en:'team',pic:'👥'}, gol:{ar:'غول',tr:'gōl',en:'goal',pic:'🥅'}, shut:{ar:['شوط','شوطي'],tr:['shūṭ','shūṭi'],en:'kick!',pic:'🦶'},
   hakam:{ar:'حكم',tr:'ḥakam',en:'referee',pic:'🧑‍⚖️'}, baarif:{ar:'بعرف',tr:'baʿrif',en:'I can / I know how',pic:'💪'}, mabaarif:{ar:'ما بعرف',tr:'ma baʿrif',en:'I can\'t',pic:null}, jarrib:{ar:['جرّب','جرّبي'],tr:['jarrib','jarrbi'],en:'try!',pic:'🎯'},
-  saabe:{ar:'صعبة',tr:'ṣaʿbe',en:'hard',pic:'😓'}, sahle:{ar:'سهلة',tr:'sahle',en:'easy',pic:'😎'}, rbehna:{ar:'ربحنا',tr:'rbeḥna',en:'we won',pic:'🏆'}, khsirna:{ar:'خسرنا',tr:'khsirna',en:'we lost',pic:'😞'},
-  taadol:{ar:'تعادل',tr:'taʿādol',en:'a draw',pic:'🤝'}, yaatik:{ar:['يعطيك العافية','يعطيكي العافية'],tr:['yiʿṭīk el-ʿāfye','yiʿṭīki el-ʿāfye'],en:'well done, good effort',pic:'👏'}, kamenshway:{ar:'كمان شوي',tr:'kamēn shway',en:'a bit more',pic:null}, tayyara:{ar:'طيّارة',tr:'ṭayyāra',en:'plane',pic:'✈️'},
-  train:{ar:'ترين',tr:'train',en:'train',pic:'🚆'}, babur:{ar:'بابور',tr:'bābūr',en:'ship',pic:'🚢'}, taxi:{ar:'تاكسي',tr:'tēksi',en:'taxi',pic:'🚕'}, moter:{ar:'موتير',tr:'motēr',en:'motorbike',pic:'🏍️'},
-  matar:{ar:'مطار',tr:'maṭār',en:'airport',pic:'🛫'}, passport:{ar:'باسبور',tr:'passport',en:'passport',pic:'🛂'}, tazkara:{ar:'تذكرة',tr:'tazkara',en:'ticket',pic:'🎫'}, safar:{ar:'سفر',tr:'safar',en:'trip',pic:'🧳'},
-  kharita:{ar:'خريطة',tr:'kharīṭa',en:'map',pic:'🗺️'}, mustashfa:{ar:'مستشفى',tr:'mustashfa',en:'hospital',pic:'🏥'}, mataam:{ar:'مطعم',tr:'maṭʿam',en:'restaurant',pic:'🍽️'}, saydaliyye:{ar:'صيدليّة',tr:'ṣaydaliyye',en:'pharmacy',pic:'💊'},
+  saabe:{ar:'صعبة',tr:'ṣaʿbe',en:'hard',pic:'😓'}, sahle:{ar:'سهلة',tr:'sahle',en:'easy',pic:'😎'}, rbehna:{ar:'ربحنا',tr:'rbeḥna',en:'we won',pic:'🏆'}, khsirna:{ar:'خسرنا',tr:'khsirna',en:'we lost',pic:'😞'}, yaatik:{ar:['يعطيك العافية','يعطيكي العافية'],tr:['yiʿṭīk el-ʿāfye','yiʿṭīki el-ʿāfye'],en:'well done, good effort',pic:'👏'}, kamenshway:{ar:'كمان شوي',tr:'kamēn shway',en:'a bit more',pic:null}, tayyara:{ar:'طيّارة',tr:'ṭayyāra',en:'plane',pic:'✈️'},
+  train:{ar:'ترين',tr:'train',en:'train',pic:'🚆'}, babur:{ar:'بابور',tr:'bābūr',en:'ship',pic:'🚢'}, taxi:{ar:'تاكسي',tr:'tēksi',en:'taxi',pic:'🚕'},
+  matar:{ar:'مطار',tr:'maṭār',en:'airport',pic:'🛫'}, passport:{ar:'باسبور',tr:'passport',en:'passport',pic:'🛂'}, tazkara:{ar:'تيكيت',tr:'tikit',en:'ticket',pic:'🎫'}, safar:{ar:'سفر',tr:'safar',en:'trip',pic:'🧳'},
+  kharita:{ar:'خريطة',tr:'kharīṭa',en:'map',pic:'🗺️'}, mustashfa:{ar:'مستشفى',tr:'mestashfa',en:'hospital',pic:'🏥'}, mataam:{ar:'مطعم',tr:'maṭʿam',en:'restaurant',pic:'🍽️'}, saydaliyye:{ar:'صيدليّة',tr:'ṣaydaliyye',en:'pharmacy',pic:'💊'},
   furn:{ar:'فرن',tr:'furn',en:'bakery',pic:'🥖'}, maktabe:{ar:'مكتبة',tr:'maktabe',en:'library',pic:'📚'}, barrem:{ar:['برّم','برّمي'],tr:['barrem','barrmi'],en:'turn',pic:'↪️'}, waaf:{ar:['وقاف','وقافي'],tr:['wʾaf','wʾafi'],en:'stop!',pic:'🛑'},
   arib:{ar:'قريب',tr:'ʾarīb',en:'near',pic:null}, baid:{ar:'بعيد',tr:'baʿīd',en:'far',pic:null}, zawye:{ar:'عالزاوية',tr:'ʿal-zāwye',en:'at the corner',pic:'📐'}, lebnen:{ar:'لبنان',tr:'Lebnēn',en:'Lebanon',pic:'🇱🇧'},
   bayrut:{ar:'بيروت',tr:'Bayrūt',en:'Beirut',pic:'🏙️'}, arze:{ar:'أرزة',tr:'arze',en:'cedar tree',pic:'🌲'}, alamflag:{ar:'علم',tr:'ʿalam',en:'flag',pic:'🚩'}, dayaa:{ar:'ضيعة',tr:'ḍayʿa',en:'village',pic:'🏡'},
@@ -210,9 +206,8 @@ window.YN_COURSE = [
    {title:'Morning & night',words:['sabah','sabahnour','masa','tisbah','fiq'],talk:[
      {q:{ar:'صباح الخير!',tr:'ṣabāḥ el-khēr!',en:'Good morning!'},a:'sabahnour',after:'Bravo! That is the perfect reply!'},
      {q:{ar:'مسا الخير!',tr:'masa el-khēr!',en:'Good evening!'},a:'masa',after:'Masa el-khēr to you too!'}]},
-   {title:'Polite words',words:['shukran','afwan','lawsamaht','eh','la'],talk:[
-     {q:{ar:'',tr:'🎁',en:'Bisseh gives you a present!'},a:'shukran',after:'Bisseh says: ʿafwan! Miaow!'},
-     {q:{ar:'شكراً!',tr:'shukran!',en:'Thank you!'},a:'afwan',after:'Very polite!'}]},
+   {title:'Polite words',words:['shukran','eh','la'],talk:[
+     {q:{ar:'',tr:'🎁',en:'Bisseh gives you a present!'},a:'shukran',after:'Bisseh says: walaw! Miaow!'}]},
    {title:'How do you feel?',words:['mabsut','zalan','taban','juan','atshan'],talk:[
      {q:{ar:['كيفك؟','كيفِك؟'],tr:['kīfak?','kīfik?'],en:'How are you? (say you are happy)'},a:'mabsut',after:'Yay! I am happy too!'},
      {q:{ar:['جوعان؟','جوعانة؟'],tr:['jūʿān?','jūʿāne?'],en:'Are you hungry?'},a:'eh',after:'Me too! Let us eat soon!'}]}
@@ -296,9 +291,9 @@ window.YN_COURSE = [
      {q:{ar:'شو هيدي؟ 🛏️',tr:'shu hayde? 🛏️',en:'What is this?'},a:'mkhadde',after:'Yes! Mkhadde!'},
      {q:{ar:'شو هيدا؟ 🛌',tr:'shu hayda? 🛌',en:'What is this?'},a:'hrem',after:'Bravo! Ḥrēm!'}]},
    {title:'Bedtime story',words:['hkeye','bose','hadne','naasan','nem'],talk:[
-     {q:{ar:'',tr:'📖',en:'How do you say “story”?'},a:'hkeye',after:'Yes! Ḥkēye!'},
+     {q:{ar:'',tr:'📖',en:'How do you say “story”?'},a:'hkeye',after:'Yes! ʾEṣṣa!'},
      {q:{ar:'',tr:'😘',en:'How do you say “kiss”?'},a:'bose',after:'Bravo! Bōse!'}]},
-   {title:'My toys',words:['liibe','dabdub','balon','alwen','mkaabet'],talk:[
+   {title:'My toys',words:['liibe','dabdub','balon','alwen'],talk:[
      {q:{ar:'شو هيدي؟ 🧸',tr:'shu hayde? 🧸',en:'What is this?'},a:'liibe',after:'Yes! Liʿbe!'},
      {q:{ar:'شو هيدا؟ 🧸',tr:'shu hayda? 🧸',en:'What is this?'},a:'dabdub',after:'Bravo! Dabdūb!'}]}
   ]},
@@ -346,7 +341,7 @@ window.YN_COURSE = [
    {title:'Feeling ill',words:['byujaani','marid','dawa','salamtak','harara'],talk:[
      {q:{ar:'',tr:'🤕',en:'How do you say “it hurts”?'},a:'byujaani',after:'Yes! Byūjaʿni!'},
      {q:{ar:'',tr:'💊',en:'How do you say “medicine”?'},a:'dawa',after:'Bravo! Dawa!'}]},
-   {title:'My senses',words:['shuf','smaa','shimm','dou','lmus'],talk:[
+   {title:'My senses',words:['shuf','smaa','shimm','dou'],talk:[
      {q:{ar:'',tr:'👀',en:'How do you say “look!”?'},a:'shuf',after:'Bravo! Perfect!'},
      {q:{ar:'',tr:'👂',en:'How do you say “listen!”?'},a:'smaa',after:'Bravo! Perfect!'}]},
    {title:'Let\'s move',words:['rous','sbah','saffe','tlaa','nzal'],talk:[
@@ -379,7 +374,7 @@ window.YN_COURSE = [
    {title:'Teacher & friends',words:['istez','mialme','rfii','shanta','mudir'],talk:[
      {q:{ar:'مين هيدا؟ 👨‍🏫',tr:'mīn hayda? 👨‍🏫',en:'Who is this?'},a:{ar:'هيدا الأستاذ',tr:'hayda l-istēz'},check:{ar:'استاذ',tr:'istez'},after:'Yes, the istēz!'},
      {q:{ar:'مين هيدا؟ 🧒',tr:'mīn hayda? 🧒',en:'Who is this? (say: my friend)'},a:'rfii',after:'How lovely, your friend!'}]},
-   {title:'In class',words:['fiyye','mafhemt','idmarra','khalast','andisual'],talk:[
+   {title:'In class',words:['fiyye','mafhemt','khalast','andisual'],talk:[
      {q:{ar:['فهمت؟','فهمتي؟'],tr:['fhemt?','fhemti?'],en:'Did you understand? (say: I didn’t understand)'},a:'mafhemt',after:'No problem, I will explain again!'},
      {q:{ar:['خلّصت؟','خلّصتي؟'],tr:['khallaṣt?','khallaṣti?'],en:'Have you finished?'},a:{ar:'إي، خلّصت',tr:'ē, khallaṣt'},check:{ar:'خلصت',tr:'khallast'},after:'Bravo! Super fast!'}]},
    {title:'Question words',words:['shu','min','wen','lesh','emta'],talk:[
@@ -459,16 +454,16 @@ window.YN_COURSE = [
   ]},
   {id:6,title:'Feelings & friends',color:'#F477AF',icon:'💛',sticker:{e:'💛',n:'Kind Heart'},lessons:[
    {title:'More feelings',words:['ghayran','ghadban','mistahi','dajran','mithammes'],talk:[
-     {q:{ar:'',tr:'😊',en:'How do you say “happy”?'},a:'ghayran',after:'Bravo! Perfect!'},
+     {q:{ar:'',tr:'😊',en:'How do you say “jealous”?'},a:'ghayran',after:'Bravo! Perfect!'},
      {q:{ar:'',tr:'😠',en:'How do you say “angry”?'},a:'ghadban',after:'Bravo! Perfect!'}]},
-   {title:'Saying sorry',words:['asef','mishasdi','matizaal','mafimishkle','tsalahna'],talk:[
+   {title:'Saying sorry',words:['mishasdi','matizaal','mafimishkle','tsalahna'],talk:[
      {q:{ar:'',tr:'💬',en:'How do you say “I didn\'t mean it”?'},a:'mishasdi',after:'Yes! Mish ʾaṣdi!'},
      {q:{ar:'',tr:'👍',en:'How do you say “no problem”?'},a:'mafimishkle',after:'Bravo! Ma fi mishkle!'}]},
    {title:'Caring',words:['shufik','shusar','matkhaf','anahon','kellshi'],talk:[
      {q:{ar:'',tr:'💬',en:'How do you say “what happened?”?'},a:'shusar',after:'Yes! Shu ṣār?!'},
      {q:{ar:'',tr:'🫂',en:'How do you say “I\'m here”?'},a:'anahon',after:'Bravo! Ana hōn!'}]},
-   {title:'Nice words',words:['ktirhelo','shater','azim','bijannen','ajabni'],talk:[
-     {q:{ar:'',tr:'🌟',en:'How do you say “great”?'},a:'azim',after:'Yes! ʿaẓīm!'},
+   {title:'Nice words',words:['ktirhelo','shater','bijannen','ajabni'],talk:[
+     {q:{ar:'',tr:'😍',en:'How do you say “really nice”?'},a:'ktirhelo',after:'Yes! Ktīr ḥelo!'},
      {q:{ar:'',tr:'🤩',en:'How do you say “amazing”?'},a:'bijannen',after:'Bravo! Bijannen!'}]},
    {title:'Inviting a friend',words:['taalaanna','fiyyaktiji','akid','yimken','ahlawsahla'],talk:[
      {q:{ar:'',tr:'✅',en:'How do you say “of course”?'},a:'akid',after:'Yes! Akīd!'},
@@ -481,25 +476,25 @@ window.YN_COURSE = [
    {title:'Hobbies',words:['rasm','iraye','tabkh','raas','alaabvideo'],talk:[
      {q:{ar:'شو هيدا؟ 🎨',tr:'shu hayda? 🎨',en:'What is this?'},a:'rasm',after:'Yes! Rasm!'},
      {q:{ar:'شو هيدي؟ 📚',tr:'shu hayde? 📚',en:'What is this?'},a:'iraye',after:'Bravo! ʾirāye!'}]},
-   {title:'On the team',words:['farii','gol','shut','marma','hakam'],talk:[
+   {title:'On the team',words:['farii','gol','shut','hakam'],talk:[
      {q:{ar:'شو هيدا؟ 👥',tr:'shu hayda? 👥',en:'What is this?'},a:'farii',after:'Yes! Farīʾ!'},
      {q:{ar:'شو هيدا؟ 🥅',tr:'shu hayda? 🥅',en:'What is this?'},a:'gol',after:'Bravo! Gōl!'}]},
    {title:'I can do it',words:['baarif','mabaarif','jarrib','saabe','sahle'],talk:[
      {q:{ar:'',tr:'💪',en:'How do you say “I can / I know how”?'},a:'baarif',after:'Yes! Baʿrif!'},
      {q:{ar:'',tr:'💬',en:'How do you say “I can\'t”?'},a:'mabaarif',after:'Bravo! Ma baʿrif!'}]},
-   {title:'Win or lose',words:['rbehna','khsirna','taadol','yaatik','kamenshway'],talk:[
+   {title:'Win or lose',words:['rbehna','khsirna','yaatik','kamenshway'],talk:[
      {q:{ar:'',tr:'🏆',en:'How do you say “we won”?'},a:'rbehna',after:'Yes! Rbeḥna!'},
      {q:{ar:'',tr:'😞',en:'How do you say “we lost”?'},a:'khsirna',after:'Bravo! Khsirna!'}]}
   ]},
   {id:8,title:'Travel & places',color:'#3495F5',icon:'✈️',sticker:{e:'✈️',n:'World Traveller'},lessons:[
-   {title:'Getting there',words:['tayyara','train','babur','taxi','moter'],talk:[
+   {title:'Getting there',words:['tayyara','train','babur','taxi'],talk:[
      {q:{ar:'شو هيدي؟ ✈️',tr:'shu hayde? ✈️',en:'What is this?'},a:'tayyara',after:'Yes! Ṭayyāra!'},
      {q:{ar:'شو هيدا؟ 🚆',tr:'shu hayda? 🚆',en:'What is this?'},a:'train',after:'Bravo! Train!'}]},
    {title:'Going on a trip',words:['matar','passport','tazkara','safar','kharita'],talk:[
      {q:{ar:'شو هيدا؟ 🛫',tr:'shu hayda? 🛫',en:'What is this?'},a:'matar',after:'Yes! Maṭār!'},
      {q:{ar:'شو هيدا؟ 🛂',tr:'shu hayda? 🛂',en:'What is this?'},a:'passport',after:'Bravo! Passport!'}]},
    {title:'In town',words:['mustashfa','mataam','saydaliyye','furn','maktabe'],talk:[
-     {q:{ar:'شو هيدا؟ 🏥',tr:'shu hayda? 🏥',en:'What is this?'},a:'mustashfa',after:'Yes! Mustashfa!'},
+     {q:{ar:'شو هيدا؟ 🏥',tr:'shu hayda? 🏥',en:'What is this?'},a:'mustashfa',after:'Yes! Mestashfa!'},
      {q:{ar:'شو هيدا؟ 🍽️',tr:'shu hayda? 🍽️',en:'What is this?'},a:'mataam',after:'Bravo! Maṭʿam!'}]},
    {title:'Directions',words:['barrem','waaf','arib','baid','zawye'],talk:[
      {q:{ar:'',tr:'💬',en:'How do you say “near”?'},a:'arib',after:'Yes! ʾarīb!'},
