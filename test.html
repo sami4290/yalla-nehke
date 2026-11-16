@@ -838,10 +838,18 @@ function qaParts(){const parts=[],seenW=new Set(),seenT=new Set();
   (u.lessons||[]).forEach((ls,i)=>{const vb=(L.id>1?L.id+'_':'')+`${u.id}_${i+1}`;
    ls.words.forEach(id=>{if(!seenW.has(id)&&W[id]){seenW.add(id);items.push({t:'teach',id,where:`L${L.id} U${u.id} · ${ls.title}`})}});
    (ls.talk||[]).forEach((tk,j)=>{const key=JSON.stringify([tk.q&&tk.q.ar,tk.a]);if(seenT.has(key))return;seenT.add(key);items.push({t:'convo',tk,vb:vb+'_'+j,where:`L${L.id} U${u.id} · ${ls.title}`})})});
-  if(items.length)parts.push({key:`${L.id}-${u.id}`,title:`Level ${L.id} · Unit ${u.id} · ${u.title}`,L,u,items})}}
+  if(items.length){const ws=(u.lessons||[]).flatMap(l=>l.words).filter(id=>W[id]),s5=shuffle(ws),g=ws.find(id=>isG(id)),l0=(u.lessons||[])[0],vb0=(L.id>1?L.id+'_':'')+`${u.id}_1`,fw=`L${L.id} U${u.id} · format check`;
+   if(l0)items.unshift({t:'talk',vid:'intro_'+vb0,text:`Marḥaba ${esc(P.name)}! Today on “${esc(l0.title)}” island we learn ${l0.words.length} new words. Yalla!`,where:fw+' (lesson intro)'});
+   items.push({t:'meaning',id:s5[0],pool:ws,where:fw+' (multiple choice: pick the meaning)'});
+   items.push({t:'arabic',id:s5[1]||s5[0],pool:ws,where:fw+' (multiple choice: how do you say)'});
+   items.push({t:'meaning',id:s5[2]||s5[0],pool:ws,test:true,where:fw+' (test style, no hints)'});
+   if(ws.length>=4)items.push({t:'match',ids:s5.slice(0,4),where:fw+' (match words and sounds)'});
+   items.push({t:'say',id:s5[3]||s5[0],where:fw+' (say it into the mic)'});
+   if(g)items.push({t:'gender',id:g,tg:boy()?'g':'b',where:fw+' (boy / girl form)'});
+   parts.push({key:`${L.id}-${u.id}`,title:`Level ${L.id} · Unit ${u.id} · ${u.title}`,L,u,items})}}}
  return parts}
 function testHome(){const parts=qaParts(),done=store.get('yn_qa_done',{});const nW=parts.reduce((a,p)=>a+p.items.filter(i=>i.t==='teach').length,0),nP=parts.reduce((a,p)=>a+p.items.filter(i=>i.t==='convo').length,0);
- app.innerHTML=`<div class="screen"><h1>Test run</h1><p style="background:#fff;color:var(--navy);border-radius:14px;padding:12px 14px;font-size:16px;line-height:1.45">Every word (${nW}) and every conversation (${nP}) appears once. Pick a part, go through it, and use the 💬 feedback box under anything that looks or sounds wrong. You're testing with <b>${P.char==='zena'?'Zena':'Karim'}</b> as a <b>${boy()?'boy':'girl'}</b> – change this in the Parents tab.</p>
+ app.innerHTML=`<div class="screen"><h1>Test run</h1><p style="background:#fff;color:var(--navy);border-radius:14px;padding:12px 14px;font-size:16px;line-height:1.45">Every word (${nW}) and every conversation (${nP}) appears once. Each part also ends with one of each question type (multiple choice, how do you say, test style, matching, speaking, boy/girl form). Pick a part, go through it, and use the 💬 feedback box under anything that looks or sounds wrong. You're testing with <b>${P.char==='zena'?'Zena':'Karim'}</b> as a <b>${boy()?'boy':'girl'}</b> – change this in the Parents tab.</p>
  <div class="qal">${parts.map((p,i)=>`<button class="btn ${done[p.key]?'ghost':''} wide qap" data-i="${i}" style="margin:6px 0;text-align:left">${done[p.key]?'✓ ':''}${esc(p.title)} <small>(${p.items.length})</small></button>`).join('')}</div></div>`;
  app.querySelectorAll('.qap').forEach(b=>b.onclick=()=>{const p=parts[+b.dataset.i];vwarm(p.L.id>1?['w'+p.L.id,'l'+p.L.id+'u'+p.u.id,'p']:['w','u'+p.u.id,'p']);RUN={title:p.title,items:p.items.map(x=>({...x})),i:0,ok:0,n:0,mode:'qa',key:p.key};step()})}
 function fbHTML(){return `<details class="fb" id="fb"><summary>💬 Feedback on this question</summary><textarea id="fbt" maxlength="2000" placeholder="What is wrong, unclear or could be better?"></textarea><input id="fbn" maxlength="80" placeholder="Your name (optional)" value="${esc(store.get('yn_fb_name',''))}"><button class="btn fbs" id="fbs" type="button">Send feedback</button><p class="fbm" id="fbm"></p></details>`}
