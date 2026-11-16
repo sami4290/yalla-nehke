@@ -605,6 +605,13 @@ body:has(.book)::before,body:has(.grid2)::before,body:has(#pg)::before,body:has(
 @media (max-width:380px){.hero-ch{flex-basis:96px}.hero .av.full{margin-left:-30px}.hero .bubble{font-size:16px}}
 .guide .av.full{width:128px;height:146px}
 @media (max-width:380px){.guide .av.full{width:96px;height:112px}}
+.fb{margin:22px 0 0;border:2px dashed var(--line);border-radius:14px;padding:8px 12px;background:#fff;font-size:15px}
+.fb summary{cursor:pointer;font-weight:700;color:var(--navy);opacity:.75;list-style:none}
+.fb summary::-webkit-details-marker{display:none}
+.fb textarea,.fb input{width:100%;box-sizing:border-box;margin:8px 0 0;padding:10px;border:2px solid var(--line);border-radius:10px;font:inherit;font-size:15px}
+.fb textarea{min-height:80px;resize:vertical}
+.fb .fbs{margin-top:8px;min-height:44px;font-size:16px;padding:8px 18px}
+.fb .fbm{margin:6px 0 0;font-size:14px}
 </style>
 </head>
 <body>
@@ -667,7 +674,7 @@ function optVisual(p){
 // ---------- sound effects (generated, no files) ----------
 let actx;function tone(fs,dur=.12,type='sine',gap=.09){if(!G.sound)return;try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();let t=actx.currentTime;fs.forEach(f=>{const o=actx.createOscillator(),g=actx.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.18,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(g);g.connect(actx.destination);o.start(t);o.stop(t+dur+.02);t+=gap})}catch(e){}}
 // ---------- character voices (audio sprites per voice) ----------
-const AV='20261116h';const INTRO_OK=new Set(['intro_1_1','intro_1_2','intro_1_3','intro_1_4','intro_1_5','intro_2_1','intro_2_2','intro_2_3','intro_2_4','intro_2_5','intro_3_1','intro_3_2','intro_3_3','intro_3_4','intro_3_5','intro_4_1','intro_4_2','intro_4_3','intro_4_4','intro_4_5']);const VO={idx:null,buf:{},cur:null,last:null};
+const AV='20261116i';const INTRO_OK=new Set(['intro_1_1','intro_1_2','intro_1_3','intro_1_4','intro_1_5','intro_2_1','intro_2_2','intro_2_3','intro_2_4','intro_2_5','intro_3_1','intro_3_2','intro_3_3','intro_3_4','intro_3_5','intro_4_1','intro_4_2','intro_4_3','intro_4_4','intro_4_5']);const VO={idx:null,buf:{},cur:null,last:null};
 fetch('audio/index_beta.json?v='+AV).then(r=>r.json()).then(j=>VO.idx=j).catch(()=>{});
 function vctx(){actx=actx||new (window.AudioContext||window.webkitAudioContext)();if(actx.state==='suspended')actx.resume();return actx}
 document.addEventListener('pointerdown',()=>{try{vctx()}catch(e){}},{once:true});
@@ -825,9 +832,19 @@ function startPractice(){
  if(ws.length>=4)items.push({t:'match',ids:ws.slice(0,4)});
  RUN={title:'Practice',items,i:0,ok:0,n:0,mode:'practice'};step();
 }
+function fbHTML(){return `<details class="fb" id="fb"><summary>💬 Feedback on this question</summary><textarea id="fbt" maxlength="2000" placeholder="What is wrong, unclear or could be better?"></textarea><input id="fbn" maxlength="80" placeholder="Your name (optional)" value="${esc(store.get('yn_fb_name',''))}"><button class="btn fbs" id="fbs" type="button">Send feedback</button><p class="fbm" id="fbm"></p></details>`}
+function fbBind(){const b=$('fb');if(!b)return;['keydown','keyup','keypress'].forEach(e=>b.addEventListener(e,ev=>ev.stopPropagation()));
+ $('fbs').onclick=async()=>{const t=$('fbt').value.trim(),m=$('fbm');if(!t){m.textContent='Please type a comment first.';return}
+  const nm=$('fbn').value.trim().slice(0,80);store.set('yn_fb_name',nm);
+  const it=RUN&&RUN.items[RUN.i]||{};const item={};['t','id','vid','text','ids','vb','tg','review'].forEach(k=>{if(it[k]!==undefined)item[k]=it[k]});if(it.tk)item.tk={q:it.tk.q,a:it.tk.a,after:it.tk.after};
+  const sc=document.querySelector('.screen');let st='';if(sc){const c=sc.cloneNode(true);const f=c.querySelector('#fb');if(f)f.remove();st=c.innerText.replace(/\s+/g,' ').trim().slice(0,600)}
+  const row={tester:nm||null,comment:t.slice(0,2000),level:typeof viewLevel!=='undefined'?viewLevel:null,lesson:RUN?String(RUN.title||'').slice(0,200):null,step:RUN?RUN.i+1:null,total:RUN?RUN.items.length:null,item_type:it.t||null,item,screen_text:st,voice:P?P.char:null,gender:P?(boy()?'b':'g'):null,page:location.href.slice(0,300)};
+  $('fbs').disabled=true;m.textContent='Sending…';
+  try{if(!SB)throw 0;const r=await SB.from('beta_feedback').insert(row);if(r.error)throw r.error;m.textContent='Thank you! Feedback saved ✓';$('fbt').value=''}catch(e){m.textContent='Could not send. Please check your connection and try again.'}
+  $('fbs').disabled=false}}
 function frame(inner){
  const pct=Math.round(RUN.i/RUN.items.length*100);
- app.innerHTML=`<div class="screen" style="padding-bottom:180px"><div class="ltop"><button class="x" id="quit" aria-label="Quit">✕</button><div class="bar"><i style="width:${pct}%"></i></div></div>${inner}</div>`;
+ app.innerHTML=`<div class="screen" style="padding-bottom:180px"><div class="ltop"><button class="x" id="quit" aria-label="Quit">✕</button><div class="bar"><i style="width:${pct}%"></i></div></div>${inner}${fbHTML()}</div>`;fbBind();
  $('quit').onclick=()=>sheet(`<h2>Leave the lesson?</h2><p class="sub">Your progress on this island will be lost.</p><button class="btn wide" id="stay">Keep learning</button><div style="height:10px"></div><button class="btn ghost wide" id="leave">Leave</button>`,()=>{$('stay').onclick=closeSheet;$('leave').onclick=()=>{closeSheet();RUN=null;tab='map';route()}});
 }
 let WHO=null;
