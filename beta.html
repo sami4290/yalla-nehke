@@ -672,12 +672,9 @@ fetch('audio/index_beta.json').then(r=>r.json()).then(j=>VO.idx=j).catch(()=>{})
 function vctx(){actx=actx||new (window.AudioContext||window.webkitAudioContext)();if(actx.state==='suspended')actx.resume();return actx}
 document.addEventListener('pointerdown',()=>{try{vctx()}catch(e){}},{once:true});
 function vbuf(g){const k=P.char+'_'+g;if(!VO.buf[k])VO.buf[k]=fetch('audio/'+k+'.mp3').then(r=>r.arrayBuffer()).then(b=>new Promise((res,rej)=>vctx().decodeAudioData(b,res,rej))).catch(e=>{delete VO.buf[k];throw e});return VO.buf[k]}
-const OVR={zena:new Set(),karim:new Set()},OBUF={};
-function vkey(id){if(!id||!P)return null;const s=boy()?'_b':'_g',ov=OVR[P.char];if(ov&&ov.has(id+s))return id+s;if(ov&&ov.has(id))return id;if(id.startsWith('intro_'))return null;const ix=VO.idx&&VO.idx[P.char];if(!ix)return null;return ix[id+s]?id+s:ix[id]?id:null}
-function obuf(k){const c=P.char,kk=c+'|'+k;if(!OBUF[kk])OBUF[kk]=SB.rpc('voice_clip_get',{p_voice:c,p_line:k}).then(({data,error})=>{if(error||!data||!data[0])throw 0;const bin=atob(data[0].audio_b64),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);return new Promise((res,rej)=>vctx().decodeAudioData(u.buffer,res,rej))}).then(b=>{const d=b.getChannelData(0),th=.02;let a=0,z=d.length-1;while(a<d.length&&Math.abs(d[a])<th)a++;while(z>a&&Math.abs(d[z])<th)z--;const pad=Math.round(b.sampleRate*.06);a=Math.max(0,a-pad);z=Math.min(d.length-1,z+pad*2);return {b,off:a/b.sampleRate,dur:(z-a)/b.sampleRate}}).catch(e=>{delete OBUF[kk];throw e});return OBUF[kk]}
+function vkey(id){if(!id||!P)return null;const s=boy()?'_b':'_g';if(id.startsWith('intro_'))return null;const ix=VO.idx&&VO.idx[P.char];if(!ix)return null;return ix[id+s]?id+s:ix[id]?id:null}
 function vstop(){if(VO.cur){try{VO.cur.stop()}catch(e){}VO.cur=null}}
 async function say(id){VO.last=id;const k=vkey(id);if(!G.sound||!k)return;
- if(OVR[P.char].has(k)){try{const o=await obuf(k);if(VO.last!==id)return;vstop();const c=vctx(),src=c.createBufferSource();src.buffer=o.b;src.connect(c.destination);src.start(0,o.off,o.dur);VO.cur=src;return}catch(e){if(!(VO.idx&&VO.idx[P.char]&&VO.idx[P.char][k]))return}}
  const [g,off,dur]=VO.idx[P.char][k];
  try{const b=await vbuf(g);if(VO.last!==id)return;vstop();const c=vctx(),src=c.createBufferSource(),gn=c.createGain();src.buffer=b;const vol=k==='p_letsgo'?(P.char==='karim'?.45:.75):1;gn.gain.setValueAtTime(0,c.currentTime);gn.gain.linearRampToValueAtTime(vol,c.currentTime+.06);src.connect(gn);gn.connect(c.destination);src.start(0,off,dur);VO.cur=src}catch(e){}}
 function vwarm(gs){if(!VO.idx){setTimeout(()=>vwarm(gs),400);return}const have=new Set(Object.values(VO.idx[P.char]||{}).map(v=>v[0]));gs.filter(g=>have.has(g)).forEach(g=>vbuf(g).catch(()=>{}))}
@@ -787,7 +784,6 @@ let RUN=null; // {title, items, i, mistakes, ok, n, mode, onEnd}
 function startLesson(L,n){
  const ls=n.ls,newW=ls.words,items=[];
  const vb=(L.id>1?L.id+'_':'')+`${n.u.id}_${n.i+1}`;vwarm(L.id>1?['w'+L.id,'l'+L.id+'u'+n.u.id,'p']:['w','u'+n.u.id,'p']);
- try{newW.forEach(id=>{const k=vkey('w_'+id);if(k&&OVR[P.char].has(k))obuf(k).catch(()=>{})})}catch(e){}
  items.push({t:'talk',vid:'intro_'+vb,text:`Marḥaba ${esc(P.name)}! Today on “${esc(ls.title)}” island we learn ${newW.length} new words. Yalla!`});
  newW.forEach((id,i)=>{items.push({t:'teach',id});if(isG(id))items.push({t:'gender',id,tg:boy()?'g':'b'});if(i%2===1||i===newW.length-1){const pair=newW.slice(i-(i%2===1?1:0),i+1);pair.forEach(p=>items.push({t:'meaning',id:p,pool:newW}))}});
  ls.talk.forEach((tk,j)=>items.push({t:'convo',tk,vb:vb+'_'+j}));
@@ -1018,7 +1014,6 @@ function setup(first){
 // ---------- parent accounts & online saving (Supabase) ----------
 const SB_URL='https://uadeadufficsfsjirabz.supabase.co',SB_KEY='sb_publishable_kZWJRKVXxiinTApZ-WyOBw_DYFNqwa4';
 let SB=null;try{if(window.supabase&&window.supabase.createClient)SB=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}})}catch(e){SB=null}
-if(SB)SB.rpc('voice_clip_list').then(({data})=>{(data||[]).forEach(r=>{if(OVR[r.voice])OVR[r.voice].add(r.line_id)})}).catch(()=>{});
 const ACC={user:null,child:store.get('yn2_child',null),kids:[],local:store.get('yn2_local',false),busy:false};
 const BASE=location.origin+location.pathname;
 let cloudT=null,cloudBusy=false;
