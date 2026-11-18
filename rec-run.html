@@ -1,0 +1,58 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Record test words – Yalla Nehke</title>
+<style>
+:root{--c:#E5487F;--ink:#14213d;--line:#e3e8ef;--ok:#1f9d55}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#f6f8fb;color:var(--ink)}
+header{background:#fff;border-bottom:1px solid var(--line);padding:12px 14px}h1{margin:0;font-size:18px}
+.card{background:#fff;margin:14px;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(20,33,61,.08);border-top:6px solid var(--c)}
+.tips{font-size:14px;line-height:1.45;color:#3b4a61}.tips b{color:var(--ink)}
+ol{margin:6px 0 0;padding-left:28px}li{font-size:22px;margin:8px 0}li .ar{direction:rtl;font-family:'Geeza Pro','Noto Naskh Arabic',serif;color:#5b6b82;font-size:20px;margin-left:8px}li small{font-size:14px;color:#8592a6}
+li.now{background:#fff6e0;border-radius:8px}
+.ctr{display:flex;gap:10px;justify-content:center;align-items:center;margin-top:10px;flex-wrap:wrap}
+button{font:inherit;border:0;border-radius:999px;padding:12px 18px;font-weight:700;cursor:pointer;background:#eef1f5;color:var(--ink)}button:disabled{opacity:.45}
+.rec{width:90px;height:90px;border-radius:50%;background:var(--c);color:#fff;font-size:36px;padding:0}
+.rec.live{background:#d92d20;animation:p 1s infinite}@keyframes p{50%{transform:scale(1.06)}}
+.save{background:var(--ok);color:#fff}
+.meter{height:12px;background:#eef1f5;border-radius:6px;overflow:hidden;margin:12px 0 4px}.meter i{display:block;height:100%;width:0;background:var(--ok);transition:width .05s}
+.st{text-align:center;margin-top:8px;min-height:20px;font-weight:600}.time{text-align:center;font-size:28px;font-weight:800;font-variant-numeric:tabular-nums}
+.gate{margin:40px 14px;text-align:center}.gate a{color:var(--c);font-weight:700}
+</style></head><body>
+<header><h1>Record the 10 test words – one take</h1></header>
+<div id="main">
+<div class="card tips"><b>For studio quality:</b> quiet small room with soft furnishings, AC and fans off, phone a hand's width from your mouth and slightly to the side.<br><b>How:</b> press ●, wait 2 seconds, then say each word once with about <b>2 seconds of silence</b> between words. Same voice, speed and volume throughout. Press ■ when done, ▶ to listen, then <b>Save</b>.</div>
+<div class="card"><ol id="wl"></ol></div>
+<div class="card">
+ <div class="time" id="tm">0:00</div>
+ <div class="meter"><i id="mt"></i></div>
+ <div class="ctr"><button class="rec" id="rb" aria-label="Record">●</button><button id="pl" disabled>▶ Listen</button><button class="save" id="sv" disabled>✓ Save</button></div>
+ <div class="st" id="st">Ready</div>
+</div></div>
+<script src="supabase.js"></script>
+<script>
+const SB=window.supabase.createClient('https://uadeadufficsfsjirabz.supabase.co','sb_publishable_kZWJRKVXxiinTApZ-WyOBw_DYFNqwa4',{auth:{persistSession:true,autoRefreshToken:true}});
+const $=id=>document.getElementById(id);
+const W=[['jebneh','جبنة','cheese'],["man'oushe",'منقوشة',"za'tar bread"],['manshafe','منشفة','towel'],['sikkeen','سكّين','knife – say it your way'],['wijj','وجّ','face'],['rekbe','ركبة','knee'],['dayne','دينة','ear'],["tlet-ta'sh",'تلطعش','thirteen'],["addē el-sē'a?",'قدّي الساعة؟','what time is it?'],['farāshi','فراشة','butterfly']];
+$('wl').innerHTML=W.map(w=>`<li>${w[0]} <span class="ar">${w[1]}</span> <small>${w[2]}</small></li>`).join('');
+let user=null,ctx=null,stream=null,proc=null,src=null,bufs=[],rate=48000,live=false,t0=0,tick=null,wav=null,audio=null;
+function toWav(chs,sr){let n=chs.reduce((a,c)=>a+c.length,0);const ab=new ArrayBuffer(44+n*2),v=new DataView(ab);const w=(o,s)=>{for(let i=0;i<s.length;i++)v.setUint8(o+i,s.charCodeAt(i))};
+ w(0,'RIFF');v.setUint32(4,36+n*2,true);w(8,'WAVE');w(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,sr,true);v.setUint32(28,sr*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);w(36,'data');v.setUint32(40,n*2,true);
+ let o=44;for(const c of chs)for(let i=0;i<c.length;i++){const x=Math.max(-1,Math.min(1,c[i]));v.setInt16(o,x<0?x*32768:x*32767,true);o+=2}return new Blob([ab],{type:'audio/wav'})}
+async function start(){
+ try{stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false,channelCount:1,sampleRate:48000}})}catch(e){$('st').textContent='Microphone blocked – allow it in the browser settings.';return}
+ ctx=new (window.AudioContext||window.webkitAudioContext)({sampleRate:48000});rate=ctx.sampleRate;src=ctx.createMediaStreamSource(stream);proc=ctx.createScriptProcessor(4096,1,1);bufs=[];
+ proc.onaudioprocess=e=>{if(!live)return;const d=e.inputBuffer.getChannelData(0);bufs.push(new Float32Array(d));let p=0;for(let i=0;i<d.length;i++)p=Math.max(p,Math.abs(d[i]));$('mt').style.width=Math.min(100,p*100)+'%';$('mt').style.background=p>.95?'#d92d20':'#1f9d55'};
+ src.connect(proc);proc.connect(ctx.destination);live=true;t0=Date.now();$('rb').classList.add('live');$('rb').textContent='■';$('pl').disabled=$('sv').disabled=true;$('st').textContent='● Recording – wait 2 seconds, then start';
+ tick=setInterval(()=>{const s=Math.floor((Date.now()-t0)/1000);$('tm').textContent=Math.floor(s/60)+':'+String(s%60).padStart(2,'0')},250)}
+function stop(){live=false;clearInterval(tick);try{src.disconnect();proc.disconnect()}catch(e){}stream.getTracks().forEach(t=>t.stop());ctx.close();$('rb').classList.remove('live');$('rb').textContent='●';$('mt').style.width='0';
+ wav=toWav(bufs,rate);$('pl').disabled=$('sv').disabled=false;$('st').textContent='Done – press ▶ to listen, then ✓ Save (or ● to record again)'}
+$('rb').onclick=()=>live?stop():start();
+$('pl').onclick=()=>{if(audio)audio.pause();audio=new Audio(URL.createObjectURL(wav));audio.play()};
+$('sv').onclick=async()=>{if(!user){$('st').textContent='Not signed in';return}$('sv').disabled=true;$('st').textContent='Saving…';
+ const b64=await new Promise(r=>{const f=new FileReader();f.onload=()=>r(f.result.split(',')[1]);f.readAsDataURL(wav)});
+ const id='run10_'+new Date().toISOString().replace(/[-:.TZ]/g,'').slice(0,14);
+ const {error}=await SB.from('voice_recs').upsert({user_id:user.id,voice:'run',line_id:id,num:0,mime:'audio/wav',audio_b64:b64,clean_b64:null,clean_mime:null,clean_info:{rate,secs:Math.round(bufs.reduce((a,c)=>a+c.length,0)/rate)},updated_at:new Date().toISOString()});
+ if(error){$('st').textContent='Not saved: '+error.message;$('sv').disabled=false;return}$('st').textContent='✓ Saved – tell Claude it is done'};
+(async()=>{const {data:{session}}=await SB.auth.getSession();
+ if(!session){$('main').innerHTML=`<div class="gate"><h2>Sign in first</h2><p>Open the <a href="beta.html">Yalla Nehke app</a> on this device, sign in with your parent account, then come back to this page.</p></div>`;return}
+ user=session.user})();
+</script></body></html>
