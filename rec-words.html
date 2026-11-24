@@ -15,7 +15,7 @@ button{font:inherit;border:0;border-radius:999px;padding:12px 18px;font-weight:7
 .meter{height:12px;background:#eef1f5;border-radius:6px;overflow:hidden;margin:12px 0 4px}.meter i{display:block;height:100%;width:0;background:var(--ok)}
 .st{text-align:center;margin-top:8px;min-height:20px;font-weight:600}.time{text-align:center;font-size:28px;font-weight:800;font-variant-numeric:tabular-nums}
 .gate{margin:40px 14px;text-align:center}.gate a{color:var(--c);font-weight:700}
-</style></head><body>
+.rp{font-size:13px;padding:5px 10px;margin-left:8px;vertical-align:middle;background:#fff;border:1px solid var(--line)}.rp.sent{background:#fff3cd;border-color:#f0c040}.rpb{display:flex;gap:6px;margin:6px 0 10px;flex-wrap:wrap}.rpb input{flex:1;min-width:160px;font:inherit;font-size:16px;padding:8px 10px;border:1px solid var(--line);border-radius:10px}.rpb button{padding:8px 14px;font-size:14px}.rpb .go{background:var(--c);color:#fff}li.rq>span.w{text-decoration:line-through;opacity:.6}</style></head><body>
 <header><h1>Record words – batch <span id="bn">1</span> of 14</h1><div class="bts" id="bts"></div><div class="saved" id="svd">Checking saved batches…</div></header>
 <div id="main">
 <div class="card tips"><b>Same as the test:</b> quiet room, AC off, phone a hand's width from your mouth. Press ●, wait 2 seconds, then say each word once with about <b>2 seconds of silence</b> between words. Press ■, ▶ to listen, then <b>Save</b>. The page checks it found the right number of words.</div>
@@ -33,7 +33,15 @@ const B=[[{"id": "kifak_b", "say": "kifak", "en": "how are you? (to a boy)"}, {"
 const LS='yn_rec_saved';function lsGet(){try{return JSON.parse(localStorage.getItem(LS)||'[]')}catch(e){return []}}function lsAdd(n){try{const a=lsGet();if(!a.includes(n))a.push(n);localStorage.setItem(LS,JSON.stringify(a))}catch(e){}}
 let bi=Math.max(0,Math.min(B.length-1,(+new URLSearchParams(location.search).get('b')||1)-1));
 let user=null,ctx=null,stream=null,proc=null,src=null,bufs=[],rate=48000,live=false,t0=0,tick=null,wav=null,pcm=null,audio=null,savedB=new Set();
-function renderList(){$('bn').textContent=bi+1;$('wl').innerHTML=B[bi].map(w=>`<li>${w.say}<small>${w.en}</small></li>`).join('');
+const RP='yn_rec_rep';function repGet(){try{return JSON.parse(localStorage.getItem(RP)||'{}')}catch(e){return {}}}function repSet(id,t){try{const a=repGet();a[id]=t||'1';localStorage.setItem(RP,JSON.stringify(a))}catch(e){}}
+function repOpen(id){const li=document.querySelector('#wl li[data-id="'+id+'"]');if(!li||li.querySelector('.rpb'))return;const w=B[bi].find(x=>x.id===id);
+ const d=document.createElement('div');d.className='rpb';d.innerHTML='<input placeholder="Replace with… / why (optional)"><button class="go">Send</button><button class="no">Cancel</button><span class="m" style="font-size:13px;align-self:center"></span>';li.appendChild(d);
+ const inp=d.querySelector('input'),m=d.querySelector('.m');inp.focus();d.querySelector('.no').onclick=()=>d.remove();
+ d.querySelector('.go').onclick=async()=>{if(!user){m.textContent='Not signed in';return}m.textContent='Sending…';
+  try{const r=await SB.from('beta_feedback').insert({tester:'sami',comment:(inp.value.trim()||'Replace this word').slice(0,500),item_type:'replace',item:{id:w.id,say:w.say,en:w.en,batch:bi+1},lesson:'rec-words batch '+(bi+1),voice:'karim',page:'rec-words'});
+   if(r.error)throw r.error;repSet(id,inp.value.trim());renderList()}catch(e){m.textContent='Could not send: '+(e.message||e)}}}
+function renderList(){$('bn').textContent=bi+1;const rq=repGet();$('wl').innerHTML=B[bi].map(w=>`<li class="${rq[w.id]?'rq':''}" data-id="${w.id}"><span class="w">${w.say}</span><small>${w.en}</small><button class="rp ${rq[w.id]?'sent':''}" data-id="${w.id}">${rq[w.id]?'↻ Replace requested':'↻ Replace'}</button></li>`).join('');
+ document.querySelectorAll('#wl .rp').forEach(b=>b.onclick=()=>repOpen(b.dataset.id));
  $('bts').innerHTML=B.map((b,i)=>`<button class="${i===bi?'on':''} ${savedB.has(i+1)?'done':''}" data-i="${i}">${savedB.has(i+1)?'✓ ':''}${i+1}</button>`).join('');
  const sv=[...savedB].sort((a,b)=>a-b);$('svd').textContent=sv.length?`✓ Saved: batch ${sv.join(', ')} (${sv.length} of ${B.length})`:'No batches saved yet';document.querySelectorAll('#bts button').forEach(x=>x.onclick=()=>{if(live)return;bi=+x.dataset.i;history.replaceState(null,'','?b='+(bi+1));wav=null;$('pl').disabled=$('sv').disabled=$('dl').disabled=true;$('st').textContent='Ready';$('tm').textContent='0:00';renderList();scrollTo(0,0)})}
 function toWav(f,sr){const n=f.length,ab=new ArrayBuffer(44+n*2),v=new DataView(ab);const w=(o,s)=>{for(let i=0;i<s.length;i++)v.setUint8(o+i,s.charCodeAt(i))};
