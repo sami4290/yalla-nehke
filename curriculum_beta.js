@@ -591,3 +591,9 @@ window.YN_COURSE = [
  })));
  ['sartan','nijmebahr','biskwit','shawarma','tabbakh','shofer','tabl','oudmusic','nasem','misht','dajran','mishasdi','bisklet','sbeha','alaabvideo','baarif','mabaarif','kamenshway','babur','mishmish','fistu','maamul','bonjour','maasalame','laymuna','bard','eid','dawwera','mhatta'].forEach(k=>{delete W[k]});
 })(window.YN_WORDS,window.YN_COURSE);
+// Arabic script aligned to the recorded words
+(function(W){
+ const S=(id,a)=>{if(W[id])W[id].ar=a};
+ S('atia',['قديم','قديمة']);S('jamb','حدّ');S('mafimishkle','مش مشكلة');
+ S('shufik',['شو بك؟','شو بكي؟']);S('ghassil',['غسّل','غسّلي']);
+})(window.YN_WORDS);
