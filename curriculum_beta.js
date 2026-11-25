@@ -597,3 +597,15 @@ window.YN_COURSE = [
  S('atia',['قديم','قديمة']);S('jamb','حدّ');S('mafimishkle','مش مشكلة');
  S('shufik',['شو بك؟','شو بكي؟']);S('ghassil',['غسّل','غسّلي']);
 })(window.YN_WORDS);
+// Swap less common words for everyday ones; clap spelled as recorded (zaʾʾef)
+(function(W,C){
+ Object.assign(W,{r_kaskette:{ar:'كاسكيت',tr:'kaskette',en:'cap',pic:'🧢'},
+  r_dabke:{ar:'دبكة',tr:'dabke',en:'dabke (Lebanese dance)',pic:'💃'},
+  r_bravo:{ar:'برافو',tr:'brāvo',en:'well done!',pic:'🌟'}});
+ if(W.saffe){W.saffe.ar=['زقّف','زقّفي'];W.saffe.tr=['zaʾʾef','zaʾʾfi']}
+ const R={ubbaa:'r_kaskette',alamflag:'r_dabke',yaatik:'r_bravo'};
+ C.forEach(L=>(L.units||[]).forEach(u=>(u.lessons||[]).forEach(ls=>{
+  ls.words=ls.words.map(id=>R[id]||id);
+  (ls.talk||[]).forEach(tk=>{if(R[tk.a])tk.a=R[tk.a]})})));
+ Object.keys(R).forEach(k=>delete W[k]);
+})(window.YN_WORDS,window.YN_COURSE);
