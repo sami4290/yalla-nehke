@@ -599,10 +599,10 @@ window.YN_COURSE = [
 })(window.YN_WORDS);
 // Swap less common words for everyday ones
 (function(W,C){
- Object.assign(W,{r_souq:{ar:'سوق',tr:'sūʾ',en:'market',pic:'🛍️'},
-  r_ghashsh:{ar:'غشّ',tr:'ghashsh',en:'cheating!',pic:'🙅'},
+ Object.assign(W,{r_jiran:{ar:'جيران',tr:'jīrān',en:'neighbours',pic:'🏘️'},
+  r_laabe:{ar:'لعبة',tr:'laʿbe',en:'game',pic:'🎲'},
   r_idhak:{ar:['اضحك','اضحكي'],tr:['ḍḥak','ḍḥaki'],en:'laugh!',pic:'😂'}});
- const R={alamflag:'r_souq',yaatik:'r_ghashsh',saffe:'r_idhak'};
+ const R={alamflag:'r_jiran',yaatik:'r_laabe',saffe:'r_idhak'};
  C.forEach(L=>(L.units||[]).forEach(u=>(u.lessons||[]).forEach(ls=>{
   ls.words=ls.words.map(id=>R[id]||id);
   (ls.talk||[]).forEach(tk=>{if(R[tk.a])tk.a=R[tk.a]})})));
