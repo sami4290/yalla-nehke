@@ -641,3 +641,15 @@ window.YN_COURSE = [
  if(/^How do you say “.*”\?$/.test(tk.q.en||''))tk.q.en='How do you say “'+w.en.replace(/ \((to a )?(boy|girl)\)$/,'')+'”?';
  const m=(tk.after||'').match(/^(Yes|Bravo)! (.+?)!$/);if(m&&m[2]!=='Perfect'){const t=[].concat(w.tr)[0].replace(/[?…]+$/,'');tk.after=m[1]+'! '+t.charAt(0).toUpperCase()+t.slice(1)+'!'}
 })})))})(window.YN_WORDS,window.YN_COURSE);
+// Clearer prompts (approved 26 Nov): kam for "how many", shu lawno for colour
+(function(C){const P={
+ '1_4_0':{tr:'🎁',en:'Bisseh gives you a present! Say “thank you”.'},
+ '4_1_0':{ar:'كم بسّة؟ 🐱🐱🐱',tr:'kam bisse? 🐱🐱🐱',en:'How many cats? Count them in Lebanese.'},
+ '4_1_1':{ar:'كم طابة؟ ⚽⚽',tr:'kam ṭābe? ⚽⚽',en:'How many balls? Count them in Lebanese.'},
+ '4_2_0':{ar:'كم تفّاحة؟ 🍎🍎🍎🍎🍎🍎',tr:'kam tiffēḥa? 🍎🍎🍎🍎🍎🍎',en:'How many apples? Count them in Lebanese.'},
+ '4_2_1':{ar:'كم إصبع؟ 🖐️🖐️',tr:'kam iṣbaʿ? 🖐️🖐️',en:'How many fingers? Count them in Lebanese.'},
+ '4_3_0':{ar:'شو لونو؟ 🍎',tr:'shu lawno? 🍎',en:'What colour is the apple? Say the colour.'},
+ '4_3_1':{ar:'شو لونو؟ 🍀',tr:'shu lawno? 🍀',en:'What colour is the leaf? Say the colour.'},
+ '2_4_2_0':{en:'How is the weather? It’s very hot – say “it’s hot!”'},
+ '2_4_2_1':{en:'How is the weather? It’s raining – say “it’s raining”.'}};
+ C.slice(0,2).forEach(L=>(L.units||[]).forEach(u=>(u.lessons||[]).forEach((ls,i)=>(ls.talk||[]).forEach((tk,j)=>{const p=P[(L.id>1?L.id+'_':'')+u.id+'_'+(i+1)+'_'+j];if(p)Object.assign(tk.q,p)}))))})(window.YN_COURSE);
