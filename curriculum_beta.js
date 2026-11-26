@@ -608,3 +608,26 @@ window.YN_COURSE = [
   (ls.talk||[]).forEach(tk=>{if(R[tk.a])tk.a=R[tk.a]})})));
  Object.keys(R).forEach(k=>delete W[k]);
 })(window.YN_WORDS,window.YN_COURSE);
+// Fill short lessons with Sami's picked words
+(function(W,C){
+ const N={
+  r_kifkon:['Hello & how are you',{ar:'كيفكن؟',tr:'kīfkon?',en:'how are you all?',pic:null}],
+  r_isma:['Names & goodbye',{ar:'اسمها…',tr:'isma…',en:'her name is…',pic:null}],
+  r_tekram:['Polite words',{ar:['تكرم','تكرمي'],tr:['tekram','tekrami'],en:'my pleasure',pic:null}],
+  r_yislamu:['Polite words',{ar:'يسلمو',tr:'yislamu',en:'thank you (warm)',pic:null}],
+  r_ananas:['Fruit',{ar:'أناناس',tr:'ananās',en:'pineapple',pic:'🍍'}],
+  r_lego:['My toys',{ar:'ليغو',tr:'lego',en:'lego',pic:'🧱'}],
+  r_riha:['My senses',{ar:'ريحة',tr:'rīḥa',en:'smell',pic:'👃'}],
+  r_eidmiled:["Let's celebrate",{ar:'عيد ميلاد',tr:'ʿīd milēd',en:'birthday',pic:'🎂'}],
+  r_imtihan:['In class',{ar:'امتحان',tr:'imtiḥān',en:'test',pic:'📝'}],
+  r_khayme:['At the park',{ar:'خيمة',tr:'khayme',en:'tent',pic:'⛺'}],
+  r_dulab:['Getting around',{ar:'دولاب',tr:'dūlēb',en:'wheel',pic:'🛞'}],
+  r_shamsiyye:['Weather',{ar:'شمسيّة',tr:'shamsiyye',en:'umbrella',pic:'☂️'}],
+  r_ghaltan:['Saying sorry',{ar:['غلطان','غلطانة'],tr:['ghalṭān','ghalṭāne'],en:'wrong / mistaken',pic:null}],
+  r_albi:['Nice words',{ar:'قلبي',tr:'ʾalbi',en:'my heart (my darling)',pic:'❤️'}],
+  r_malab:['On the team',{ar:'ملعب',tr:'malʿab',en:'pitch',pic:'🏟️'}],
+  r_awwal:['Win or lose',{ar:'أوّل',tr:'awwal',en:'first',pic:'🥇'}],
+  r_sarukh:['Getting there',{ar:'صاروخ',tr:'ṣārūkh',en:'rocket',pic:'🚀'}]};
+ Object.entries(N).forEach(([id,[t,w]])=>{W[id]=w;
+  for(const L of C.slice(0,2))for(const u of L.units||[])for(const ls of u.lessons||[])if(ls.title===t&&ls.words.length<6&&!ls.words.includes(id)){ls.words.push(id);return}});
+})(window.YN_WORDS,window.YN_COURSE);
