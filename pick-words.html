@@ -1,0 +1,33 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pick new words</title>
+<script src="supabase.js"></script>
+<style>body{font-family:system-ui,sans-serif;max-width:560px;margin:0 auto;padding:14px;background:#fffaf2;color:#222}h1{font-size:20px;margin:6px 0 4px}p.s{margin:0 0 12px;color:#666;font-size:14px}
+.l{background:#fff;border-radius:12px;padding:10px 12px;margin:10px 0;box-shadow:0 1px 3px #0001}.l h2{font-size:15px;margin:0 0 6px}.l small{color:#888;font-weight:400}
+label{display:flex;gap:10px;align-items:center;padding:8px 4px;font-size:16px;border-top:1px solid #f2ebe0}label:first-of-type{border-top:0}input{width:22px;height:22px}
+.l.ok{outline:2px solid #3a3}button{width:100%;padding:14px;font-size:17px;border:0;border-radius:12px;background:#e8572a;color:#fff;margin:14px 0 30px}#m{text-align:center;font-weight:600}</style></head><body>
+<h1>Pick the new words</h1><p class="s">Tick one word per lesson (two for Polite words), then tap Save.</p><div id="L"></div><div id="m"></div><button id="b">Save</button>
+<script>
+const D=[["Hello & how are you",1,[["ahlan","hi"],["kīfkon?","how are you all?"]]],
+["Names & goodbye",1,[["maʿ el-salēme","goodbye"],["bshūfak","see you"]]],
+["Polite words",2,[["ʿafwan","you're welcome"],["iza bitrīd","please"],["ʿan iznak","excuse me"]]],
+["Fruit",1,[["mishmish","apricot"],["ananās","pineapple"],["mango","mango"]]],
+["My toys",1,[["lego","lego"],["dumye","doll"],["puzzle","puzzle"]]],
+["My senses",1,[["lmos","touch!"],["ḥess","feel!"]]],
+["Let's celebrate",1,[["ʿīd milēd","birthday"],["zīne","decorations"]]],
+["In class",1,[["ʾalam raṣāṣ","pencil"],["mamḥāye","rubber"],["mabrāye","sharpener"]]],
+["At the park",1,[["ʾaʿde","bench"],["bisīn","pool"]]],
+["Getting around",1,[["motosikl","motorbike"],["ishāra","traffic light"]]],
+["Weather",1,[["ghēm","clouds"],["shamsiyye","umbrella"],["raʿd","thunder"]]],
+["Saying sorry",1,[["ʾāsef","I'm sorry"],["bḥebbak","I love you"]]],
+["Nice words",1,[["ʿazīm","great"],["wāw","wow"]]],
+["On the team",1,[["kaptin","captain"],["malʿab","pitch"],["ṣaffāra","whistle"]]],
+["Win or lose",1,[["awwal","first"],["ākher","last"]]],
+["Getting there",1,[["metro","metro"],["shakhtūra","boat"],["helicopter","helicopter"]]]];
+const $=id=>document.getElementById(id),L=$('L');
+D.forEach(([t,n,o],i)=>{const d=document.createElement('div');d.className='l';d.innerHTML=`<h2>${i+1}. ${t} <small>(pick ${n})</small></h2>`+o.map(([s,e],j)=>`<label><input type="checkbox" data-l="${i}" data-j="${j}"> <b>${s}</b> – ${e}</label>`).join('');L.appendChild(d)});
+L.addEventListener('change',e=>{const i=+e.target.dataset.l,n=D[i][1],bx=[...L.querySelectorAll(`input[data-l="${i}"]`)],c=bx.filter(x=>x.checked);if(c.length>n){e.target.checked=false}L.children[i].classList.toggle('ok',bx.filter(x=>x.checked).length===n)});
+const sb=supabase.createClient('https://uadeadufficsfsjirabz.supabase.co','sb_publishable_kZWJRKVXxiinTApZ-WyOBw_DYFNqwa4');
+$('b').onclick=async()=>{const out=D.map(([t,n,o],i)=>({lesson:t,picks:[...L.querySelectorAll(`input[data-l="${i}"]:checked`)].map(x=>o[+x.dataset.j][0])}));
+const miss=out.filter((x,i)=>x.picks.length!==D[i][1]).map(x=>x.lesson);
+if(miss.length&&!confirm('Not finished: '+miss.join(', ')+'. Save anyway?'))return;
+$('m').textContent='Saving…';try{const x=await sb.from('beta_feedback').insert({tester:'sami',comment:'word picks',item_type:'word_picks',item:{picks:out},lesson:'short lessons',voice:'both',page:'pick-words'});if(x.error)throw x.error;$('m').textContent='✓ Saved. Tell Claude "done".'}catch(e){$('m').textContent='Could not save: '+(e.message||e)}};
+</script></body></html>
