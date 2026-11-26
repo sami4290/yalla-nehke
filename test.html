@@ -618,7 +618,7 @@ body:has(.book)::before,body:has(.grid2)::before,body:has(#pg)::before,body:has(
 <body>
 <div id="app"></div>
 <script src="supabase.js"></script>
-<script src="curriculum_beta.js?v=20261126c2"></script>
+<script src="curriculum_beta.js?v=20261126c3"></script>
 <script>
 (function(){
 'use strict';
@@ -675,7 +675,7 @@ function optVisual(p){
 // ---------- sound effects (generated, no files) ----------
 let actx;function tone(fs,dur=.12,type='sine',gap=.09){if(!G.sound)return;try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();let t=actx.currentTime;fs.forEach(f=>{const o=actx.createOscillator(),g=actx.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.18,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(g);g.connect(actx.destination);o.start(t);o.stop(t+dur+.02);t+=gap})}catch(e){}}
 // ---------- character voices (audio sprites per voice) ----------
-const AV='20261126c2';const INTRO_OK=new Set(['intro_5_1','intro_6_1','intro_7_1','intro_8_1','intro_9_1','intro_10_1','intro_2_5_1','intro_2_6_1','intro_2_7_1','intro_2_8_1','intro_2_9_1','intro_2_10_1','intro_1_1','intro_1_2','intro_1_3','intro_1_4','intro_1_5','intro_2_1','intro_2_1_1','intro_2_1_2','intro_2_1_3','intro_2_1_4','intro_2_1_5','intro_2_2','intro_2_2_1','intro_2_2_2','intro_2_2_3','intro_2_2_4','intro_2_2_5','intro_2_3','intro_2_3_1','intro_2_3_2','intro_2_3_3','intro_2_3_4','intro_2_3_5','intro_2_4','intro_2_4_1','intro_2_4_2','intro_2_4_3','intro_2_4_4','intro_2_4_5','intro_2_5','intro_3_1','intro_3_2','intro_3_3','intro_3_4','intro_3_5','intro_4_1','intro_4_2','intro_4_3','intro_4_4','intro_4_5']);const VO={idx:null,buf:{},cur:null,last:null};
+const AV='20261126c3';const INTRO_OK=new Set(['intro_5_1','intro_6_1','intro_7_1','intro_8_1','intro_9_1','intro_10_1','intro_2_5_1','intro_2_6_1','intro_2_7_1','intro_2_8_1','intro_2_9_1','intro_2_10_1','intro_1_1','intro_1_2','intro_1_3','intro_1_4','intro_1_5','intro_2_1','intro_2_1_1','intro_2_1_2','intro_2_1_3','intro_2_1_4','intro_2_1_5','intro_2_2','intro_2_2_1','intro_2_2_2','intro_2_2_3','intro_2_2_4','intro_2_2_5','intro_2_3','intro_2_3_1','intro_2_3_2','intro_2_3_3','intro_2_3_4','intro_2_3_5','intro_2_4','intro_2_4_1','intro_2_4_2','intro_2_4_3','intro_2_4_4','intro_2_4_5','intro_2_5','intro_3_1','intro_3_2','intro_3_3','intro_3_4','intro_3_5','intro_4_1','intro_4_2','intro_4_3','intro_4_4','intro_4_5']);const VO={idx:null,buf:{},cur:null,last:null};
 fetch('audio/index_beta.json?v='+AV).then(r=>r.json()).then(j=>VO.idx=j).catch(()=>{});
 function vctx(){actx=actx||new (window.AudioContext||window.webkitAudioContext)();if(actx.state==='suspended')actx.resume();return actx}
 document.addEventListener('pointerdown',()=>{try{vctx()}catch(e){}},{once:true});
@@ -800,7 +800,7 @@ function startLesson(L,n){
  items.push({t:'match',ids:shuffle(newW).slice(0,4)});
  shuffle(newW).forEach(id=>items.push({t:'arabic',id,pool:newW}));
  const rev=dueWords(3,newW);rev.forEach(id=>items.push(Math.random()<.5?{t:'meaning',id,pool:null,review:true}:{t:'say',id,review:true}));
- RUN={title:ls.title,items,i:0,ok:0,n:0,mode:'lesson',key:n.k,L,u:n.u};
+ RUN={title:ls.title,items,i:0,ok:0,n:0,mode:'lesson',key:n.k,L,u:n.u,li:n.i};
  step();
 }
 function startTest(L,u,jumpTo){
@@ -928,7 +928,9 @@ function exTeach(it){
   const f=document.createElement('div');f.className='foot';f.id='foot';f.innerHTML=`<button class="btn ghost wide" id="skp">Can't speak now</button>`;app.appendChild(f);$('skp').onclick=()=>{G.w[it.id]=G.w[it.id]||{s:0,due:0,ok:0,bad:0};RUN.i++;step()};}
  else manual();
 }
-function options(id,pool,n=4){const others=shuffle((pool||learned()).filter(x=>x!==id&&W[x]&&word(x).en!==word(id).en));let extra=shuffle(Object.keys(W).filter(x=>x!==id&&!others.includes(x)));return shuffle([id,...others.concat(extra).slice(0,n-1)])}
+const NOPAIR=[['khalto','amto']];function clash(a,b){return a===b||word(a).en===word(b).en||NOPAIR.some(p=>p.includes(a)&&p.includes(b))}
+function options(id,pool,n=4){const pick=[];const add=l=>{for(const x of shuffle(l)){if(pick.length>=n-1)break;if(W[x]&&!clash(x,id)&&!pick.some(p=>clash(p,x)))pick.push(x)}};
+ add(pool||learned());add(learned());if(RUN&&RUN.u)add(RUN.u.lessons.slice(0,(RUN.li==null?RUN.u.lessons.length-1:RUN.li)+1).flatMap(l=>l.words));if(pick.length<n-1)add(Object.keys(W));return shuffle([id,...pick])}
 function exMeaning(it){
  const w=word(it.id),opts=options(it.id,it.pool);
  say('w_'+it.id);frame(guideHTML(`${it.review?'<span class="note">Review · </span>':''}What does this mean?<div class="ar" style="font-size:32px">${w.ar}</div><div class="qline">${esc(w.tr)}</div>`,'think',null,'w_'+it.id)+`<div class="opts">${opts.map(o=>{const x=word(o);return `<button class="opt" data-o="${o}" data-k="${o===it.id?1:0}">${optVisual(x.pic)}<span>${esc(x.en)}</span></button>`}).join('')}</div>`);
@@ -941,7 +943,7 @@ function exArabic(it){
 }
 function choose(it,isOk,correctTxt){
  let sel=null;checkBtn(()=>{const ok=isOk(sel);app.querySelectorAll('.opt').forEach(b=>{b.disabled=true;if(b.dataset.o===sel)b.classList.add(ok?'ok':'no');if(isOk(b.dataset.o))b.classList.add('ok')});result(ok,it.id,correctTxt)});
- app.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{sfx.tap();app.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');sel=b.dataset.o;$('chk').disabled=false});
+ app.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{sfx.tap();if(it.t==='arabic')say('w_'+b.dataset.o);app.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');sel=b.dataset.o;$('chk').disabled=false});
 }
 function exMatch(it){
  const ids=it.ids.filter(x=>W[x]);const left=shuffle(ids),right=shuffle(ids);let a=null,b=null,left_=ids.length,mist=0;
