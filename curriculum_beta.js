@@ -631,3 +631,13 @@ window.YN_COURSE = [
  Object.entries(N).forEach(([id,[t,w]])=>{W[id]=w;
   for(const L of C.slice(0,2))for(const u of L.units||[])for(const ls of u.lessons||[])if(ls.title===t&&ls.words.length<6&&!ls.words.includes(id)){ls.words.push(id);return}});
 })(window.YN_WORDS,window.YN_COURSE);
+// Reaction text matches the recording
+(function(C){C.forEach(L=>(L.units||[]).forEach(u=>(u.lessons||[]).forEach(ls=>(ls.talk||[]).forEach(tk=>{if(tk.after==='Bravo! Bērid!')tk.after='Bravo! Bárid!'}))))})(window.YN_COURSE);
+// Questions and reactions follow the word's own meaning and recorded spelling (lines being re-voiced)
+(function(W,C){const V=new Set(['6_2','6_4','7_1','7_3','7_4','7_5','9_3','9_4','9_5','10_4','2_5_4','2_6_1','2_6_2','2_6_3','2_6_4','2_6_5','2_7_4','2_7_5','2_8_4','2_9_1','2_9_2','2_9_3','2_9_4','2_9_5','2_10_5']);
+ C.slice(0,2).forEach(L=>(L.units||[]).forEach(u=>(u.lessons||[]).forEach((ls,i)=>{if(!V.has((L.id>1?L.id+'_':'')+u.id+'_'+(i+1)))return;(ls.talk||[]).forEach(tk=>{
+ if(tk.a==='meleh_milh'&&ls.words.includes('meleh'))tk.a='meleh';
+ const w=typeof tk.a==='string'&&W[tk.a];if(!w||!tk.q)return;
+ if(/^How do you say “.*”\?$/.test(tk.q.en||''))tk.q.en='How do you say “'+w.en.replace(/ \((to a )?(boy|girl)\)$/,'')+'”?';
+ const m=(tk.after||'').match(/^(Yes|Bravo)! (.+?)!$/);if(m&&m[2]!=='Perfect'){const t=[].concat(w.tr)[0].replace(/[?…]+$/,'');tk.after=m[1]+'! '+t.charAt(0).toUpperCase()+t.slice(1)+'!'}
+})})))})(window.YN_WORDS,window.YN_COURSE);
