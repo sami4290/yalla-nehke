@@ -719,7 +719,7 @@ function optVisual(p){
 // ---------- sound effects (generated, no files) ----------
 let actx;function tone(fs,dur=.12,type='sine',gap=.09){if(!G.sound)return;try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();let t=actx.currentTime;fs.forEach(f=>{const o=actx.createOscillator(),g=actx.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.18,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(g);g.connect(actx.destination);o.start(t);o.stop(t+dur+.02);t+=gap})}catch(e){}}
 // ---------- character voices (audio sprites per voice) ----------
-const AV='20261127g8';const INTRO_OK=new Set(['intro_5_1','intro_6_1','intro_7_1','intro_8_1','intro_9_1','intro_10_1','intro_2_5_1','intro_2_6_1','intro_2_7_1','intro_2_8_1','intro_2_9_1','intro_2_10_1','intro_1_1','intro_1_2','intro_1_3','intro_1_4','intro_1_5','intro_2_1','intro_2_1_1','intro_2_1_2','intro_2_1_3','intro_2_1_4','intro_2_1_5','intro_2_2','intro_2_2_1','intro_2_2_2','intro_2_2_3','intro_2_2_4','intro_2_2_5','intro_2_3','intro_2_3_1','intro_2_3_2','intro_2_3_3','intro_2_3_4','intro_2_3_5','intro_2_4','intro_2_4_1','intro_2_4_2','intro_2_4_3','intro_2_4_4','intro_2_4_5','intro_2_5','intro_3_1','intro_3_2','intro_3_3','intro_3_4','intro_3_5','intro_4_1','intro_4_2','intro_4_3','intro_4_4','intro_4_5','intro_5_2','intro_5_3','intro_5_4','intro_5_5','intro_6_2','intro_6_3','intro_6_4','intro_6_5','intro_7_2','intro_7_3','intro_7_4','intro_7_5','intro_8_2','intro_8_3','intro_8_4','intro_8_5','intro_9_2','intro_9_3','intro_9_4','intro_9_5','intro_10_2','intro_10_3','intro_10_4','intro_10_5','intro_2_5_2','intro_2_5_3','intro_2_5_4','intro_2_5_5','intro_2_6_2','intro_2_6_3','intro_2_6_4','intro_2_6_5','intro_2_7_2','intro_2_7_3','intro_2_7_4','intro_2_7_5','intro_2_8_2','intro_2_8_3','intro_2_8_4','intro_2_8_5','intro_2_9_2','intro_2_9_3','intro_2_9_4','intro_2_9_5','intro_2_10_2','intro_2_10_3','intro_2_10_4','intro_2_10_5']);const VO={idx:null,buf:{},cur:null,last:null};
+const AV='20261127g9';const INTRO_OK=new Set(['intro_5_1','intro_6_1','intro_7_1','intro_8_1','intro_9_1','intro_10_1','intro_2_5_1','intro_2_6_1','intro_2_7_1','intro_2_8_1','intro_2_9_1','intro_2_10_1','intro_1_1','intro_1_2','intro_1_3','intro_1_4','intro_1_5','intro_2_1','intro_2_1_1','intro_2_1_2','intro_2_1_3','intro_2_1_4','intro_2_1_5','intro_2_2','intro_2_2_1','intro_2_2_2','intro_2_2_3','intro_2_2_4','intro_2_2_5','intro_2_3','intro_2_3_1','intro_2_3_2','intro_2_3_3','intro_2_3_4','intro_2_3_5','intro_2_4','intro_2_4_1','intro_2_4_2','intro_2_4_3','intro_2_4_4','intro_2_4_5','intro_2_5','intro_3_1','intro_3_2','intro_3_3','intro_3_4','intro_3_5','intro_4_1','intro_4_2','intro_4_3','intro_4_4','intro_4_5','intro_5_2','intro_5_3','intro_5_4','intro_5_5','intro_6_2','intro_6_3','intro_6_4','intro_6_5','intro_7_2','intro_7_3','intro_7_4','intro_7_5','intro_8_2','intro_8_3','intro_8_4','intro_8_5','intro_9_2','intro_9_3','intro_9_4','intro_9_5','intro_10_2','intro_10_3','intro_10_4','intro_10_5','intro_2_5_2','intro_2_5_3','intro_2_5_4','intro_2_5_5','intro_2_6_2','intro_2_6_3','intro_2_6_4','intro_2_6_5','intro_2_7_2','intro_2_7_3','intro_2_7_4','intro_2_7_5','intro_2_8_2','intro_2_8_3','intro_2_8_4','intro_2_8_5','intro_2_9_2','intro_2_9_3','intro_2_9_4','intro_2_9_5','intro_2_10_2','intro_2_10_3','intro_2_10_4','intro_2_10_5']);const VO={idx:null,buf:{},cur:null,last:null};
 fetch('audio/index_beta.json?v='+AV).then(r=>r.json()).then(j=>VO.idx=j).catch(()=>{});
 function vctx(){actx=actx||new (window.AudioContext||window.webkitAudioContext)();if(actx.state==='suspended')actx.resume();return actx}
 document.addEventListener('pointerdown',()=>{try{vctx()}catch(e){}},{once:true});
@@ -747,32 +747,35 @@ function score(alts,ar,tr){let b=0;const ta=normAr(ar),tl=normLat(tr);for(const 
 
 // iPad/iPhone fallback: speech engine heard nothing -> check the microphone level directly
 let srDead=false;
-async function levelCheck(box,onDone){
+function levelCheck(box,onDone,label){
  srDead=true;
- const show=(m,live,extra='')=>{if(box.isConnected)box.innerHTML=`<button class="mic ${live?'live':''}" id="mic" aria-label="Speak">${IC('mic')}</button><div class="heard">${m}</div><div class="meter"><i id="mt"></i></div>${extra}`};
- vstop();try{if(actx&&actx.state==='running')actx.suspend()}catch(e){}
+ const show=(m,live,extra='')=>{if(!box.isConnected)return;box.innerHTML=`<button class="mic ${live?'live':''}" id="mic" aria-label="Speak">${IC('mic')}</button><div class="heard">${m}</div><div class="meter"><i id="mt"></i></div>${extra}`;const b=box.querySelector('#mic');if(b&&!live)b.onclick=run};
  const back=()=>{try{if(actx&&actx.state==='suspended')actx.resume()}catch(e){}};
- let st;
- try{st=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}})}
- catch(e){micBlocked=true;back();show('The microphone is switched off. On the iPad: Settings → Safari → Microphone → Allow, then reload the page.',false,'<button class="btn ghost" id="skp">Skip for now</button>');const s=box.querySelector('#skp');if(s)s.onclick=()=>onDone(null);return}
- const AC=window.AudioContext||window.webkitAudioContext;const ac=new AC();try{await ac.resume()}catch(e){}
- const an=ac.createAnalyser();an.fftSize=1024;ac.createMediaStreamSource(st).connect(an);
- let mr=null,chunks=[];try{mr=new MediaRecorder(st);mr.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};mr.start()}catch(e){mr=null}
- show('Say it now! 🎤',true);
- const buf=new Uint8Array(an.fftSize);let peak=0,loud=0;const t0=performance.now();
- await new Promise(res=>{const tick=()=>{an.getByteTimeDomainData(buf);let s=0;for(const v of buf){const d=(v-128)/128;s+=d*d}const r=Math.sqrt(s/buf.length);peak=Math.max(peak,r);if(r>.03)loud++;const m=box.querySelector('#mt');if(m)m.style.width=Math.min(100,r*500)+'%';if(performance.now()-t0<3500&&box.isConnected)requestAnimationFrame(tick);else res()};tick()});
- const heard=loud>=6&&peak>.04;
- const fin=()=>{try{st.getTracks().forEach(t=>t.stop())}catch(e){}try{ac.close()}catch(e){}back();
-  if(heard){show('I heard you! 👏 Great speaking!',false);setTimeout(()=>onDone(true,null),900)}
-  else{show("I can't hear any sound. Check the iPad volume isn't muted and the mic is allowed.",false,'<button class="btn ghost" id="skp">Skip for now</button>');const s=box.querySelector('#skp');if(s)s.onclick=()=>onDone(null)}};
- if(mr&&mr.state!=='inactive'){mr.onstop=()=>{if(heard&&chunks.length){try{const a=new Audio(URL.createObjectURL(new Blob(chunks,{type:mr.mimeType||'audio/mp4'})));a.play().catch(()=>{})}catch(e){}}fin()};try{mr.stop()}catch(e){fin()}}else fin();
+ let busy=false;
+ async function run(){if(busy)return;busy=true;vstop();try{if(actx&&actx.state==='running')actx.suspend()}catch(e){}
+  let st;
+  try{st=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}})}
+  catch(e){busy=false;back();show('The microphone is switched off. Allow the microphone for this site in your browser settings, then tap the mic again.',false);return}
+  const AC=window.AudioContext||window.webkitAudioContext;const ac=new AC();try{await ac.resume()}catch(e){}
+  const an=ac.createAnalyser();an.fftSize=1024;ac.createMediaStreamSource(st).connect(an);
+  let mr=null,chunks=[];try{mr=new MediaRecorder(st);mr.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};mr.start()}catch(e){mr=null}
+  show('Listening… say it now! 🎤',true);
+  const buf=new Uint8Array(an.fftSize);let peak=0,loud=0;const t0=performance.now();
+  await new Promise(res=>{const tick=()=>{an.getByteTimeDomainData(buf);let s=0;for(const v of buf){const d=(v-128)/128;s+=d*d}const r=Math.sqrt(s/buf.length);peak=Math.max(peak,r);if(r>.03)loud++;const m=box.querySelector('#mt');if(m)m.style.width=Math.min(100,r*500)+'%';if(performance.now()-t0<3500&&box.isConnected)requestAnimationFrame(tick);else res()};tick()});
+  const heard=loud>=6&&peak>.04;
+  const fin=()=>{try{st.getTracks().forEach(t=>t.stop())}catch(e){}try{ac.close()}catch(e){}back();busy=false;
+   if(heard){show('I heard you! 👏 Great speaking!',false);setTimeout(()=>{if(box.isConnected)onDone(true,null)},900)}
+   else show("I couldn't hear you. Tap the mic and try again!",false)};
+  if(mr&&mr.state!=='inactive'){mr.onstop=()=>{if(heard&&chunks.length){try{const a=new Audio(URL.createObjectURL(new Blob(chunks,{type:mr.mimeType||'audio/mp4'})));a.play().catch(()=>{})}catch(e){}}fin()};try{mr.stop()}catch(e){fin()}}else fin();
+ }
+ show(label||'Tap the mic and say it!',false);
 }
 function listen(ar,tr,box,onDone,label){
- if(micBlocked)return onDone(null);if(!SR||srDead)return levelCheck(box,onDone);
+ const lab=label||`Tap the mic and say <b>${esc(tr)}</b>`;if(micBlocked)return onDone(null);if(!SR||srDead)return levelCheck(box,onDone,lab);
  let tries=0,errs=0;
  const ui=(msg,live)=>{if(!box.isConnected)return;box.innerHTML=`<button class="mic ${live?'live':''}" id="mic" aria-label="Speak">${IC('mic')}</button><div class="heard">${msg}</div><div class="meter"><i id="mt"></i></div>`;box.querySelector('#mic').onclick=go};
  let langs=['ar-LB','ar-SA','ar'],li=0;
- const go=()=>{vstop();let rec;try{rec=new SR()}catch(e){return levelCheck(box,onDone)}
+ const go=()=>{vstop();let rec;try{rec=new SR()}catch(e){return levelCheck(box,onDone,lab)}
   // iPad/iPhone: release the audio session used for voice playback so the mic can capture
   try{if(actx&&actx.state==='running')actx.suspend()}catch(e){}
   const resumeAudio=()=>{try{if(actx&&actx.state==='suspended')actx.resume()}catch(e){}};
@@ -781,16 +784,15 @@ function listen(ar,tr,box,onDone,label){
   rec.onresult=e=>{got=true;clearTimeout(guard);resumeAudio();const alts=[];for(const r of e.results)for(let k=0;k<r.length;k++)alts.push(r[k].transcript);
    const sc=score(alts,ar,tr),pct=Math.round(sc*100);tries++;const col=sc>=PASS?'var(--green)':'var(--yellow)';
    if(sc>=PASS){ui(`I heard: “${esc(alts[0])}” · ${pct}% match`,false);setTimeout(()=>onDone(true,pct),700)}
-   else if(tries<2)ui(`Almost! ${pct}% match. Tap the mic and try once more.`,false);
-   else{ui(`Good try! ${pct}% match. We'll practise it again.`,false);setTimeout(()=>onDone(false,pct),1100)}
+   else ui(`Almost! ${pct}% match. Tap the mic and try again.`,false);
    const m=box.querySelector('#mt');if(m){m.style.width=pct+'%';m.style.background=col}};
   rec.onerror=e=>{failed=true;clearTimeout(guard);
    if(e.error==='language-not-supported'&&li<langs.length-1){li++;ui('Tap the mic and try again!',false);return}
-   if(['not-allowed','service-not-allowed','audio-capture'].includes(e.error)){micBlocked=true;resumeAudio();levelCheck(box,onDone)}else{errs++;li=(li+1)%langs.length;if(errs>=2){resumeAudio();levelCheck(box,onDone)}else ui("I didn't hear you. Tap the mic and try again!",false)}};
+   if(['not-allowed','service-not-allowed','audio-capture'].includes(e.error)){micBlocked=true;resumeAudio();levelCheck(box,onDone,lab)}else{errs++;li=(li+1)%langs.length;if(errs>=2){resumeAudio();levelCheck(box,onDone,lab)}else ui("I didn't hear you. Tap the mic and try again!",false)}};
   rec.onend=()=>{clearTimeout(guard);if(done)return;done=true;resumeAudio();
-   if(!got&&!failed){errs++;li=(li+1)%langs.length;if(errs>=2)levelCheck(box,onDone);else ui("I didn't hear you. Tap the mic and say it a bit louder!",false)}
+   if(!got&&!failed){errs++;li=(li+1)%langs.length;if(errs>=2)levelCheck(box,onDone,lab);else ui("I didn't hear you. Tap the mic and say it a bit louder!",false)}
    else{const m=$('mic');if(!got&&m)m.classList.remove('live')}};
-  try{rec.start()}catch(e){resumeAudio();levelCheck(box,onDone)}};
+  try{rec.start()}catch(e){resumeAudio();levelCheck(box,onDone,lab)}};
  ui(label||`Tap the mic and say <b>${esc(tr)}</b>`,false);
 }
 
