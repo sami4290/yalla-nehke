@@ -287,7 +287,7 @@ button.spk{cursor:pointer;font-family:inherit}
 
 /* speaking panel */
 .yourturn:not(:empty){background:linear-gradient(180deg,#fff,var(--pink-l));border:2px solid #FFD3E4;border-radius:var(--r-lg);padding:30px 16px 16px;position:relative;box-shadow:var(--sh-1)}
-.yourturn:not(:empty)::before{content:'🎤 Your turn!';position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--pink);color:#fff;font-weight:800;font-size:14px;letter-spacing:.03em;padding:3px 14px;border-radius:var(--r-pill);border:3px solid #fff;white-space:nowrap;box-shadow:0 3px 8px rgba(224,72,136,.25)}
+.yourturn:not(:empty)::before{content:'Your turn!';background:var(--pink) url(ui/i_mic.webp) no-repeat 8px center/20px 20px;padding-left:32px!important;position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--pink);color:#fff;font-weight:800;font-size:14px;letter-spacing:.03em;padding:3px 14px;border-radius:var(--r-pill);border:3px solid #fff;white-space:nowrap;box-shadow:0 3px 8px rgba(224,72,136,.25)}
 .yourturn .note{text-align:center}
 
 /* matching: Lebanese tiles vs meaning tiles */
@@ -705,7 +705,8 @@ const CH=()=>ASSETS[P.char];
 const praiseWords=()=>['Bravo!',boy()?'Shāṭer!':'Shāṭra!','Yalla!','Ktīr ḥelo!','Wow!'];
 const IC=(n,c='')=>`<img class="ic ${c}" src="ui/i_${n}.webp" alt="" draggable="false">`;
 const UIMG={'1-1':'hello','1-2':'family','1-3':'food','1-4':'world','2-1':'school','2-2':'play','2-3':'out','2-4':'weather'};
-const UI=(L,u,c='')=>UIMG[L.id+'-'+u.id]?`<img class="ic ${c}" src="ui/u_${UIMG[L.id+'-'+u.id]}.webp" alt="" draggable="false">`:u.icon;
+const UPIC={'1-5':'bisse','1-6':'hammem','1-7':'daira','1-8':'sahn','1-9':'ein','1-10':'hafle','2-5':'salon','2-6':'alb','2-7':'futbol','2-8':'tayyara','2-9':'sea','2-10':'battikh','3-1':'teta','3-2':'dikkene','3-3':'r_eidmiled','3-4':'jabal','4-1':'bisse','4-2':'sea','4-3':'knefe','4-4':'iraye'};
+const UI=(L,u,c='')=>{const k=L.id+'-'+u.id;if(UIMG[k])return `<img class="ic ${c}" src="ui/u_${UIMG[k]}.webp" alt="" draggable="false">`;const p=UPIC[k];if(p&&W[p]&&String(W[p].pic).startsWith('img:'))return `<img class="ic ${c}" src="pt/${p}.webp" alt="" draggable="false">`;return u.icon};
 const MAP=(L,u)=>(UIMG[L.id+'-'+u.id]||(L.id<=2&&u.id>=5&&u.id<=10))?`ui/map_${L.id}_${u.id}.webp`:'';
 function picHTML(p,big){
  if(!p)return '';
@@ -725,7 +726,7 @@ function optVisual(p){
 // ---------- sound effects (generated, no files) ----------
 let actx;function tone(fs,dur=.12,type='sine',gap=.09){if(!G.sound)return;try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();let t=actx.currentTime;fs.forEach(f=>{const o=actx.createOscillator(),g=actx.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.18,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(g);g.connect(actx.destination);o.start(t);o.stop(t+dur+.02);t+=gap})}catch(e){}}
 // ---------- character voices (audio sprites per voice) ----------
-const AV='20261127j1';const INTRO_OK=new Set(['intro_5_1','intro_6_1','intro_7_1','intro_8_1','intro_9_1','intro_10_1','intro_2_5_1','intro_2_6_1','intro_2_7_1','intro_2_8_1','intro_2_9_1','intro_2_10_1','intro_1_1','intro_1_2','intro_1_3','intro_1_4','intro_1_5','intro_2_1','intro_2_1_1','intro_2_1_2','intro_2_1_3','intro_2_1_4','intro_2_1_5','intro_2_2','intro_2_2_1','intro_2_2_2','intro_2_2_3','intro_2_2_4','intro_2_2_5','intro_2_3','intro_2_3_1','intro_2_3_2','intro_2_3_3','intro_2_3_4','intro_2_3_5','intro_2_4','intro_2_4_1','intro_2_4_2','intro_2_4_3','intro_2_4_4','intro_2_4_5','intro_2_5','intro_3_1','intro_3_2','intro_3_3','intro_3_4','intro_3_5','intro_4_1','intro_4_2','intro_4_3','intro_4_4','intro_4_5','intro_5_2','intro_5_3','intro_5_4','intro_5_5','intro_6_2','intro_6_3','intro_6_4','intro_6_5','intro_7_2','intro_7_3','intro_7_4','intro_7_5','intro_8_2','intro_8_3','intro_8_4','intro_8_5','intro_9_2','intro_9_3','intro_9_4','intro_9_5','intro_10_2','intro_10_3','intro_10_4','intro_10_5','intro_2_5_2','intro_2_5_3','intro_2_5_4','intro_2_5_5','intro_2_6_2','intro_2_6_3','intro_2_6_4','intro_2_6_5','intro_2_7_2','intro_2_7_3','intro_2_7_4','intro_2_7_5','intro_2_8_2','intro_2_8_3','intro_2_8_4','intro_2_8_5','intro_2_9_2','intro_2_9_3','intro_2_9_4','intro_2_9_5','intro_2_10_2','intro_2_10_3','intro_2_10_4','intro_2_10_5']);const VO={idx:null,buf:{},cur:null,last:null};
+const AV='20261127j2';const INTRO_OK=new Set(['intro_5_1','intro_6_1','intro_7_1','intro_8_1','intro_9_1','intro_10_1','intro_2_5_1','intro_2_6_1','intro_2_7_1','intro_2_8_1','intro_2_9_1','intro_2_10_1','intro_1_1','intro_1_2','intro_1_3','intro_1_4','intro_1_5','intro_2_1','intro_2_1_1','intro_2_1_2','intro_2_1_3','intro_2_1_4','intro_2_1_5','intro_2_2','intro_2_2_1','intro_2_2_2','intro_2_2_3','intro_2_2_4','intro_2_2_5','intro_2_3','intro_2_3_1','intro_2_3_2','intro_2_3_3','intro_2_3_4','intro_2_3_5','intro_2_4','intro_2_4_1','intro_2_4_2','intro_2_4_3','intro_2_4_4','intro_2_4_5','intro_2_5','intro_3_1','intro_3_2','intro_3_3','intro_3_4','intro_3_5','intro_4_1','intro_4_2','intro_4_3','intro_4_4','intro_4_5','intro_5_2','intro_5_3','intro_5_4','intro_5_5','intro_6_2','intro_6_3','intro_6_4','intro_6_5','intro_7_2','intro_7_3','intro_7_4','intro_7_5','intro_8_2','intro_8_3','intro_8_4','intro_8_5','intro_9_2','intro_9_3','intro_9_4','intro_9_5','intro_10_2','intro_10_3','intro_10_4','intro_10_5','intro_2_5_2','intro_2_5_3','intro_2_5_4','intro_2_5_5','intro_2_6_2','intro_2_6_3','intro_2_6_4','intro_2_6_5','intro_2_7_2','intro_2_7_3','intro_2_7_4','intro_2_7_5','intro_2_8_2','intro_2_8_3','intro_2_8_4','intro_2_8_5','intro_2_9_2','intro_2_9_3','intro_2_9_4','intro_2_9_5','intro_2_10_2','intro_2_10_3','intro_2_10_4','intro_2_10_5']);const VO={idx:null,buf:{},cur:null,last:null};
 fetch('audio/index_beta.json?v='+AV).then(r=>r.json()).then(j=>VO.idx=j).catch(()=>{});
 function vctx(){actx=actx||new (window.AudioContext||window.webkitAudioContext)();if(actx.state==='suspended')actx.resume();return actx}
 document.addEventListener('pointerdown',()=>{try{vctx()}catch(e){}},{once:true});
@@ -774,7 +775,7 @@ function levelCheck(box,onDone,label){
   const fin=()=>{try{st.getTracks().forEach(t=>t.stop())}catch(e){}try{ac.close()}catch(e){}
    if(!heard){busy=false;back();show("I couldn't hear you. Tap the mic and try again!",false);return}
    if(!chunks.length){success();return}
-   back();if(box.isConnected)box.innerHTML=`<button class="mic" id="mic" aria-label="Speak" disabled>${IC('mic')}</button><div class="heard">Listen to yourself… 🔊</div><div class="meter"><i id="mt" style="width:100%;background:var(--green)"></i></div>`;
+   back();if(box.isConnected)box.innerHTML=`<button class="mic" id="mic" aria-label="Speak" disabled>${IC('mic')}</button><div class="heard">Listen to yourself… ${IC('speaker','in')}</div><div class="meter"><i id="mt" style="width:100%;background:var(--green)"></i></div>`;
    let doneP=false;const after=()=>{if(doneP)return;doneP=true;success()};
    try{const a=new Audio(URL.createObjectURL(new Blob(chunks,{type:mr.mimeType||'audio/mp4'})));a.onended=after;a.onerror=after;const p=a.play();if(p&&p.catch)p.catch(after);setTimeout(after,DUR+2500)}catch(e){after()}};
   if(mr&&mr.state!=='inactive'){mr.onstop=fin;try{mr.stop()}catch(e){fin()}}else fin();
@@ -825,7 +826,7 @@ function dueWords(n,exclude=[]){const now=Date.now();return learned().filter(k=>
 let tab='map',viewLevel=1;
 function shell(inner){
  const streak=G.streak.n,xpToday=G.daily[today()]||0,goal=Math.min(100,Math.round(xpToday/20*100));
- app.innerHTML=`<div class="stats"><div class="stat fire ${flameCls()}">${IC('flame')} ${streak}</div>${G.shields?`<div class="stat shd" title="Streak shields">🛡️ ${G.shields}</div>`:''}<div class="stat xp">${IC('star')} ${G.xp}</div><div class="stat wd">${IC('book')} ${learned().length}</div>
+ app.innerHTML=`<div class="stats"><div class="stat fire ${flameCls()}">${IC('flame')} ${streak}</div>${G.shields?`<div class="stat shd" title="Streak shields">${IC('parents','in')} ${G.shields}</div>`:''}<div class="stat xp">${IC('star')} ${G.xp}</div><div class="stat wd">${IC('book')} ${learned().length}</div>
  <div class="goal" title="Daily goal" style="background:conic-gradient(var(--green) ${goal}%,#fff 0);border:2px solid var(--line)"><span style="background:var(--bg);width:28px;height:28px;border-radius:50%;display:grid;place-items:center">${IC(goal>=100?'star':'target')}</span></div></div>
  <div class="screen">${inner}</div>
  <div class="nav">${[['map','learn','Learn'],['practice','practice','Practice'],['rewards','rewards','Rewards'],['parents','parents','Parents']].map(([k,i,t])=>`<button data-t="${k}" class="${tab===k?'on':''}"><i>${IC(i)}</i>${t}</button>`).join('')}</div>`;
@@ -851,7 +852,7 @@ function mapScreen(){if(typeof TEST!=='undefined')return testHome();
   uNodes.forEach((n,i)=>{const off=[0,60,80,40,-30,-70,-40][i%7];const un=isUnlocked(L,n),dn=G.done[n.k],isCur=cur&&cur.k===n.k;
    const st=dn&&n.type!=='test'?IC('star','st').repeat(G.done[n.k].stars||1):'';
    h+=`<div class="isle" style="transform:translateX(${off}px)">${isCur?`<div class="tip">${n.type==='test'?'TEST!':n.type==='review'?'REVIEW!':'START'}</div>`:''}
-    <button class="node ${n.type==='test'?'chest':''} ${un?'':'locked'} ${isCur?'cur':''}" data-k="${n.k}" style="background:${dn?'var(--yellow)':u.color}">${!un?IC('lock'):n.type==='test'?(dn?IC('rewards'):IC('chest')):n.type==='review'?(dn?'✔':'🔁'):(dn?'✔':n.i+1)}<span class="stz">${st}</span></button></div>`});
+    <button class="node ${n.type==='test'?'chest':''} ${un?'':'locked'} ${isCur?'cur':''}" data-k="${n.k}" style="background:${dn?'var(--yellow)':u.color}">${!un?IC('lock'):n.type==='test'?(dn?IC('rewards'):IC('chest')):n.type==='review'?(dn?'✔':IC('practice','in')):(dn?'✔':n.i+1)}<span class="stz">${st}</span></button></div>`});
   h+=`</div><div class="wave" style="bottom:4px"></div></div>`;
  });
  const lvDone=nodes(L).every(n=>G.done[n.k]);
@@ -864,7 +865,7 @@ function greetLine(){const n=esc(P.name);const opts=[`Marḥaba ${n}! Ready for 
 function bindMap(){
  bindQuests();
  app.querySelectorAll('.ltab').forEach(b=>b.onclick=()=>{viewLevel=+b.dataset.l;mapScreen()});
- app.querySelectorAll('.node').forEach(b=>b.onclick=()=>{const L=lvl(viewLevel),n=nodes(L).find(x=>x.k===b.dataset.k);if(!isUnlocked(L,n)){b.classList.add('no');sfx.no();toast('Finish the island before this one first! 🔒');return}sfx.tap();n.type==='test'?startTest(L,n.u):n.type==='review'?startReview(L,n.u):startLesson(L,n)});
+ app.querySelectorAll('.node').forEach(b=>b.onclick=()=>{const L=lvl(viewLevel),n=nodes(L).find(x=>x.k===b.dataset.k);if(!isUnlocked(L,n)){b.classList.add('no');sfx.no();toast('Finish the island before this one first!');return}sfx.tap();n.type==='test'?startTest(L,n.u):n.type==='review'?startReview(L,n.u):startLesson(L,n)});
  app.querySelectorAll('[data-jump]').forEach(b=>b.onclick=()=>{const L=lvl(viewLevel),u=L.units.find(x=>x.id===+b.dataset.jump);sheet(`<h2>Jump to Unit ${u.id}?</h2><p class="sub">Pass a short test on Unit ${u.id-1} (${esc(L.units[u.id-2].title)}) to open “${esc(u.title)}”.</p><button class="btn wide" id="jy">Start the test</button><div style="height:10px"></div><button class="btn ghost wide" id="jn">Not now</button>`,()=>{$('jy').onclick=()=>{closeSheet();startTest(L,L.units[u.id-2],u)};$('jn').onclick=closeSheet})});
 }
 function toast(t){let d=document.createElement('div');d.className='kid';d.style.cssText='position:fixed;left:50%;transform:translateX(-50%);bottom:90px;z-index:12;background:#fff;border-color:var(--line)';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),1600)}
@@ -989,7 +990,7 @@ function exPick(it){let sel=null;
   try{if(!SB)throw 0;const r=await SB.from('beta_feedback').insert(row);if(r.error)throw r.error;vstop();RUN.i++;step()}catch(e){m.textContent='Could not save. Check your connection and try again.';$('cont').disabled=false}};
 }
 const isG=id=>W[id]&&Array.isArray(W[id].ar);
-function gPair(id){const w=W[id];return `<div class="gpair">${[0,1].map(i=>`<button class="gcard ${i===(boy()?0:1)?'me':''}" data-g="${i?'g':'b'}">${gimg(id,i?'g':'b')?`<img class="gsm" src="${gimg(id,i?'g':'b')}" alt="">`:''}<span class="gk">${i?'Girl':'Boy'}</span><span class="ar gar">${w.ar[i]}</span><span class="gtr">${esc(w.tr[i])}</span><span class="gplay">🔊</span></button>`).join('')}</div>`}
+function gPair(id){const w=W[id];return `<div class="gpair">${[0,1].map(i=>`<button class="gcard ${i===(boy()?0:1)?'me':''}" data-g="${i?'g':'b'}">${gimg(id,i?'g':'b')?`<img class="gsm" src="${gimg(id,i?'g':'b')}" alt="">`:''}<span class="gk">${i?'Girl':'Boy'}</span><span class="ar gar">${w.ar[i]}</span><span class="gtr">${esc(w.tr[i])}</span><span class="gplay">${IC('speaker','in')}</span></button>`).join('')}</div>`}
 function bindPair(id){app.querySelectorAll('.gcard').forEach(b=>b.onclick=()=>{sfx.tap();say('w_'+id+'_'+b.dataset.g);app.querySelectorAll('.gcard').forEach(x=>x.classList.remove('on'));b.classList.add('on')})}
 function sayPair(id){const a=boy()?'b':'g',c=a==='b'?'g':'b';say('w_'+id+'_'+a);setTimeout(()=>{if(RUN&&RUN.items[RUN.i]&&RUN.items[RUN.i].id===id)say('w_'+id+'_'+c)},1700)}
 function exGender(it){
@@ -1006,7 +1007,7 @@ function exTeach(it){
  say('w_'+it.id);frame(guideHTML(`New word! <span class="note">(${esc(w.en)})</span>`,'happy',null,'w_'+it.id)+`<div class="word">${picHTML(w.pic)}<p class="big-ar ar">${w.ar}</p><p class="tr">${esc(w.tr)}</p><p class="en">${esc(w.en)}</p></div><div class="yourturn" id="yt"></div>`);}
  const yt=$('yt');
  const manual=()=>{let n=3;yt.innerHTML=`<div class="ring" id="rg">${n}</div><div class="note">Say <b>${esc(w.tr)}</b> out loud!</div>`;const iv=setInterval(()=>{n--;const r=$('rg');if(!r){clearInterval(iv);return}if(n>0)r.textContent=n;else{clearInterval(iv);yt.innerHTML='';G.w[it.id]=G.w[it.id]||{s:0,due:0,ok:0,bad:0};foot(true,'Nice! You said it 🗣️')}},1000)};
- if((SR||navigator.mediaDevices)&&!micBlocked){listen(w.ar,w.tr,yt,(res)=>{if(RUN.items[RUN.i]!==it||!$('yt'))return;G.w[it.id]=G.w[it.id]||{s:0,due:0,ok:0,bad:0};if(res===null)return manual();G.speak.n++;if(res){G.speak.ok++;questTick('say')}res?(sfx.ok(),react(true),foot(true,praise()+' Great speaking! ⭐')):foot(null,'Good try! Keep going.')});
+ if((SR||navigator.mediaDevices)&&!micBlocked){listen(w.ar,w.tr,yt,(res)=>{if(RUN.items[RUN.i]!==it||!$('yt'))return;G.w[it.id]=G.w[it.id]||{s:0,due:0,ok:0,bad:0};if(res===null)return manual();G.speak.n++;if(res){G.speak.ok++;questTick('say')}res?(sfx.ok(),react(true),foot(true,praise()+' Great speaking! '+IC('star','in'))):foot(null,'Good try! Keep going.')});
   const f=document.createElement('div');f.className='foot';f.id='foot';f.innerHTML=`<button class="btn ghost wide" id="skp">Can't speak now</button>`;app.appendChild(f);$('skp').onclick=()=>{G.w[it.id]=G.w[it.id]||{s:0,due:0,ok:0,bad:0};RUN.i++;step()};}
  else manual();
 }
@@ -1030,7 +1031,7 @@ function choose(it,isOk,correctTxt){
 function exMatch(it){
  const ids=it.ids.filter(x=>W[x]);const left=shuffle(ids),right=shuffle(ids);let a=null,b=null,left_=ids.length,mist=0;
  say('ex_match');frame(guideHTML('Match the pairs! Tap a Lebanese word, then its meaning.','think',null,'ex_match')+`<div class="match">${left.map((id,i)=>`<button class="mt" data-s="L" data-id="${id}"><span><span class="ar">${word(id).ar}</span><br><span style="color:var(--teal-d)">${esc(word(id).tr)}</span></span></button><button class="mt" data-s="R" data-id="${right[i]}">${esc(word(right[i]).en)}</button>`).join('')}</div>`);
- const tryPair=()=>{if(!a||!b)return;const A=a,B=b;a=b=null;if(A.dataset.id===B.dataset.id){sfx.ok();A.classList.add('done');B.classList.add('done');A.classList.remove('sel');B.classList.remove('sel');mark(A.dataset.id,true);left_--;if(left_===0){RUN.n++;if(mist<=1)RUN.ok++;react(true);foot(true,mist?'All matched! ⭐':'Perfect matching! ⭐⭐')}}else{sfx.no();mist++;mark(A.dataset.id,false);[A,B].forEach(x=>{x.classList.add('no');setTimeout(()=>x.classList.remove('no','sel'),400)})}};
+ const tryPair=()=>{if(!a||!b)return;const A=a,B=b;a=b=null;if(A.dataset.id===B.dataset.id){sfx.ok();A.classList.add('done');B.classList.add('done');A.classList.remove('sel');B.classList.remove('sel');mark(A.dataset.id,true);left_--;if(left_===0){RUN.n++;if(mist<=1)RUN.ok++;react(true);foot(true,mist?'All matched! '+IC('star','in'):'Perfect matching! '+IC('star','in')+IC('star','in'))}}else{sfx.no();mist++;mark(A.dataset.id,false);[A,B].forEach(x=>{x.classList.add('no');setTimeout(()=>x.classList.remove('no','sel'),400)})}};
  app.querySelectorAll('.mt').forEach(el=>el.onclick=()=>{sfx.tap();if(el.dataset.s==='L'){say('w_'+el.dataset.id);if(a)a.classList.remove('sel');a=el}else{if(b)b.classList.remove('sel');b=el}el.classList.add('sel');tryPair()});
 }
 // ---------- conversation pictures: emojis in prompts become cut-out pictures ----------
@@ -1061,7 +1062,7 @@ function exConvo(it){
  let hinted=RUN.mode==='test';
  const hb=$('hb');const showHint=()=>{hinted=true;say(av);hb.innerHTML=`<div class="hint">You can say:<br><span class="ar" style="font-size:26px">${ans.ar}</span><br><b style="font-size:22px;color:var(--teal-d)">${esc(ans.tr)}</b></div>`};
  if(RUN.mode!=='test')hb.innerHTML=`<div style="text-align:center"><button class="btn ghost" id="hnt">💡 Need help?</button></div>`,$('hnt').onclick=showHint;
- const after=ok=>{if(!$('cy'))return;RUN.n++;if(ok)RUN.ok++;if(wid)mark(wid,ok);ok?sfx.ok():sfx.no();react(ok);$('cy').innerHTML=`<div class="kid">🗣️ ${esc(ans.tr)}</div>`;hb.innerHTML=guideHTML(esc(fillName(tk.after)),'cheer',null,fv);say(fv);foot(ok?true:null,ok?praise(true)+' ⭐':'Good try!')};
+ const after=ok=>{if(!$('cy'))return;RUN.n++;if(ok)RUN.ok++;if(wid)mark(wid,ok);ok?sfx.ok():sfx.no();react(ok);$('cy').innerHTML=`<div class="kid">${boy()?FB:FG} ${esc(ans.tr)}</div>`;hb.innerHTML=guideHTML(esc(noEmo(fillName(tk.after))),'cheer',null,fv);say(fv);foot(ok?true:null,ok?praise(true)+' ⭐':'Good try!')};
  const manual=()=>{showHint();$('cy').innerHTML='';const f=document.createElement('div');f.className='foot';f.id='foot';f.innerHTML=`<button class="btn wide" id="did">I said it! ✅</button>`;const o=$('foot');if(o)o.remove();app.appendChild(f);$('did').onclick=()=>after(true)};
  if((SR||navigator.mediaDevices)&&!micBlocked){listen(chk.ar,chk.tr,$('cy'),res=>{if(res===null)return manual();G.speak.n++;if(res){G.speak.ok++;questTick('say')}after(!!res)},'Tap the mic and answer!');
   const f=document.createElement('div');f.className='foot';f.id='foot';f.innerHTML=`<button class="btn ghost wide" id="skp">Can't speak now</button>`;app.appendChild(f);$('skp').onclick=()=>{RUN.i++;step()}}
@@ -1071,7 +1072,7 @@ function exSay(it){
  const w=word(it.id);
  say('ex_say');frame(guideHTML(`${it.review?'<span class="note">Review · </span>':''}Say this in Lebanese:<div style="font-size:24px;font-weight:800">“${esc(w.en)}”</div>`,'think',null,'ex_say')+`${w.pic?`<div style="text-align:center">${optVisual(w.pic)}</div>`:''}<div class="yourturn" id="sy"></div><div id="hb" style="margin-top:10px"></div>`);
  const reveal=()=>{if(!$('hb'))return;$('hb').innerHTML=`<div class="hint"><span class="ar" style="font-size:26px">${w.ar}</span><br><b style="font-size:22px;color:var(--teal-d)">${esc(w.tr)}</b></div>`};
- const done=ok=>{RUN.n++;if(ok)RUN.ok++;mark(it.id,ok);ok?sfx.ok():sfx.no();react(ok);reveal();if(!ok)say('w_'+it.id);foot(ok,ok?praise()+' ⭐':'Keep practising!',ok?'':'')};
+ const done=ok=>{RUN.n++;if(ok)RUN.ok++;mark(it.id,ok);ok?sfx.ok():sfx.no();react(ok);reveal();if(!ok)say('w_'+it.id);foot(ok,ok?praise()+' '+IC('star','in'):'Keep practising!',ok?'':'')};
  if((SR||navigator.mediaDevices)&&!micBlocked){listen(w.ar,w.tr,$('sy'),res=>{if(res===null)return self();G.speak.n++;if(res){G.speak.ok++;questTick('say')}done(!!res)},'Tap the mic and say it!');
   if(RUN.mode!=='test'){$('hb').innerHTML=`<div style="text-align:center"><button class="btn ghost" id="hnt">💡 Show me</button></div>`;$('hnt').onclick=reveal}
   const f=document.createElement('div');f.className='foot';f.id='foot';f.innerHTML=`<button class="btn ghost wide" id="skp">Can't speak now</button>`;app.appendChild(f);$('skp').onclick=()=>{RUN.i++;step()}}
@@ -1095,7 +1096,7 @@ function finish(){if(RUN&&RUN.mode==='qa'){const k=RUN.key;RUN=null;const d=stor
   if(passed){G.done[R.key]={stars:3,pct};G.trophies[R.key]=true;setEvent(`won the ${R.u.title} trophy`);addXP(30);
    R.u.lessons.forEach((l,i)=>{const k=`${R.L.id}-${R.u.id}-${i+1}`;if(!G.done[k])G.done[k]={stars:1,pct:0,skipped:true}});{const k=`${R.L.id}-${R.u.id}-R`;if(!G.done[k])G.done[k]={stars:1,pct:0,skipped:true}}
    if(R.jumpTo)G.unlocked[`${R.L.id}-${R.jumpTo.id}`]=true;
-   if(!G.stickers[`${R.L.id}-${R.u.id}`]){G.stickers[`${R.L.id}-${R.u.id}`]=true;extra=`<div class="card" style="margin:12px 0"><div class="note">New sticker!</div><div class="newstk">${R.u.sticker.e}</div><b>${esc(R.u.sticker.n)}</b></div>`}}
+   if(!G.stickers[`${R.L.id}-${R.u.id}`]){G.stickers[`${R.L.id}-${R.u.id}`]=true;extra=`<div class="card" style="margin:12px 0"><div class="note">New sticker!</div><div class="newstk">${UI(R.L,R.u,'big')}</div><b>${esc(R.u.sticker.n)}</b></div>`}}
   html=passed?`<div class="bigstar">${IC('rewards','big')}</div><h1>Test passed!</h1><p class="sub">${pct}% correct on “${esc(R.u.title)}”. ${R.jumpTo?`Unit ${R.jumpTo.id} is now open!`:'The next unit is open!'}</p><div class="chips"><div class="chip">+30<small>XP</small></div><div class="chip">${pct}%<small>score</small></div></div>${extra}`
    :`<div class="bigstar">${IC('target','big')}</div><h1>Almost there!</h1><p class="sub">You got ${pct}%. You need 70% to win the trophy. Practise the islands again, then try the test.</p>`;
  }else{questTick('practice');addXP(10);html=`<div class="bigstar">${IC('practice','big')}</div><h1>Practice done!</h1><div class="chips"><div class="chip">+10<small>XP</small></div><div class="chip">${pct}%<small>correct</small></div></div>`}
@@ -1190,12 +1191,12 @@ async function leagueBoard(){if(!SB||!ACC.user||!ACC.child)return null;try{const
 const ago=t=>{const s=(Date.now()-new Date(t).getTime())/1000;return s<3600?Math.max(1,Math.round(s/60))+' min ago':s<86400?Math.round(s/3600)+' h ago':Math.round(s/86400)+' d ago'};
 async function leagueCard(el){if(!el)return;if(G.league&&G.league.off){el.innerHTML='';return}
  const rows=await leagueBoard();if(!el.isConnected)return;
- if(!rows||!rows.length){el.innerHTML=ACC.user?`<div class="league empty"><b>🏆 Family league</b><p class="note">Ask a grown-up to start a family league in the Parents tab, then race your brothers, sisters and cousins!</p></div>`:'';return}
+ if(!rows||!rows.length){el.innerHTML=ACC.user?`<div class="league empty"><b>${IC('rewards','in')} Family league</b><p class="note">Ask a grown-up to start a family league in the Parents tab, then race your brothers, sisters and cousins!</p></div>`:'';return}
  G.league=G.league||{};if(G.league.code!==rows[0].code){G.league.code=rows[0].code;save()}leaguePush();
  const wk=weekId(),list=rows.map(r=>({...r,x:r.wk===wk?r.wk_xp:0})).sort((a,b)=>b.x-a.x);
  const med=['🥇','🥈','🥉'];
  const feed=rows.filter(r=>r.last).sort((a,b)=>new Date(b.updated_at)-new Date(a.updated_at)).slice(0,5);
- el.innerHTML=`<div class="league"><div class="lh"><b>🏆 Family league</b><span class="note">This week · new race every Monday</span></div>
+ el.innerHTML=`<div class="league"><div class="lh"><b>${IC('rewards','in')} Family league</b><span class="note">This week · new race every Monday</span></div>
  ${list.map((r,i)=>`<div class="lrow ${r.me?'me':''}"><span class="lpos">${med[i]||i+1}</span><span class="kav sm" style="background-image:url(${(ASSETS[r.ch]||ASSETS.zena).portrait})"></span><b>${esc(r.nick)}${r.me?' (you)':''}</b><span class="lxp">${IC('star','in')} ${r.x}</span></div>`).join('')}
  ${feed.length?`<div class="lfeed">${feed.map(r=>`<div>🎉 <b>${esc(r.nick)}</b> ${esc(r.last)} <small>${ago(r.updated_at)}</small></div>`).join('')}</div>`:''}</div>`}
 async function leagueParentHTML(){
@@ -1232,11 +1233,11 @@ function rewardsScreen(){
  const sets=stickerSets(),owned=Object.keys(G.stk||{}).length,total=sets.reduce((a,x)=>a+x.ws.length,0);
  shell(`<h1>Rewards ${IC('rewards','h')}</h1><div id="lgk"></div>
  <h3>${IC('cert','in')} Sticker album <span class="note">${owned}/${total}</span></h3><p class="note" style="margin-top:0">Open treasure chests after each island to collect stickers. Fill a set to win a set trophy!</p>
- ${sets.map(x=>{const n=x.ws.filter(k=>G.stk&&G.stk[k]).length,done=G.sets&&G.sets[x.key];return `<details class="aset" ${n?'open':''}><summary class="seth"><b>${UI(x.L,x.u,'in')} ${esc(x.u.title)}</b><span class="${done?'done':''}">${done?'🏆 Complete!':n+'/'+x.ws.length}</span></summary><div class="album">${x.ws.map(k=>G.stk&&G.stk[k]?stickerImg(k):`<span class="wstk miss"><img src="${IMG[W[k].pic.slice(4)]}" alt="" loading="lazy"></span>`).join('')}</div></details>`}).join('')}
+ ${sets.map(x=>{const n=x.ws.filter(k=>G.stk&&G.stk[k]).length,done=G.sets&&G.sets[x.key];return `<details class="aset" ${n?'open':''}><summary class="seth"><b>${UI(x.L,x.u,'in')} ${esc(x.u.title)}</b><span class="${done?'done':''}">${done?IC('rewards','in')+' Complete!':n+'/'+x.ws.length}</span></summary><div class="album">${x.ws.map(k=>G.stk&&G.stk[k]?stickerImg(k):`<span class="wstk miss"><img src="${IMG[W[k].pic.slice(4)]}" alt="" loading="lazy"></span>`).join('')}</div></details>`}).join('')}
  ${built.map(L=>`<h3>Level ${L.id} badges</h3><div class="book">${L.units.map(u=>`<div class="stk ${G.stickers[`${L.id}-${u.id}`]?'got':''}"><span class="e">${UI(L,u)}</span>${G.stickers[`${L.id}-${u.id}`]?esc(u.sticker.n):'Unit '+u.id+' test'}</div>`).join('')}</div>`).join('')}
  <h3>Trophies</h3><div class="book">${built.flatMap(L=>L.units.map(u=>`<div class="stk ${G.trophies[`${L.id}-${u.id}-T`]?'got':''}"><span class="e">${IC('rewards')}</span>${esc(u.title)}</div>`)).join('')}</div>
  <h3>Certificates</h3>${COURSE.map(l=>`<div class="stk ${G.certs[l.id]?'got':''}" style="margin-bottom:8px;text-align:left;padding:10px 14px;font-size:15px">${IC('cert','in')} Level ${l.id} · ${l.name} ${G.certs[l.id]?'<button class="btn y" style="float:right;padding:4px 12px;font-size:14px" data-c="'+l.id+'">View</button>':''}</div>`).join('')}
- <div class="chips"><div class="chip">${G.xp}<small>total XP</small></div><div class="chip">${IC('flame','in')} ${G.streak.n}<small>day streak</small></div><div class="chip">${G.best||G.streak.n}<small>best streak</small></div><div class="chip">🛡️ ${G.shields||0}<small>shields</small></div></div>`);
+ <div class="chips"><div class="chip">${G.xp}<small>total XP</small></div><div class="chip">${IC('flame','in')} ${G.streak.n}<small>day streak</small></div><div class="chip">${G.best||G.streak.n}<small>best streak</small></div><div class="chip">${IC('parents','in')} ${G.shields||0}<small>shields</small></div></div>`);
  app.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>certificate(lvl(+b.dataset.c)));leagueCard($('lgk'));
 }
 let parentOK=false;
@@ -1267,7 +1268,7 @@ function parentScreen(){
 const LEVELS=[{n:'Beginner',d:'No Arabic yet'},{n:'Elementary',d:'Knows some words'},{n:'Intermediate',d:'Understands simple speech'},{n:'Confident',d:'Understands well'}];
 function setup(first){
  const p=P||{name:'',gender:'b',level:1,char:'zena'};
- app.innerHTML=`<div class="screen"><div style="text-align:center"><div style="font-size:54px">🏝️</div><h1>${first?'Yalla Nehke!':'Child settings'}</h1><p class="sub">${first?"Let's talk Lebanese! A parent sets this up once.":'Changes are saved on this device.'}</p></div>
+ app.innerHTML=`<div class="screen"><div style="text-align:center"><div>${IC('learn','big')}</div><h1>${first?'Yalla Nehke!':'Child settings'}</h1><p class="sub">${first?"Let's talk Lebanese! A parent sets this up once.":'Changes are saved on this device.'}</p></div>
  <div class="card"><label for="nm">Child's first name</label><input type="text" id="nm" value="${esc(p.name)}" placeholder="Maya" maxlength="20">
  <label>Boy or girl? <span class="note">(Lebanese words change: kīfak / kīfik)</span></label><div class="seg" id="gd"><button data-v="b" class="${p.gender==='b'?'on':''}">Boy</button><button data-v="g" class="${p.gender==='g'?'on':''}">Girl</button></div>
  <label>Who will be your guide?</label><div class="seg" id="ch">${['zena','karim'].map(c=>`<button data-v="${c}" class="${p.char===c?'on':''}" style="padding:6px"><div class="av" style="width:70px;height:70px;margin:0 auto;background-image:url(${ASSETS[c].portrait})"></div>${ASSETS[c].name}</button>`).join('')}</div>
