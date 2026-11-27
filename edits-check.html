@@ -17,8 +17,8 @@ button{font:inherit;font-weight:700;border:0;border-radius:14px;padding:12px 16p
 const L=[['ex_meaning','What does this mean?'],['ex_match','Match the pairs! Tap a Lebanese word, then its meaning.'],['ex_how','How do you say this in Lebanese?'],['ex_say','Say this in Lebanese!'],['ex_gb','Boy or girl? Pick the word for a boy.'],['ex_gg','Boy or girl? Pick the word for a girl.']];
 document.getElementById('qs').innerHTML=L.map(([k,t])=>`<div class="row"><div class="q">${t}</div><button onclick="P('zena','${k}')">Zena</button><button class="k" onclick="P('karim','${k}')">Karim</button></div>`).join('');
 let IX=null,C=null,S=null;const B={};
-async function P(c,k){if(!IX)IX=await (await fetch('audio/index_beta.json?'+Date.now())).json();const e=IX[c][k];if(!e){alert('missing '+k);return}
+async function P(c,k){if(!IX)IX=await (await fetch('audio/check_ix.json?'+Date.now())).json();const e=IX[c][k];if(!e){alert('missing '+k);return}
  C=C||new (window.AudioContext||window.webkitAudioContext)();if(C.state==='suspended')await C.resume();
- const f='audio/'+c+'_'+e[0]+'.mp3?v=g1';if(!B[f])B[f]=await C.decodeAudioData(await (await fetch(f)).arrayBuffer());
+ const f='audio/'+c+'_'+e[0]+'.mp3?v=g2';if(!B[f])B[f]=await C.decodeAudioData(await (await fetch(f)).arrayBuffer());
  if(S){try{S.stop()}catch(x){}}S=C.createBufferSource();S.buffer=B[f];S.connect(C.destination);S.start(0,e[1],e[2]+0.05)}
 </script></body></html>
