@@ -1,0 +1,24 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Edits check</title>
+<style>body{font-family:system-ui,sans-serif;margin:0;padding:16px;background:#e6f4ff;color:#12305a;max-width:560px;margin:auto}h2{margin:22px 0 8px}
+button{font:inherit;font-weight:700;border:0;border-radius:14px;padding:12px 16px;margin:4px;background:#2bb7a3;color:#fff}button.k{background:#2f6fd6}
+.row{background:#fff;border-radius:16px;padding:10px 12px;margin:8px 0}.q{font-weight:700;margin-bottom:4px}
+.bubble{background:#fff;border-radius:20px;padding:14px;margin:8px 0}.bubble img.gbig{display:block;width:150px;height:150px;object-fit:contain;margin:6px auto}
+.opt{display:flex;justify-content:space-between;align-items:center;background:#fff;border:3px solid #dfe6f0;border-radius:16px;padding:12px 16px;margin:8px 0;font-weight:800}.ar{font-size:28px}</style></head><body>
+<h1>Edits check</h1><p>Tap to listen. Only the edits you asked about.</p>
+<h2>1. Fattoush voice</h2><div class="row"><button onclick="P('zena','w_fattush')">Zena: فتّوش</button><button class="k" onclick="P('karim','w_fattush')">Karim: فتّوش</button></div>
+<h2>2. Question voices</h2><div id="qs"></div>
+<h2>3. Boy or girl question</h2>
+<div class="bubble"><b>Boy or girl? Pick the word for a girl</b><br><small>(good night)</small><img class="gbig" src="pics/tisbah.webp" alt=""></div>
+<div class="row"><button onclick="P('zena','ex_gg')">Zena says it</button><button class="k" onclick="P('karim','ex_gg')">Karim says it</button></div>
+<div class="opt"><span class="ar">تصبح على خير</span><span>tiṣbaḥ ʿala khēr</span></div><div class="opt"><span class="ar">تصبحي على خير</span><span>tiṣbaḥi ʿala khēr</span></div>
+<div class="bubble"><b>Boy or girl? Pick the word for a boy</b><br><small>(good night)</small><img class="gbig" src="karim_happy.webp" alt=""></div>
+<div class="row"><button onclick="P('zena','ex_gb')">Zena says it</button><button class="k" onclick="P('karim','ex_gb')">Karim says it</button></div>
+<script>
+const L=[['ex_meaning','What does this mean?'],['ex_match','Match the pairs! Tap a Lebanese word, then its meaning.'],['ex_how','How do you say this in Lebanese?'],['ex_say','Say this in Lebanese!'],['ex_gb','Boy or girl? Pick the word for a boy.'],['ex_gg','Boy or girl? Pick the word for a girl.']];
+document.getElementById('qs').innerHTML=L.map(([k,t])=>`<div class="row"><div class="q">${t}</div><button onclick="P('zena','${k}')">Zena</button><button class="k" onclick="P('karim','${k}')">Karim</button></div>`).join('');
+let IX=null,C=null,S=null;const B={};
+async function P(c,k){if(!IX)IX=await (await fetch('audio/index_beta.json?'+Date.now())).json();const e=IX[c][k];if(!e){alert('missing '+k);return}
+ C=C||new (window.AudioContext||window.webkitAudioContext)();if(C.state==='suspended')await C.resume();
+ const f='audio/'+c+'_'+e[0]+'.mp3?v=g1';if(!B[f])B[f]=await C.decodeAudioData(await (await fetch(f)).arrayBuffer());
+ if(S){try{S.stop()}catch(x){}}S=C.createBufferSource();S.buffer=B[f];S.connect(C.destination);S.start(0,e[1],e[2]+0.05)}
+</script></body></html>
