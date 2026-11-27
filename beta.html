@@ -666,7 +666,7 @@ PICS.forEach(id=>{if(W[id]){W[id].pic='img:'+id;IMG[id]='pics/'+id+'.webp'}});
 // gender twins: pictures that show a child exist in both genders; GPIC = gender of pics/<id>.webp, XP = ids whose opposite-gender twin pics/<id>_x.webp exists
 const GPIC={"tisbah":"g","mabsut":"g","zalan":"g","taban":"g","juan":"g","oud":"g","khayef":"g","atshan":"g","ghassil":"g","nem":"g","kol":"g","marid":"g","salamtak":"g","shuf":"g","shimm":"g","rous":"g","rattib":"g","sakker":"g","ghayran":"g","mithammes":"g","shater":"g","barrem":"g","mitakhkhar":"g","r_idhak":"g","rkod":"b","nott":"b","stanna":"b","fiq":"b","naasan":"b","tail":"b","smaa":"b","dou":"b","sbah":"b","tlaa":"b","saedni":"b","ftah":"b","lbes":"b","ghadban":"b","ktirhelo":"b","taalaanna":"b","shut":"b","jarrib":"b","r_zihan":"b"},XP=['tisbah','mabsut','zalan','taban'];
 XP.forEach(id=>{Object.defineProperty(IMG,id,{get(){return (typeof P!=='undefined'&&P&&((boy()?'b':'g')!==GPIC[id]))?'pics/'+id+'_x.webp':'pics/'+id+'.webp'},configurable:true})});
-const gimg=(id,g)=>GPIC[id]===g?'pics/'+id+'_t.webp':(XP.includes(id)?'pics/'+id+'_x_t.webp':(g==='b'?'karim_happy.webp':'zena_happy.webp'));
+const gimg=(id,g)=>GPIC[id]===g?'pt/'+id+'.webp':(XP.includes(id)?'pt/'+id+'_x.webp':(g==='b'?'karim_happy.webp':'zena_happy.webp'));
 
 // ---------- storage ----------
 const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
