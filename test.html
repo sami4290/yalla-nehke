@@ -695,7 +695,7 @@ const praiseWords=()=>['Bravo!',boy()?'Shāṭer!':'Shāṭra!','Yalla!','Ktīr 
 const IC=(n,c='')=>`<img class="ic ${c}" src="ui/i_${n}.webp" alt="" draggable="false">`;
 const UIMG={'1-1':'hello','1-2':'family','1-3':'food','1-4':'world','2-1':'school','2-2':'play','2-3':'out','2-4':'weather'};
 const UI=(L,u,c='')=>UIMG[L.id+'-'+u.id]?`<img class="ic ${c}" src="ui/u_${UIMG[L.id+'-'+u.id]}.webp" alt="" draggable="false">`:u.icon;
-const MAP=(L,u)=>UIMG[L.id+'-'+u.id]?`ui/map_${L.id}_${u.id}.webp`:'';
+const MAP=(L,u)=>(UIMG[L.id+'-'+u.id]||(L.id<=2&&u.id>=5&&u.id<=10))?`ui/map_${L.id}_${u.id}.webp`:'';
 function picHTML(p,big){
  if(!p)return '';
  if(p.startsWith('img:'))return `<div class="pic"><img src="${IMG[p.slice(4)]}" alt=""></div>`;
@@ -714,7 +714,7 @@ function optVisual(p){
 // ---------- sound effects (generated, no files) ----------
 let actx;function tone(fs,dur=.12,type='sine',gap=.09){if(!G.sound)return;try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();let t=actx.currentTime;fs.forEach(f=>{const o=actx.createOscillator(),g=actx.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.18,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(g);g.connect(actx.destination);o.start(t);o.stop(t+dur+.02);t+=gap})}catch(e){}}
 // ---------- character voices (audio sprites per voice) ----------
-const AV='20261127f3';const INTRO_OK=new Set(['intro_5_1','intro_6_1','intro_7_1','intro_8_1','intro_9_1','intro_10_1','intro_2_5_1','intro_2_6_1','intro_2_7_1','intro_2_8_1','intro_2_9_1','intro_2_10_1','intro_1_1','intro_1_2','intro_1_3','intro_1_4','intro_1_5','intro_2_1','intro_2_1_1','intro_2_1_2','intro_2_1_3','intro_2_1_4','intro_2_1_5','intro_2_2','intro_2_2_1','intro_2_2_2','intro_2_2_3','intro_2_2_4','intro_2_2_5','intro_2_3','intro_2_3_1','intro_2_3_2','intro_2_3_3','intro_2_3_4','intro_2_3_5','intro_2_4','intro_2_4_1','intro_2_4_2','intro_2_4_3','intro_2_4_4','intro_2_4_5','intro_2_5','intro_3_1','intro_3_2','intro_3_3','intro_3_4','intro_3_5','intro_4_1','intro_4_2','intro_4_3','intro_4_4','intro_4_5']);const VO={idx:null,buf:{},cur:null,last:null};
+const AV='20261127f4';const INTRO_OK=new Set(['intro_5_1','intro_6_1','intro_7_1','intro_8_1','intro_9_1','intro_10_1','intro_2_5_1','intro_2_6_1','intro_2_7_1','intro_2_8_1','intro_2_9_1','intro_2_10_1','intro_1_1','intro_1_2','intro_1_3','intro_1_4','intro_1_5','intro_2_1','intro_2_1_1','intro_2_1_2','intro_2_1_3','intro_2_1_4','intro_2_1_5','intro_2_2','intro_2_2_1','intro_2_2_2','intro_2_2_3','intro_2_2_4','intro_2_2_5','intro_2_3','intro_2_3_1','intro_2_3_2','intro_2_3_3','intro_2_3_4','intro_2_3_5','intro_2_4','intro_2_4_1','intro_2_4_2','intro_2_4_3','intro_2_4_4','intro_2_4_5','intro_2_5','intro_3_1','intro_3_2','intro_3_3','intro_3_4','intro_3_5','intro_4_1','intro_4_2','intro_4_3','intro_4_4','intro_4_5']);const VO={idx:null,buf:{},cur:null,last:null};
 fetch('audio/index_beta.json?v='+AV).then(r=>r.json()).then(j=>VO.idx=j).catch(()=>{});
 function vctx(){actx=actx||new (window.AudioContext||window.webkitAudioContext)();if(actx.state==='suspended')actx.resume();return actx}
 document.addEventListener('pointerdown',()=>{try{vctx()}catch(e){}},{once:true});
