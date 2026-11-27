@@ -14,7 +14,7 @@ window.addEventListener('message',async e=>{
   for(const id of ids){
     if(!/^[a-z0-9_#]{1,60}$/i.test(id))continue;
     try{
-      const r=await fetch(URL_,{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json',Prefer:'resolution=ignore-duplicates,return=minimal'},body:JSON.stringify({id,b64:items[id]})});
+      const r=await fetch(URL_,{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify({id,b64:items[id]})});
       if(r.ok||r.status===409){done.push(id);total++}
     }catch(err){}
   }
