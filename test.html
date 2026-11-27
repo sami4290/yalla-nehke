@@ -714,7 +714,7 @@ function optVisual(p){
 // ---------- sound effects (generated, no files) ----------
 let actx;function tone(fs,dur=.12,type='sine',gap=.09){if(!G.sound)return;try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();let t=actx.currentTime;fs.forEach(f=>{const o=actx.createOscillator(),g=actx.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.18,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(g);g.connect(actx.destination);o.start(t);o.stop(t+dur+.02);t+=gap})}catch(e){}}
 // ---------- character voices (audio sprites per voice) ----------
-const AV='20261127f1';const INTRO_OK=new Set(['intro_5_1','intro_6_1','intro_7_1','intro_8_1','intro_9_1','intro_10_1','intro_2_5_1','intro_2_6_1','intro_2_7_1','intro_2_8_1','intro_2_9_1','intro_2_10_1','intro_1_1','intro_1_2','intro_1_3','intro_1_4','intro_1_5','intro_2_1','intro_2_1_1','intro_2_1_2','intro_2_1_3','intro_2_1_4','intro_2_1_5','intro_2_2','intro_2_2_1','intro_2_2_2','intro_2_2_3','intro_2_2_4','intro_2_2_5','intro_2_3','intro_2_3_1','intro_2_3_2','intro_2_3_3','intro_2_3_4','intro_2_3_5','intro_2_4','intro_2_4_1','intro_2_4_2','intro_2_4_3','intro_2_4_4','intro_2_4_5','intro_2_5','intro_3_1','intro_3_2','intro_3_3','intro_3_4','intro_3_5','intro_4_1','intro_4_2','intro_4_3','intro_4_4','intro_4_5']);const VO={idx:null,buf:{},cur:null,last:null};
+const AV='20261127f2';const INTRO_OK=new Set(['intro_5_1','intro_6_1','intro_7_1','intro_8_1','intro_9_1','intro_10_1','intro_2_5_1','intro_2_6_1','intro_2_7_1','intro_2_8_1','intro_2_9_1','intro_2_10_1','intro_1_1','intro_1_2','intro_1_3','intro_1_4','intro_1_5','intro_2_1','intro_2_1_1','intro_2_1_2','intro_2_1_3','intro_2_1_4','intro_2_1_5','intro_2_2','intro_2_2_1','intro_2_2_2','intro_2_2_3','intro_2_2_4','intro_2_2_5','intro_2_3','intro_2_3_1','intro_2_3_2','intro_2_3_3','intro_2_3_4','intro_2_3_5','intro_2_4','intro_2_4_1','intro_2_4_2','intro_2_4_3','intro_2_4_4','intro_2_4_5','intro_2_5','intro_3_1','intro_3_2','intro_3_3','intro_3_4','intro_3_5','intro_4_1','intro_4_2','intro_4_3','intro_4_4','intro_4_5']);const VO={idx:null,buf:{},cur:null,last:null};
 fetch('audio/index_beta.json?v='+AV).then(r=>r.json()).then(j=>VO.idx=j).catch(()=>{});
 function vctx(){actx=actx||new (window.AudioContext||window.webkitAudioContext)();if(actx.state==='suspended')actx.resume();return actx}
 document.addEventListener('pointerdown',()=>{try{vctx()}catch(e){}},{once:true});
@@ -739,12 +739,35 @@ function lev(a,b){const m=a.length,n=b.length;if(!m||!n)return Math.max(m,n);con
 const sim=(a,b)=>(!a||!b)?0:1-lev(a,b)/Math.max(a.length,b.length);
 function winBest(h,t){if(!h||!t)return 0;if(h.includes(t))return 1;const hw=h.split(' '),n=t.split(' ').length;let b=sim(h,t);for(let i=0;i+n<=hw.length;i++)b=Math.max(b,sim(hw.slice(i,i+n).join(' '),t));return b}
 function score(alts,ar,tr){let b=0;const ta=normAr(ar),tl=normLat(tr);for(const h of alts)b=Math.max(b,winBest(normAr(h),ta),winBest(normLat(h),tl));return b}
+
+// iPad/iPhone fallback: speech engine heard nothing -> check the microphone level directly
+let srDead=false;
+async function levelCheck(box,onDone){
+ srDead=true;
+ const show=(m,live,extra='')=>{if(box.isConnected)box.innerHTML=`<button class="mic ${live?'live':''}" id="mic" aria-label="Speak">${IC('mic')}</button><div class="heard">${m}</div><div class="meter"><i id="mt"></i></div>${extra}`};
+ vstop();try{if(actx&&actx.state==='running')actx.suspend()}catch(e){}
+ const back=()=>{try{if(actx&&actx.state==='suspended')actx.resume()}catch(e){}};
+ let st;
+ try{st=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}})}
+ catch(e){micBlocked=true;back();show('The microphone is switched off. On the iPad: Settings → Safari → Microphone → Allow, then reload the page.',false,'<button class="btn ghost" id="skp">Skip for now</button>');const s=box.querySelector('#skp');if(s)s.onclick=()=>onDone(null);return}
+ const AC=window.AudioContext||window.webkitAudioContext;const ac=new AC();try{await ac.resume()}catch(e){}
+ const an=ac.createAnalyser();an.fftSize=1024;ac.createMediaStreamSource(st).connect(an);
+ let mr=null,chunks=[];try{mr=new MediaRecorder(st);mr.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};mr.start()}catch(e){mr=null}
+ show('Say it now! 🎤',true);
+ const buf=new Uint8Array(an.fftSize);let peak=0,loud=0;const t0=performance.now();
+ await new Promise(res=>{const tick=()=>{an.getByteTimeDomainData(buf);let s=0;for(const v of buf){const d=(v-128)/128;s+=d*d}const r=Math.sqrt(s/buf.length);peak=Math.max(peak,r);if(r>.03)loud++;const m=box.querySelector('#mt');if(m)m.style.width=Math.min(100,r*500)+'%';if(performance.now()-t0<3500&&box.isConnected)requestAnimationFrame(tick);else res()};tick()});
+ const heard=loud>=6&&peak>.04;
+ const fin=()=>{try{st.getTracks().forEach(t=>t.stop())}catch(e){}try{ac.close()}catch(e){}back();
+  if(heard){show('I heard you! 👏 Great speaking!',false);setTimeout(()=>onDone(true,null),900)}
+  else{show("I can't hear any sound. Check the iPad volume isn't muted and the mic is allowed.",false,'<button class="btn ghost" id="skp">Skip for now</button>');const s=box.querySelector('#skp');if(s)s.onclick=()=>onDone(null)}};
+ if(mr&&mr.state!=='inactive'){mr.onstop=()=>{if(heard&&chunks.length){try{const a=new Audio(URL.createObjectURL(new Blob(chunks,{type:mr.mimeType||'audio/mp4'})));a.play().catch(()=>{})}catch(e){}}fin()};try{mr.stop()}catch(e){fin()}}else fin();
+}
 function listen(ar,tr,box,onDone,label){
- if(!SR||micBlocked)return onDone(null);
+ if(micBlocked)return onDone(null);if(!SR||srDead)return levelCheck(box,onDone);
  let tries=0,errs=0;
  const ui=(msg,live)=>{if(!box.isConnected)return;box.innerHTML=`<button class="mic ${live?'live':''}" id="mic" aria-label="Speak">${IC('mic')}</button><div class="heard">${msg}</div><div class="meter"><i id="mt"></i></div>`;box.querySelector('#mic').onclick=go};
  let langs=['ar-LB','ar-SA','ar'],li=0;
- const go=()=>{vstop();let rec;try{rec=new SR()}catch(e){micBlocked=true;return onDone(null)}
+ const go=()=>{vstop();let rec;try{rec=new SR()}catch(e){return levelCheck(box,onDone)}
   // iPad/iPhone: release the audio session used for voice playback so the mic can capture
   try{if(actx&&actx.state==='running')actx.suspend()}catch(e){}
   const resumeAudio=()=>{try{if(actx&&actx.state==='suspended')actx.resume()}catch(e){}};
@@ -758,11 +781,11 @@ function listen(ar,tr,box,onDone,label){
    const m=box.querySelector('#mt');if(m){m.style.width=pct+'%';m.style.background=col}};
   rec.onerror=e=>{failed=true;clearTimeout(guard);
    if(e.error==='language-not-supported'&&li<langs.length-1){li++;ui('Tap the mic and try again!',false);return}
-   if(['not-allowed','service-not-allowed','audio-capture'].includes(e.error)){micBlocked=true;resumeAudio();onDone(null)}else{errs++;if(errs>=3){resumeAudio();onDone(null)}else ui("I didn't hear you. Tap the mic and try again!",false)}};
+   if(['not-allowed','service-not-allowed','audio-capture'].includes(e.error)){micBlocked=true;resumeAudio();levelCheck(box,onDone)}else{errs++;li=(li+1)%langs.length;if(errs>=2){resumeAudio();levelCheck(box,onDone)}else ui("I didn't hear you. Tap the mic and try again!",false)}};
   rec.onend=()=>{clearTimeout(guard);if(done)return;done=true;resumeAudio();
-   if(!got&&!failed){errs++;if(errs>=3)onDone(null);else ui("I didn't hear you. Tap the mic and say it a bit louder!",false)}
+   if(!got&&!failed){errs++;li=(li+1)%langs.length;if(errs>=2)levelCheck(box,onDone);else ui("I didn't hear you. Tap the mic and say it a bit louder!",false)}
    else{const m=$('mic');if(!got&&m)m.classList.remove('live')}};
-  try{rec.start()}catch(e){resumeAudio();micBlocked=true;onDone(null)}};
+  try{rec.start()}catch(e){resumeAudio();levelCheck(box,onDone)}};
  ui(label||`Tap the mic and say <b>${esc(tr)}</b>`,false);
 }
 
@@ -965,7 +988,7 @@ function exTeach(it){
  say('w_'+it.id);frame(guideHTML(`New word! <span class="note">(${esc(w.en)})</span>`,'happy',null,'w_'+it.id)+`<div class="word">${picHTML(w.pic)}<p class="big-ar ar">${w.ar}</p><p class="tr">${esc(w.tr)}</p><p class="en">${esc(w.en)}</p></div><div class="yourturn" id="yt"></div>`);}
  const yt=$('yt');
  const manual=()=>{let n=3;yt.innerHTML=`<div class="ring" id="rg">${n}</div><div class="note">Say <b>${esc(w.tr)}</b> out loud!</div>`;const iv=setInterval(()=>{n--;const r=$('rg');if(!r){clearInterval(iv);return}if(n>0)r.textContent=n;else{clearInterval(iv);yt.innerHTML='';G.w[it.id]=G.w[it.id]||{s:0,due:0,ok:0,bad:0};foot(true,'Nice! You said it 🗣️')}},1000)};
- if(SR&&!micBlocked){listen(w.ar,w.tr,yt,(res)=>{if(RUN.items[RUN.i]!==it||!$('yt'))return;G.w[it.id]=G.w[it.id]||{s:0,due:0,ok:0,bad:0};if(res===null)return manual();G.speak.n++;if(res){G.speak.ok++;questTick('say')}res?(sfx.ok(),react(true),foot(true,praise()+' Great speaking! ⭐')):foot(null,'Good try! Keep going.')});
+ if((SR||navigator.mediaDevices)&&!micBlocked){listen(w.ar,w.tr,yt,(res)=>{if(RUN.items[RUN.i]!==it||!$('yt'))return;G.w[it.id]=G.w[it.id]||{s:0,due:0,ok:0,bad:0};if(res===null)return manual();G.speak.n++;if(res){G.speak.ok++;questTick('say')}res?(sfx.ok(),react(true),foot(true,praise()+' Great speaking! ⭐')):foot(null,'Good try! Keep going.')});
   const f=document.createElement('div');f.className='foot';f.id='foot';f.innerHTML=`<button class="btn ghost wide" id="skp">Can't speak now</button>`;app.appendChild(f);$('skp').onclick=()=>{G.w[it.id]=G.w[it.id]||{s:0,due:0,ok:0,bad:0};RUN.i++;step()};}
  else manual();
 }
@@ -1002,7 +1025,7 @@ function exConvo(it){
  if(RUN.mode!=='test')hb.innerHTML=`<div style="text-align:center"><button class="btn ghost" id="hnt">💡 Need help?</button></div>`,$('hnt').onclick=showHint;
  const after=ok=>{if(!$('cy'))return;RUN.n++;if(ok)RUN.ok++;if(wid)mark(wid,ok);ok?sfx.ok():sfx.no();react(ok);$('cy').innerHTML=`<div class="kid">🗣️ ${esc(ans.tr)}</div>`;hb.innerHTML=guideHTML(esc(fillName(tk.after)),'cheer',null,fv);say(fv);foot(ok?true:null,ok?praise(true)+' ⭐':'Good try!')};
  const manual=()=>{showHint();$('cy').innerHTML='';const f=document.createElement('div');f.className='foot';f.id='foot';f.innerHTML=`<button class="btn wide" id="did">I said it! ✅</button>`;const o=$('foot');if(o)o.remove();app.appendChild(f);$('did').onclick=()=>after(true)};
- if(SR&&!micBlocked){listen(chk.ar,chk.tr,$('cy'),res=>{if(res===null)return manual();G.speak.n++;if(res){G.speak.ok++;questTick('say')}after(!!res)},'Tap the mic and answer!');
+ if((SR||navigator.mediaDevices)&&!micBlocked){listen(chk.ar,chk.tr,$('cy'),res=>{if(res===null)return manual();G.speak.n++;if(res){G.speak.ok++;questTick('say')}after(!!res)},'Tap the mic and answer!');
   const f=document.createElement('div');f.className='foot';f.id='foot';f.innerHTML=`<button class="btn ghost wide" id="skp">Can't speak now</button>`;app.appendChild(f);$('skp').onclick=()=>{RUN.i++;step()}}
  else manual();
 }
@@ -1011,7 +1034,7 @@ function exSay(it){
  frame(guideHTML(`${it.review?'<span class="note">Review · </span>':''}Say this in Lebanese:<div style="font-size:24px;font-weight:800">“${esc(w.en)}”</div>`,'think')+`${w.pic?`<div style="text-align:center">${optVisual(w.pic)}</div>`:''}<div class="yourturn" id="sy"></div><div id="hb" style="margin-top:10px"></div>`);
  const reveal=()=>{if(!$('hb'))return;$('hb').innerHTML=`<div class="hint"><span class="ar" style="font-size:26px">${w.ar}</span><br><b style="font-size:22px;color:var(--teal-d)">${esc(w.tr)}</b></div>`};
  const done=ok=>{RUN.n++;if(ok)RUN.ok++;mark(it.id,ok);ok?sfx.ok():sfx.no();react(ok);reveal();if(!ok)say('w_'+it.id);foot(ok,ok?praise()+' ⭐':'Keep practising!',ok?'':'')};
- if(SR&&!micBlocked){listen(w.ar,w.tr,$('sy'),res=>{if(res===null)return self();G.speak.n++;if(res){G.speak.ok++;questTick('say')}done(!!res)},'Tap the mic and say it!');
+ if((SR||navigator.mediaDevices)&&!micBlocked){listen(w.ar,w.tr,$('sy'),res=>{if(res===null)return self();G.speak.n++;if(res){G.speak.ok++;questTick('say')}done(!!res)},'Tap the mic and say it!');
   if(RUN.mode!=='test'){$('hb').innerHTML=`<div style="text-align:center"><button class="btn ghost" id="hnt">💡 Show me</button></div>`;$('hnt').onclick=reveal}
   const f=document.createElement('div');f.className='foot';f.id='foot';f.innerHTML=`<button class="btn ghost wide" id="skp">Can't speak now</button>`;app.appendChild(f);$('skp').onclick=()=>{RUN.i++;step()}}
  else self();
