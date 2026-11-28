@@ -35,7 +35,7 @@ const $=id=>document.getElementById(id),esc=s=>String(s).replace(/[&<>"]/g,c=>({
 let done=new Set(),cur=0,view=D,stream=null,mr=null,chunks=[],audio=null,user=null;
 function key(){try{return 'ynrec_'+VOICE}catch(e){}}
 function vis(){const f=$('flt').value;view=D.filter(r=>f==='all'?1:f==='todo'?!done.has(r[1]):r[2]===f);}
-function counts(){const n=done.size;$('cnt').textContent=`${n} of ${D.length} recorded · ${D.length-n} to go`;$('pb').style.width=(n/D.length*100)+'%'}
+function counts(){const n=D.filter(r=>done.has(r[1])).length;$('cnt').textContent=`${n} of ${D.length} recorded · ${D.length-n} to go`;$('pb').style.width=(n/D.length*100)+'%'}
 function render(){
  if(!view.length){$('main').innerHTML='<div class="gate">Nothing here 🎉</div>';return}
  if(cur>=view.length)cur=view.length-1;const r=view[cur],has=done.has(r[1]);
