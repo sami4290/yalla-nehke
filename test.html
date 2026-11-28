@@ -841,7 +841,7 @@ function shell(inner){
 }
 function route(){if(!P)return setup(true);if(!route.init){route.init=1;const open=COURSE.filter(l=>levelOpen(l));const act=[...open].reverse().find(l=>l.id<=P.level&&currentNode(l))||open.find(l=>currentNode(l))||open[open.length-1];if(act)viewLevel=act.id}({map:mapScreen,practice:practiceScreen,rewards:rewardsScreen,parents:()=>parentGate(parentScreen)}[tab])()}
 
-function migrateR(){COURSE.filter(l=>!l.soon).forEach(L=>L.units.forEach(u=>{const t=`${L.id}-${u.id}-T`,r=`${L.id}-${u.id}-R`,c=`${L.id}-${u.id}-C`;if(G.done[t]&&!G.done[r])G.done[r]={stars:1,pct:0,skipped:true};if((G.done[t]||G.done[r])&&!G.done[c])G.done[c]={stars:1,pct:0,skipped:true}}))}
+function migrateR(){COURSE.filter(l=>!l.soon).forEach(L=>L.units.forEach(u=>{const t=`${L.id}-${u.id}-T`,r=`${L.id}-${u.id}-R`,c=`${L.id}-${u.id}-C`;if(G.done[t]&&!G.done[r])G.done[r]={stars:1,pct:0,skipped:true}}))}
 function mapScreen(){if(typeof TEST!=='undefined')return testHome();
  migrateR();const L=lvl(viewLevel);
  const hN=L.soon?[]:nodes(L),hD=hN.filter(n=>G.done[n.k]).length;
@@ -855,7 +855,7 @@ function mapScreen(){if(typeof TEST!=='undefined')return testHome();
   const uNodes=nodes(L).filter(n=>n.u===u),doneN=uNodes.filter(n=>G.done[n.k]).length,firstLocked=!isUnlocked(L,uNodes[0]);
   h+=`<div class="unit" style="background:${u.color}"><div class="ui">${UI(L,u)}</div><div><b>Unit ${u.id} · ${u.title}</b><span>${doneN}/${uNodes.length} islands · ${u.lessons.length} lessons + chat + review + test</span><div class="ubar"><i style="width:${Math.round(doneN/uNodes.length*100)}%"></i></div></div>${firstLocked&&u.id>1?`<button class="jump" data-jump="${u.id}">Jump here?</button>`:''}</div>`;
   h+=`<div class="sea${MAP(L,u)?' map':''}"${MAP(L,u)?` style="background-image:url(${MAP(L,u)})"`:''}><div class="wave" style="top:6px"></div><div class="path">`;
-  uNodes.forEach((n,i)=>{const off=[0,60,80,40,-30,-70,-40][i%7];const un=isUnlocked(L,n),dn=G.done[n.k],isCur=cur&&cur.k===n.k;
+  uNodes.forEach((n,i)=>{const off=[0,60,80,40,-30,-70,-40][i%7];const un=isUnlocked(L,n),dn=G.done[n.k]&&!(n.type==='chat'&&G.done[n.k].skipped)?G.done[n.k]:null,isCur=cur&&cur.k===n.k;
    const st=dn&&n.type!=='test'?IC('star','st').repeat(G.done[n.k].stars||1):'';
    h+=`<div class="isle" style="transform:translateX(${off}px)">${isCur?`<div class="tip">${n.type==='test'?'TEST!':n.type==='review'?'REVIEW!':n.type==='chat'?'CHAT!':'START'}</div>`:''}
     <button class="node ${n.type==='test'?'chest':''} ${un?'':'locked'} ${isCur?'cur':''}" data-k="${n.k}" style="background:${dn?'var(--yellow)':u.color}">${!un?IC('lock'):n.type==='test'?(dn?IC('rewards'):IC('chest')):n.type==='review'?(dn?'✔':IC('practice','in')):n.type==='chat'?(dn?'✔':IC('mic','in')):(dn?'✔':n.i+1)}<span class="stz">${st}</span></button></div>`});
