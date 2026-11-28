@@ -624,6 +624,8 @@ body:has(.book)::before,body:has(.grid2)::before,body:has(#pg)::before,body:has(
 .qchest{width:40px;height:40px;opacity:.55;filter:grayscale(.4)}.qok{font-weight:800;color:var(--green)}
 .qclaim{padding:8px 14px;font-size:15px;animation:qpulse 1s infinite}@keyframes qpulse{50%{transform:scale(1.07)}}
 .qrow{display:grid;grid-template-columns:1fr 80px 40px;align-items:center;gap:8px;padding:5px 0;font-weight:600;font-size:15px}.qrow.ok{color:var(--green)}
+.story{border-radius:20px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.18);margin:6px 0 10px;background:#fff}.stv{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}.sttl{text-align:center;margin:6px 0}.stlines{display:flex;flex-direction:column;gap:8px}.stl{display:flex;gap:8px;align-items:flex-end}.av.sm{width:56px;height:56px;flex:none;background-size:contain;background-repeat:no-repeat;background-position:center bottom}.stl .bubble{flex:1}.scn{height:96px;border-radius:16px;background-size:cover;background-position:center;margin:4px 0 8px;box-shadow:0 3px 10px rgba(0,0,0,.12)}
+
 .kblank{font-size:22px}.blank{display:inline-block;min-width:110px;padding:2px 12px;border-bottom:4px dashed var(--teal);color:var(--teal-d);font-weight:800;text-align:center}.blank.filled{border-bottom-style:solid}.vnote{text-align:center;margin-top:10px}.vrow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 
 .qck{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;border:2px solid var(--line);font-style:normal;font-size:13px;font-weight:800;vertical-align:-4px;margin-right:4px}.qrow.ok .qck{background:var(--green);border-color:var(--green);color:#fff}
@@ -732,7 +734,7 @@ function optVisual(p){
 // ---------- sound effects (generated, no files) ----------
 let actx;function tone(fs,dur=.12,type='sine',gap=.09){if(!G.sound)return;try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();let t=actx.currentTime;fs.forEach(f=>{const o=actx.createOscillator(),g=actx.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.18,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(g);g.connect(actx.destination);o.start(t);o.stop(t+dur+.02);t+=gap})}catch(e){}}
 // ---------- character voices (audio sprites per voice) ----------
-const AV='20261127k2';const INTRO_OK=new Set(['intro_5_1','intro_6_1','intro_7_1','intro_8_1','intro_9_1','intro_10_1','intro_2_5_1','intro_2_6_1','intro_2_7_1','intro_2_9_1','intro_2_10_1','intro_1_4','intro_2_1_1','intro_2_1_4','intro_2_2_5','intro_4_1','intro_4_2','intro_4_3','intro_5_2','intro_5_3','intro_5_4','intro_5_5','intro_6_2','intro_6_3','intro_6_4','intro_6_5','intro_7_2','intro_7_3','intro_7_4','intro_7_5','intro_8_2','intro_8_3','intro_8_4','intro_8_5','intro_9_2','intro_9_3','intro_9_4','intro_9_5','intro_10_2','intro_10_3','intro_10_4','intro_10_5','intro_2_5_2','intro_2_5_3','intro_2_5_4','intro_2_5_5','intro_2_6_2','intro_2_6_3','intro_2_6_4','intro_2_6_5','intro_2_7_2','intro_2_7_3','intro_2_7_4','intro_2_7_5','intro_2_8_2','intro_2_8_3','intro_2_8_4','intro_2_8_5','intro_2_9_2','intro_2_9_3','intro_2_9_4','intro_2_9_5','intro_2_10_2','intro_2_10_3','intro_2_10_4','intro_2_10_5','intro_1_1','intro_1_2','intro_1_3','intro_1_5','intro_2_1','intro_2_1_2','intro_2_1_3','intro_2_1_5','intro_2_2','intro_2_2_1','intro_2_2_2','intro_2_2_3','intro_2_2_4','intro_2_3','intro_2_3_1','intro_2_3_2','intro_2_3_3','intro_2_3_4','intro_2_3_5','intro_2_4','intro_2_4_1','intro_2_4_2','intro_2_4_3','intro_2_4_4','intro_2_4_5','intro_2_5','intro_3_1','intro_3_2','intro_3_3','intro_3_4','intro_3_5','intro_4_4','intro_4_5','intro_2_8_1']);const VO={idx:null,buf:{},cur:null,last:null};
+const AV='20261128s1';const INTRO_OK=new Set(['intro_5_1','intro_6_1','intro_7_1','intro_8_1','intro_9_1','intro_10_1','intro_2_5_1','intro_2_6_1','intro_2_7_1','intro_2_9_1','intro_2_10_1','intro_1_4','intro_2_1_1','intro_2_1_4','intro_2_2_5','intro_4_1','intro_4_2','intro_4_3','intro_5_2','intro_5_3','intro_5_4','intro_5_5','intro_6_2','intro_6_3','intro_6_4','intro_6_5','intro_7_2','intro_7_3','intro_7_4','intro_7_5','intro_8_2','intro_8_3','intro_8_4','intro_8_5','intro_9_2','intro_9_3','intro_9_4','intro_9_5','intro_10_2','intro_10_3','intro_10_4','intro_10_5','intro_2_5_2','intro_2_5_3','intro_2_5_4','intro_2_5_5','intro_2_6_2','intro_2_6_3','intro_2_6_4','intro_2_6_5','intro_2_7_2','intro_2_7_3','intro_2_7_4','intro_2_7_5','intro_2_8_2','intro_2_8_3','intro_2_8_4','intro_2_8_5','intro_2_9_2','intro_2_9_3','intro_2_9_4','intro_2_9_5','intro_2_10_2','intro_2_10_3','intro_2_10_4','intro_2_10_5','intro_1_1','intro_1_2','intro_1_3','intro_1_5','intro_2_1','intro_2_1_2','intro_2_1_3','intro_2_1_5','intro_2_2','intro_2_2_1','intro_2_2_2','intro_2_2_3','intro_2_2_4','intro_2_3','intro_2_3_1','intro_2_3_2','intro_2_3_3','intro_2_3_4','intro_2_3_5','intro_2_4','intro_2_4_1','intro_2_4_2','intro_2_4_3','intro_2_4_4','intro_2_4_5','intro_2_5','intro_3_1','intro_3_2','intro_3_3','intro_3_4','intro_3_5','intro_4_4','intro_4_5','intro_2_8_1']);const VO={idx:null,buf:{},cur:null,last:null};
 fetch('audio/index_beta.json?v='+AV).then(r=>r.json()).then(j=>VO.idx=j).catch(()=>{});
 function vctx(){actx=actx||new (window.AudioContext||window.webkitAudioContext)();if(actx.state==='suspended')actx.resume();return actx}
 document.addEventListener('pointerdown',()=>{try{vctx()}catch(e){}},{once:true});
@@ -741,7 +743,10 @@ function vkey(id){if(!id||!P)return null;if(CHAIN[id])return id;const s=boy()?'_
 function vstop(){if(VO.cur){try{VO.cur.stop()}catch(e){}VO.cur=null}}
 const CHAIN={};
 async function sayChain(id){VO.last=id;if(!G.sound)return;const ix=VO.idx&&VO.idx[P.char];if(!ix)return;const ks=CHAIN[id].map(vkey).filter(Boolean);if(!ks.length)return;try{const bufs=await Promise.all(ks.map(k=>vbuf(ix[k][0])));if(VO.last!==id)return;vstop();const c=vctx();let t=c.currentTime+.03;const ss=[];ks.forEach((k,n)=>{const [g,off,dur]=ix[k];const s=c.createBufferSource();s.buffer=bufs[n];s.connect(c.destination);s.start(t,off,dur);ss.push(s);t+=dur+.12});VO.cur={stop(){ss.forEach(s=>{try{s.stop()}catch(e){}})}}}catch(e){}}
-async function say(id){if(id&&CHAIN[id])return sayChain(id);VO.last=id;const k=vkey(id);if(!G.sound||!k)return;
+const STORYA={file:'story_2_1',idx:{st_2_1_1:[0,3.28],st_2_1_2:[3.58,5.52],st_2_1_3:[9.4,1.84],st_2_1_4:[11.54,2.4],st_2_1_5:[14.24,2.48],st_2_1_6:[17.02,2.4]}};
+async function storySay(id){VO.last=id;if(!G.sound)return;const ks=id.startsWith('stb_')?(id.slice(4).match(/st_\d+_\d+_\d+/g)||[]):[id];if(!ks.length)return;
+ try{const k='story_'+STORYA.file;if(!VO.buf[k])VO.buf[k]=fetch('audio/'+STORYA.file+'.mp3?v='+AV).then(r=>r.arrayBuffer()).then(b=>new Promise((res,rej)=>vctx().decodeAudioData(b,res,rej))).catch(e=>{delete VO.buf[k];throw e});const b=await VO.buf[k];if(VO.last!==id)return;vstop();const c=vctx();let t=c.currentTime+.03;const ss=[];ks.forEach(x=>{const ix=STORYA.idx[x];if(!ix)return;const s=c.createBufferSource();s.buffer=b;s.connect(c.destination);s.start(t,ix[0],ix[1]);ss.push(s);t+=ix[1]+.25});VO.cur={stop(){ss.forEach(s=>{try{s.stop()}catch(e){}})}}}catch(e){}}
+async function say(id){if(id&&/^stb?_/.test(id))return storySay(id);if(id&&CHAIN[id])return sayChain(id);VO.last=id;const k=vkey(id);if(!G.sound||!k)return;
  const [g,off,dur]=VO.idx[P.char][k];
  try{const b=await vbuf(g);if(VO.last!==id)return;vstop();const c=vctx(),src=c.createBufferSource(),gn=c.createGain();src.buffer=b;const vol=k==='p_letsgo'?(P.char==='karim'?.45:.75):1;gn.gain.setValueAtTime(0,c.currentTime);gn.gain.linearRampToValueAtTime(vol,c.currentTime+.06);src.connect(gn);gn.connect(c.destination);src.start(0,off,dur);VO.cur=src}catch(e){}}
 function vwarm(gs){if(!VO.idx){setTimeout(()=>vwarm(gs),400);return}const have=new Set(Object.values(VO.idx[P.char]||{}).map(v=>v[0]));gs.filter(g=>have.has(g)).forEach(g=>vbuf(g).catch(()=>{}))}
@@ -920,18 +925,28 @@ function startReview(L,u){
 // ---------- conversation island (one per unit) ----------
 function chatPairs(L,u){const vb=(L.id>1?L.id+'_':'')+u.id;return (u.lessons||[]).flatMap((ls,li)=>(ls.talk||[]).map((tk,j)=>({tk,vb:`${vb}_${li+1}_${j}`})))}
 function startChat(L,u){
- const pairs=chatPairs(L,u).slice(0,10),items=[];vwarm(L.id>1?['w'+L.id,'l'+L.id+'u'+u.id,'p']:['w','u'+u.id,'p']);
- items.push({t:'talk',vid:'p_yalla',text:`Chat time on “${esc(u.title)}”! ${CH().name} will talk to you. Pick your answer, or say the missing word into the mic. Yalla!`});
- const pool=[...new Set(pairs.map(p=>p.tk.a).filter(a=>typeof a==='string'))];let n=0;
- pairs.forEach(p=>{const blank=typeof p.tk.a==='string'&&n++%2===1;items.push({t:blank?'cblank':'cpick',tk:p.tk,vb:p.vb,pool})});
- RUN={title:u.title+' chat',items,i:0,ok:0,n:0,mode:'lesson',key:`${L.id}-${u.id}-C`,L,u};
+ const pairs=chatPairs(L,u).slice(0,10),items=[],key=`${L.id}-${u.id}`,S=STORIES[key];vwarm(L.id>1?['w'+L.id,'l'+L.id+'u'+u.id,'p','st1']:['w','u'+u.id,'p','st1']);
+ if(!S)items.push({t:'talk',vid:'p_yalla',text:`Chat time on “${esc(u.title)}”! ${CH().name} will talk to you. Pick your answer, or say the missing word into the mic. Yalla!`});
+ const pool=[...new Set(pairs.map(p=>p.tk.a).filter(a=>typeof a==='string'))];
+ pairs.forEach((p,i)=>{if(S&&S.beats[i])items.push({t:'story',beat:S.beats[i],title:i===0?S.title:null});const canBlank=typeof p.tk.a==='string'||!!vkey('a_'+p.vb);items.push({t:canBlank&&i%2===1?'cblank':'cpick',tk:p.tk,vb:p.vb,pool})});
+ if(S&&S.beats.end)items.push({t:'story',beat:S.beats.end});
+ RUN={title:u.title+' chat',items,i:0,ok:0,n:0,mode:'lesson',key:`${L.id}-${u.id}-C`,L,u,scene:null};
  step();
 }
+const STORIES={'2-1':{title:'Late for school!',beats:{
+ 0:{scene:'story/s2_1_a.webp',clip:'story/s2_1_a.mp4',lines:[['karim','st_2_1_1',"Zena! Wake up! It's a school day and we're late!"],['zena','st_2_1_2','Five more minutes… oh no, school! Come on, help me get ready!']]},
+ 2:{scene:'story/s2_1_b.webp',lines:[['karim','st_2_1_3',"We made it! Look who's at the gate!"]]},
+ 4:{scene:'story/s2_1_c.webp',lines:[['zena','st_2_1_4','Maths time… this one is tricky!']]},
+ 6:{scene:'story/s2_1_d.webp',lines:[['karim','st_2_1_5','Wait… who is hiding under the desk?']]},
+ end:{scene:'story/s2_1_b.webp',lines:[['zena','st_2_1_6','What a day! Yalla, home time!']]}}}};
+function exStory(it){const b=it.beat;RUN.scene=b.scene;const cid='stb_'+b.lines.map(l=>l[1]).join('_');
+ frame(`<div class="story">${b.clip?`<video class="stv" src="${b.clip}?v=${AV}" poster="${b.scene}?v=${AV}" autoplay muted playsinline></video>`:`<img class="stv" src="${b.scene}?v=${AV}" alt="">`}</div>${it.title?`<h2 class="sttl">${esc(it.title)}</h2>`:''}<div class="stlines">${b.lines.map(l=>`<div class="stl"><div class="av sm" style="background-image:url(${ASSETS[l[0]].happy})"></div><div class="bubble"><button class="spk" data-v="${l[1]}" aria-label="Play again">${IC('speaker','in')} ${ASSETS[l[0]].name}</button>${esc(l[2])}</div></div>`).join('')}</div>`);
+ say(cid);foot(null,'');}
 function chatQ(it){const tk=it.tk,q={ar:gx(tk.q.ar),tr:gx(tk.q.tr),en:tk.q.en};const cpic=convoPics((q.tr||'').match(EMRX)?q.tr:q.ar,tk.a);q.ar=noEmo(q.ar);q.tr=noEmo(q.tr);
  const wid=typeof tk.a==='string'?tk.a:null,ans=wid?word(wid):{ar:fillName(gx(tk.a.ar)),tr:fillName(gx(tk.a.tr))};
  const qv='q_'+it.vb,av=vkey('a_'+it.vb)?'a_'+it.vb:(wid?'w_'+wid:null),fv='after_'+it.vb;
  if(!vkey(fv)&&!CHAIN[fv]&&wid&&typeof tk.after==='string'){const m=/^(Yes|Bravo)! (.+?)!$/.exec(tk.after);if(m)CHAIN[fv]=m[2]==='Perfect'?['p_bravo']:['p_'+m[1].toLowerCase(),'w_'+wid]}
- const head=guideHTML(`${cpic}${q.ar?`<div class="ar" style="font-size:28px">${q.ar}</div>`:''}${q.tr?`<div class="qline">${esc(q.tr)}</div>`:''}<div class="note">${esc(q.en)}</div>`,'happy',null,qv);
+ const head=(RUN.scene?`<div class="scn" style="background-image:url(${RUN.scene}?v=${AV})"></div>`:'')+guideHTML(`${cpic}${q.ar?`<div class="ar" style="font-size:28px">${q.ar}</div>`:''}${q.tr?`<div class="qline">${esc(q.tr)}</div>`:''}<div class="note">${esc(q.en)}</div>`,'happy',null,qv);
  return {tk,wid,ans,qv,av,fv,head,cpic}}
 function chatAfter(c,ok,box){RUN.n++;if(ok)RUN.ok++;if(c.wid)mark(c.wid,ok);ok?sfx.ok():sfx.no();react(ok);
  box.innerHTML=`<div class="kid">${boy()?FB:FG} ${esc(c.ans.tr)}</div>`+guideHTML(esc(noEmo(fillName(c.tk.after))),'cheer',null,c.fv);say(c.fv);
@@ -948,13 +963,13 @@ function exCpick(it){
 let vnStream=null,vnRec=null,vnAudio=null,chatT=[];function chatClear(){chatT.forEach(clearTimeout);chatT=[];if(vnAudio){try{vnAudio.onended=null;vnAudio.pause()}catch(e){}vnAudio=null}}
 function vnStop(){try{if(vnRec&&vnRec.state==='recording')vnRec.stop()}catch(e){}try{if(vnStream)vnStream.getTracks().forEach(t=>t.stop())}catch(e){}vnStream=null;vnRec=null}
 function exCblank(it){
- const c=chatQ(it),w=word(c.wid);say(c.qv);
- frame(c.head+`<div class="kid kblank">${boy()?FB:FG} <span class="blank">?</span></div><div style="text-align:center">${w.pic&&!c.cpic?optVisual(w.pic):''}<div class="note">Say the missing word: <b>“${esc(w.en)}”</b></div></div><div class="vnote" id="vn"></div><div id="cy" style="margin-top:12px"></div>`);
+ const c=chatQ(it),w=c.wid?word(c.wid):null,full=c.ans.tr,parts=String(full).split(' '),pre=parts.length>1?parts.slice(0,-1).join(' ')+' ':'',hint=w?w.en:(c.tk.q.en||'');say(c.qv);
+ frame(c.head+`<div class="kid kblank">${boy()?FB:FG} ${esc(pre)}<span class="blank">?</span></div><div style="text-align:center">${w&&w.pic&&!c.cpic?optVisual(w.pic):''}<div class="note">Say the missing ${pre?'word':'answer'}${w?`: <b>“${esc(w.en)}”</b>`:''}</div></div><div class="vnote" id="vn"></div><div id="cy" style="margin-top:12px"></div>`);
  const vn=$('vn');let url=null,done=false;
- const compare=()=>{if(done)return;done=true;vnStop();RUN.n++;RUN.ok++;mark(c.wid,true);G.speak.n++;G.speak.ok++;questTick('say');sfx.ok();react(true);
+ const compare=()=>{if(done)return;done=true;vnStop();RUN.n++;RUN.ok++;if(c.wid)mark(c.wid,true);G.speak.n++;G.speak.ok++;questTick('say');sfx.ok();react(true);
   vn.innerHTML=`<div class="vrow">${url?`<button class="btn ghost" id="mine">${IC('speaker','in')} Me</button>`:''}<button class="btn ghost" id="theirs">${IC('speaker','in')} ${CH().name}</button></div>`;
   if($('mine'))$('mine').onclick=()=>{chatClear();try{vstop();vnAudio=new Audio(url);vnAudio.play()}catch(e){}};$('theirs').onclick=()=>{chatClear();say(c.av)};
-  app.querySelector('.kblank').innerHTML=`${boy()?FB:FG} <span class="blank filled">${esc(w.tr)}</span>`;
+  app.querySelector('.kblank').innerHTML=`${boy()?FB:FG} ${esc(pre)}<span class="blank filled">${esc(parts.at(-1))}</span>`;
   const mine=RUN.items[RUN.i];const live=()=>RUN&&RUN.items[RUN.i]===mine&&$('cy');const later=(f,ms)=>chatT.push(setTimeout(()=>{if(live())f()},ms));
   const after=()=>{if(!live())return;$('cy').innerHTML=guideHTML(esc(noEmo(fillName(c.tk.after))),'cheer',null,c.fv);say(c.fv)};
   const zen=()=>{if(!live())return;say(c.av);later(after,1400)};if(url){try{vstop();const a=new Audio(url);vnAudio=a;a.onended=()=>{vnAudio=null;zen()};a.play().catch(zen)}catch(e){zen()}}else zen()
@@ -1031,7 +1046,7 @@ function result(ok,id,correctTxt){
 function step(){
  if(typeof chatClear==='function')chatClear();if(typeof vnStop==='function')vnStop();
  if(RUN.i>=RUN.items.length)return finish();
- const it=RUN.items[RUN.i];({talk:exTalk,teach:exTeach,gender:exGender,meaning:exMeaning,arabic:exArabic,match:exMatch,convo:exConvo,say:exSay,pick:exPick,cpick:exCpick,cblank:exCblank}[it.t])(it);
+ const it=RUN.items[RUN.i];({talk:exTalk,teach:exTeach,gender:exGender,meaning:exMeaning,arabic:exArabic,match:exMatch,convo:exConvo,say:exSay,pick:exPick,cpick:exCpick,cblank:exCblank,story:exStory}[it.t])(it);
 }
 function exTalk(it){const who=RUN.mode==='practice'?'bisseh':P.char;frame(`<div style="height:8px"></div>${clipHTML(who,'wave',220)}`+guideHTML(it.text,'wave',RUN.mode==='practice'?'bisseh':null,it.vid));foot(null,'');say(it.vid)}
 function exPick(it){let sel=null;
