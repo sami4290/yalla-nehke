@@ -616,6 +616,8 @@ body:has(.book)::before,body:has(.grid2)::before,body:has(#pg)::before,body:has(
 .qchest{width:40px;height:40px;opacity:.55;filter:grayscale(.4)}.qok{font-weight:800;color:var(--green)}
 .qclaim{padding:8px 14px;font-size:15px;animation:qpulse 1s infinite}@keyframes qpulse{50%{transform:scale(1.07)}}
 .qrow{display:grid;grid-template-columns:1fr 80px 40px;align-items:center;gap:8px;padding:5px 0;font-weight:600;font-size:15px}.qrow.ok{color:var(--green)}
+.kblank{font-size:22px}.blank{display:inline-block;min-width:110px;padding:2px 12px;border-bottom:4px dashed var(--teal);color:var(--teal-d);font-weight:800;text-align:center}.blank.filled{border-bottom-style:solid}.vnote{text-align:center;margin-top:10px}.vrow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+
 .qck{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;border:2px solid var(--line);font-style:normal;font-size:13px;font-weight:800;vertical-align:-4px;margin-right:4px}.qrow.ok .qck{background:var(--green);border-color:var(--green);color:#fff}
 .mdl{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;font-style:normal;font-weight:800;font-size:14px;color:#5a3b00}.mdl.m1{background:#FFD54A}.mdl.m2{background:#D9DEE6;color:#3a4352}.mdl.m3{background:#E9A26B;color:#4a2a10}
 .dot{display:inline-block;width:12px;height:12px;border-radius:50%;border:2px solid rgba(0,0,0,.15);vertical-align:-1px;font-style:normal}
@@ -806,7 +808,7 @@ function listen(ar,tr,box,onDone,label){
 
 // ---------- course map / unlock logic ----------
 const lvl=id=>COURSE.find(l=>l.id===id);
-function nodes(L){const out=[];L.units.forEach(u=>{(u.lessons||[]).forEach((ls,i)=>out.push({k:`${L.id}-${u.id}-${i+1}`,type:'lesson',u,ls,i}));if(u.lessons){out.push({k:`${L.id}-${u.id}-R`,type:'review',u});out.push({k:`${L.id}-${u.id}-T`,type:'test',u})}});return out}
+function nodes(L){const out=[];L.units.forEach(u=>{(u.lessons||[]).forEach((ls,i)=>out.push({k:`${L.id}-${u.id}-${i+1}`,type:'lesson',u,ls,i}));if(u.lessons){if(u.lessons.some(l=>(l.talk||[]).length))out.push({k:`${L.id}-${u.id}-C`,type:'chat',u});out.push({k:`${L.id}-${u.id}-R`,type:'review',u});out.push({k:`${L.id}-${u.id}-T`,type:'test',u})}});return out}
 function levelOpen(L){if(L.soon)return false;return true;if(L.id===1)return true;if(P&&P.level>=L.id)return true;const prev=lvl(L.id-1);return nodes(prev).every(n=>G.done[n.k])}
 function isUnlocked(L,n){return true;const all=nodes(L),idx=all.findIndex(x=>x.k===n.k);if(idx===0)return levelOpen(L);if(G.unlocked[`${L.id}-${n.u.id}`]&&(n.type==='lesson'||nodes(L).filter(x=>x.u===n.u&&x.type==='lesson').every(x=>G.done[x.k])))return true;return !!G.done[all[idx-1].k]}
 function currentNode(L){return nodes(L).find(n=>isUnlocked(L,n)&&!G.done[n.k])}
@@ -831,7 +833,7 @@ function shell(inner){
 }
 function route(){if(!P)return setup(true);if(!route.init){route.init=1;const open=COURSE.filter(l=>levelOpen(l));const act=[...open].reverse().find(l=>l.id<=P.level&&currentNode(l))||open.find(l=>currentNode(l))||open[open.length-1];if(act)viewLevel=act.id}({map:mapScreen,practice:practiceScreen,rewards:rewardsScreen,parents:()=>parentGate(parentScreen)}[tab])()}
 
-function migrateR(){COURSE.filter(l=>!l.soon).forEach(L=>L.units.forEach(u=>{const t=`${L.id}-${u.id}-T`,r=`${L.id}-${u.id}-R`;if(G.done[t]&&!G.done[r])G.done[r]={stars:1,pct:0,skipped:true}}))}
+function migrateR(){COURSE.filter(l=>!l.soon).forEach(L=>L.units.forEach(u=>{const t=`${L.id}-${u.id}-T`,r=`${L.id}-${u.id}-R`,c=`${L.id}-${u.id}-C`;if(G.done[t]&&!G.done[r])G.done[r]={stars:1,pct:0,skipped:true};if((G.done[t]||G.done[r])&&!G.done[c])G.done[c]={stars:1,pct:0,skipped:true}}))}
 function mapScreen(){
  migrateR();const L=lvl(viewLevel);
  const hN=L.soon?[]:nodes(L),hD=hN.filter(n=>G.done[n.k]).length;
@@ -843,12 +845,12 @@ function mapScreen(){
  const cur=currentNode(L);
  L.units.forEach(u=>{
   const uNodes=nodes(L).filter(n=>n.u===u),doneN=uNodes.filter(n=>G.done[n.k]).length,firstLocked=!isUnlocked(L,uNodes[0]);
-  h+=`<div class="unit" style="background:${u.color}"><div class="ui">${UI(L,u)}</div><div><b>Unit ${u.id} · ${u.title}</b><span>${doneN}/${uNodes.length} islands · ${u.lessons.length} lessons + review + test</span><div class="ubar"><i style="width:${Math.round(doneN/uNodes.length*100)}%"></i></div></div>${firstLocked&&u.id>1?`<button class="jump" data-jump="${u.id}">Jump here?</button>`:''}</div>`;
+  h+=`<div class="unit" style="background:${u.color}"><div class="ui">${UI(L,u)}</div><div><b>Unit ${u.id} · ${u.title}</b><span>${doneN}/${uNodes.length} islands · ${u.lessons.length} lessons + chat + review + test</span><div class="ubar"><i style="width:${Math.round(doneN/uNodes.length*100)}%"></i></div></div>${firstLocked&&u.id>1?`<button class="jump" data-jump="${u.id}">Jump here?</button>`:''}</div>`;
   h+=`<div class="sea${MAP(L,u)?' map':''}"${MAP(L,u)?` style="background-image:url(${MAP(L,u)})"`:''}><div class="wave" style="top:6px"></div><div class="path">`;
   uNodes.forEach((n,i)=>{const off=[0,60,80,40,-30,-70,-40][i%7];const un=isUnlocked(L,n),dn=G.done[n.k],isCur=cur&&cur.k===n.k;
    const st=dn&&n.type!=='test'?IC('star','st').repeat(G.done[n.k].stars||1):'';
-   h+=`<div class="isle" style="transform:translateX(${off}px)">${isCur?`<div class="tip">${n.type==='test'?'TEST!':n.type==='review'?'REVIEW!':'START'}</div>`:''}
-    <button class="node ${n.type==='test'?'chest':''} ${un?'':'locked'} ${isCur?'cur':''}" data-k="${n.k}" style="background:${dn?'var(--yellow)':u.color}">${!un?IC('lock'):n.type==='test'?(dn?IC('rewards'):IC('chest')):n.type==='review'?(dn?'✔':IC('practice','in')):(dn?'✔':n.i+1)}<span class="stz">${st}</span></button></div>`});
+   h+=`<div class="isle" style="transform:translateX(${off}px)">${isCur?`<div class="tip">${n.type==='test'?'TEST!':n.type==='review'?'REVIEW!':n.type==='chat'?'CHAT!':'START'}</div>`:''}
+    <button class="node ${n.type==='test'?'chest':''} ${un?'':'locked'} ${isCur?'cur':''}" data-k="${n.k}" style="background:${dn?'var(--yellow)':u.color}">${!un?IC('lock'):n.type==='test'?(dn?IC('rewards'):IC('chest')):n.type==='review'?(dn?'✔':IC('practice','in')):n.type==='chat'?(dn?'✔':IC('mic','in')):(dn?'✔':n.i+1)}<span class="stz">${st}</span></button></div>`});
   h+=`</div><div class="wave" style="bottom:4px"></div></div>`;
  });
  const lvDone=nodes(L).every(n=>G.done[n.k]);
@@ -861,7 +863,7 @@ function greetLine(){const n=esc(P.name);const opts=[`Marḥaba ${n}! Ready for 
 function bindMap(){
  bindQuests();
  app.querySelectorAll('.ltab').forEach(b=>b.onclick=()=>{viewLevel=+b.dataset.l;mapScreen()});
- app.querySelectorAll('.node').forEach(b=>b.onclick=()=>{const L=lvl(viewLevel),n=nodes(L).find(x=>x.k===b.dataset.k);if(!isUnlocked(L,n)){b.classList.add('no');sfx.no();toast('Finish the island before this one first!');return}sfx.tap();n.type==='test'?startTest(L,n.u):n.type==='review'?startReview(L,n.u):startLesson(L,n)});
+ app.querySelectorAll('.node').forEach(b=>b.onclick=()=>{const L=lvl(viewLevel),n=nodes(L).find(x=>x.k===b.dataset.k);if(!isUnlocked(L,n)){b.classList.add('no');sfx.no();toast('Finish the island before this one first!');return}sfx.tap();n.type==='test'?startTest(L,n.u):n.type==='review'?startReview(L,n.u):n.type==='chat'?startChat(L,n.u):startLesson(L,n)});
  app.querySelectorAll('[data-jump]').forEach(b=>b.onclick=()=>{const L=lvl(viewLevel),u=L.units.find(x=>x.id===+b.dataset.jump);sheet(`<h2>Jump to Unit ${u.id}?</h2><p class="sub">Pass a short test on Unit ${u.id-1} (${esc(L.units[u.id-2].title)}) to open “${esc(u.title)}”.</p><button class="btn wide" id="jy">Start the test</button><div style="height:10px"></div><button class="btn ghost wide" id="jn">Not now</button>`,()=>{$('jy').onclick=()=>{closeSheet();startTest(L,L.units[u.id-2],u)};$('jn').onclick=closeSheet})});
 }
 function toast(t){let d=document.createElement('div');d.className='kid';d.style.cssText='position:fixed;left:50%;transform:translateX(-50%);bottom:90px;z-index:12;background:#fff;border-color:var(--line)';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),1600)}
@@ -907,6 +909,58 @@ function startReview(L,u){
  RUN={title:u.title+' review',items,i:0,ok:0,n:0,mode:'lesson',key:`${L.id}-${u.id}-R`,L,u};
  step();
 }
+// ---------- conversation island (one per unit) ----------
+function chatPairs(L,u){const vb=(L.id>1?L.id+'_':'')+u.id;return (u.lessons||[]).flatMap((ls,li)=>(ls.talk||[]).map((tk,j)=>({tk,vb:`${vb}_${li+1}_${j}`})))}
+function startChat(L,u){
+ const pairs=chatPairs(L,u).slice(0,10),items=[];vwarm(L.id>1?['w'+L.id,'l'+L.id+'u'+u.id,'p']:['w','u'+u.id,'p']);
+ items.push({t:'talk',vid:'p_yalla',text:`Chat time on “${esc(u.title)}”! ${CH().name} will talk to you. Pick your answer, or say the missing word into the mic. Yalla!`});
+ const pool=[...new Set(pairs.map(p=>p.tk.a).filter(a=>typeof a==='string'))];let n=0;
+ pairs.forEach(p=>{const blank=typeof p.tk.a==='string'&&n++%2===1;items.push({t:blank?'cblank':'cpick',tk:p.tk,vb:p.vb,pool})});
+ RUN={title:u.title+' chat',items,i:0,ok:0,n:0,mode:'lesson',key:`${L.id}-${u.id}-C`,L,u};
+ step();
+}
+function chatQ(it){const tk=it.tk,q={ar:gx(tk.q.ar),tr:gx(tk.q.tr),en:tk.q.en};const cpic=convoPics((q.tr||'').match(EMRX)?q.tr:q.ar,tk.a);q.ar=noEmo(q.ar);q.tr=noEmo(q.tr);
+ const wid=typeof tk.a==='string'?tk.a:null,ans=wid?word(wid):{ar:fillName(gx(tk.a.ar)),tr:fillName(gx(tk.a.tr))};
+ const qv='q_'+it.vb,av=vkey('a_'+it.vb)?'a_'+it.vb:(wid?'w_'+wid:null),fv='after_'+it.vb;
+ if(!vkey(fv)&&!CHAIN[fv]&&wid&&typeof tk.after==='string'){const m=/^(Yes|Bravo)! (.+?)!$/.exec(tk.after);if(m)CHAIN[fv]=m[2]==='Perfect'?['p_bravo']:['p_'+m[1].toLowerCase(),'w_'+wid]}
+ const head=guideHTML(`${cpic}${q.ar?`<div class="ar" style="font-size:28px">${q.ar}</div>`:''}${q.tr?`<div class="qline">${esc(q.tr)}</div>`:''}<div class="note">${esc(q.en)}</div>`,'happy',null,qv);
+ return {tk,wid,ans,qv,av,fv,head,cpic}}
+function chatAfter(c,ok,box){RUN.n++;if(ok)RUN.ok++;if(c.wid)mark(c.wid,ok);ok?sfx.ok():sfx.no();react(ok);
+ box.innerHTML=`<div class="kid">${boy()?FB:FG} ${esc(c.ans.tr)}</div>`+guideHTML(esc(noEmo(fillName(c.tk.after))),'cheer',null,c.fv);say(c.fv);
+ foot(ok?true:null,ok?praise(true)+' '+IC('star','in'):'Good try!')}
+function exCpick(it){
+ const c=chatQ(it);let opts;
+ if(c.wid)opts=options(c.wid,it.pool,3).map(o=>({o,ar:word(o).ar,tr:word(o).tr,v:o===c.wid?c.av:'w_'+o,k:o===c.wid}));
+ else opts=shuffle([{o:'_a',ar:c.ans.ar,tr:c.ans.tr,v:c.av,k:true},...shuffle(it.pool).slice(0,2).map(o=>({o,ar:word(o).ar,tr:word(o).tr,v:'w_'+o,k:false}))]);
+ say(c.qv);
+ frame(c.head+`<p class="note" style="text-align:center;margin:6px 0">Pick your answer to ${CH().name}:</p><div class="opts list">${opts.map(x=>`<button class="opt" data-o="${x.o}" data-k="${x.k?1:0}" data-sv="${x.v||''}"><span class="ot">${esc(x.tr)}</span><span class="oa ar">${x.ar}</span></button>`).join('')}</div><div id="cy" style="margin-top:12px"></div>`);
+ let sel=null;checkBtn(()=>{const b=app.querySelector(`.opt[data-o="${sel}"]`),ok=b&&b.dataset.k==='1';app.querySelectorAll('.opt').forEach(x=>{x.disabled=true;if(x.dataset.o===sel)x.classList.add(ok?'ok':'no');if(x.dataset.k==='1')x.classList.add('ok')});chatAfter(c,ok,$('cy'))});
+ app.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{sfx.tap();if(b.dataset.sv)say(b.dataset.sv);app.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');sel=b.dataset.o;$('chk').disabled=false});
+}
+let vnStream=null,vnRec=null;function vnStop(){try{if(vnRec&&vnRec.state==='recording')vnRec.stop()}catch(e){}try{if(vnStream)vnStream.getTracks().forEach(t=>t.stop())}catch(e){}vnStream=null;vnRec=null}
+function exCblank(it){
+ const c=chatQ(it),w=word(c.wid);say(c.qv);
+ frame(c.head+`<div class="kid kblank">${boy()?FB:FG} <span class="blank">?</span></div><div style="text-align:center">${w.pic&&!c.cpic?optVisual(w.pic):''}<div class="note">Say the missing word: <b>“${esc(w.en)}”</b></div></div><div class="vnote" id="vn"></div><div id="cy" style="margin-top:12px"></div>`);
+ const vn=$('vn');let url=null,done=false;
+ const compare=()=>{if(done)return;done=true;vnStop();RUN.n++;RUN.ok++;mark(c.wid,true);G.speak.n++;G.speak.ok++;questTick('say');sfx.ok();react(true);
+  vn.innerHTML=`<div class="vrow">${url?`<button class="btn ghost" id="mine">${IC('speaker','in')} Me</button>`:''}<button class="btn ghost" id="theirs">${IC('speaker','in')} ${CH().name}</button></div>`;
+  if($('mine'))$('mine').onclick=()=>{try{vstop();new Audio(url).play()}catch(e){}};$('theirs').onclick=()=>say(c.av);
+  app.querySelector('.kblank').innerHTML=`${boy()?FB:FG} <span class="blank filled">${esc(w.tr)}</span>`;
+  const after=()=>{$('cy').innerHTML=guideHTML(esc(noEmo(fillName(c.tk.after))),'cheer',null,c.fv);say(c.fv)};
+  if(url){try{vstop();const a=new Audio(url);a.onended=()=>{say(c.av);setTimeout(after,1400)};a.play().catch(()=>{say(c.av);setTimeout(after,1400)})}catch(e){say(c.av);setTimeout(after,1400)}}else{say(c.av);setTimeout(after,1400)}
+  foot(true,praise(true)+' '+IC('star','in'))};
+ const noMic=()=>{vn.innerHTML=`<p class="note" style="text-align:center">Say it out loud, then tap the button.</p>`;const f=document.createElement('div');f.className='foot';f.id='foot';f.innerHTML=`<button class="btn wide" id="did">I said it! ✓</button>`;const o=$('foot');if(o)o.remove();app.appendChild(f);$('did').onclick=compare};
+ if(!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia&&window.MediaRecorder)||micBlocked)return noMic();
+ const ui=live=>{vn.innerHTML=`<button class="mic ${live?'live':''}" id="vrec" aria-label="Record">${IC('mic')}</button><div class="heard">${live?'Recording… tap to stop':'Tap the mic and say the missing word'}</div>`;$('vrec').onclick=live?()=>{try{vnRec.stop()}catch(e){}}:go};
+ const go=async()=>{vstop();try{if(actx&&actx.state==='running')actx.suspend()}catch(e){}
+  try{vnStream=await navigator.mediaDevices.getUserMedia({audio:true})}catch(e){try{if(actx)actx.resume()}catch(_){}micBlocked=true;return noMic()}
+  const ch=[];try{vnRec=new MediaRecorder(vnStream)}catch(e){vnStop();return noMic()}
+  vnRec.ondataavailable=e=>{if(e.data&&e.data.size)ch.push(e.data)};
+  vnRec.onstop=()=>{try{if(actx)actx.resume()}catch(e){}if(ch.length)url=URL.createObjectURL(new Blob(ch,{type:ch[0].type||'audio/webm'}));vnStop();if($('vn'))compare()};
+  vnRec.start();ui(true);setTimeout(()=>{if(vnRec&&vnRec.state==='recording')vnRec.stop()},4000)};
+ ui(false);
+ const f=document.createElement('div');f.className='foot';f.id='foot';f.innerHTML=`<button class="btn ghost wide" id="skp">Can't speak now</button>`;app.appendChild(f);$('skp').onclick=()=>{vnStop();RUN.i++;step()};
+}
 function startPractice(){
  const ws=dueWords(8);if(ws.length<2){toast('Finish a lesson first, then practise here!');return}
  vwarm(['w','p']);const items=[{t:'talk',vid:'practice_intro',text:'Practice time! Let’s make your words super strong!'}];
@@ -936,7 +990,7 @@ function result(ok,id,correctTxt){
 }
 function step(){
  if(RUN.i>=RUN.items.length)return finish();
- const it=RUN.items[RUN.i];({talk:exTalk,teach:exTeach,gender:exGender,meaning:exMeaning,arabic:exArabic,match:exMatch,convo:exConvo,say:exSay}[it.t])(it);
+ const it=RUN.items[RUN.i];({talk:exTalk,teach:exTeach,gender:exGender,meaning:exMeaning,arabic:exArabic,match:exMatch,convo:exConvo,say:exSay,cpick:exCpick,cblank:exCblank}[it.t])(it);
 }
 function exTalk(it){const who=RUN.mode==='practice'?'bisseh':P.char;frame(`<div style="height:8px"></div>${clipHTML(who,'wave',220)}`+guideHTML(it.text,'wave',RUN.mode==='practice'?'bisseh':null,it.vid));foot(null,'');say(it.vid)}
 const isG=id=>W[id]&&Array.isArray(W[id].ar);
@@ -1044,7 +1098,7 @@ function finish(){
  }else if(R.mode==='test'){
   const passed=pct>=70;G.tests[R.key]=Math.max(G.tests[R.key]||0,pct);
   if(passed){G.done[R.key]={stars:3,pct};G.trophies[R.key]=true;setEvent(`won the ${R.u.title} trophy`);addXP(30);
-   R.u.lessons.forEach((l,i)=>{const k=`${R.L.id}-${R.u.id}-${i+1}`;if(!G.done[k])G.done[k]={stars:1,pct:0,skipped:true}});{const k=`${R.L.id}-${R.u.id}-R`;if(!G.done[k])G.done[k]={stars:1,pct:0,skipped:true}}
+   R.u.lessons.forEach((l,i)=>{const k=`${R.L.id}-${R.u.id}-${i+1}`;if(!G.done[k])G.done[k]={stars:1,pct:0,skipped:true}});['R','C'].forEach(x=>{const k=`${R.L.id}-${R.u.id}-${x}`;if(!G.done[k])G.done[k]={stars:1,pct:0,skipped:true}})
    if(R.jumpTo)G.unlocked[`${R.L.id}-${R.jumpTo.id}`]=true;
    if(!G.stickers[`${R.L.id}-${R.u.id}`]){G.stickers[`${R.L.id}-${R.u.id}`]=true;extra=`<div class="card" style="margin:12px 0"><div class="note">New sticker!</div><div class="newstk">${UI(R.L,R.u,'big')}</div><b>${esc(R.u.sticker.n)}</b></div>`}}
   html=passed?`<div class="bigstar">${IC('rewards','big')}</div><h1>Test passed!</h1><p class="sub">${pct}% correct on “${esc(R.u.title)}”. ${R.jumpTo?`Unit ${R.jumpTo.id} is now open!`:'The next unit is open!'}</p><div class="chips"><div class="chip">+30<small>XP</small></div><div class="chip">${pct}%<small>score</small></div></div>${extra}`
