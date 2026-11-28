@@ -937,17 +937,19 @@ function exCpick(it){
  let sel=null;checkBtn(()=>{const b=app.querySelector(`.opt[data-o="${sel}"]`),ok=b&&b.dataset.k==='1';app.querySelectorAll('.opt').forEach(x=>{x.disabled=true;if(x.dataset.o===sel)x.classList.add(ok?'ok':'no');if(x.dataset.k==='1')x.classList.add('ok')});chatAfter(c,ok,$('cy'))});
  app.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{sfx.tap();if(b.dataset.sv)say(b.dataset.sv);app.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');sel=b.dataset.o;$('chk').disabled=false});
 }
-let vnStream=null,vnRec=null;function vnStop(){try{if(vnRec&&vnRec.state==='recording')vnRec.stop()}catch(e){}try{if(vnStream)vnStream.getTracks().forEach(t=>t.stop())}catch(e){}vnStream=null;vnRec=null}
+let vnStream=null,vnRec=null,vnAudio=null,chatT=[];function chatClear(){chatT.forEach(clearTimeout);chatT=[];if(vnAudio){try{vnAudio.onended=null;vnAudio.pause()}catch(e){}vnAudio=null}}
+function vnStop(){try{if(vnRec&&vnRec.state==='recording')vnRec.stop()}catch(e){}try{if(vnStream)vnStream.getTracks().forEach(t=>t.stop())}catch(e){}vnStream=null;vnRec=null}
 function exCblank(it){
  const c=chatQ(it),w=word(c.wid);say(c.qv);
  frame(c.head+`<div class="kid kblank">${boy()?FB:FG} <span class="blank">?</span></div><div style="text-align:center">${w.pic&&!c.cpic?optVisual(w.pic):''}<div class="note">Say the missing word: <b>“${esc(w.en)}”</b></div></div><div class="vnote" id="vn"></div><div id="cy" style="margin-top:12px"></div>`);
  const vn=$('vn');let url=null,done=false;
  const compare=()=>{if(done)return;done=true;vnStop();RUN.n++;RUN.ok++;mark(c.wid,true);G.speak.n++;G.speak.ok++;questTick('say');sfx.ok();react(true);
   vn.innerHTML=`<div class="vrow">${url?`<button class="btn ghost" id="mine">${IC('speaker','in')} Me</button>`:''}<button class="btn ghost" id="theirs">${IC('speaker','in')} ${CH().name}</button></div>`;
-  if($('mine'))$('mine').onclick=()=>{try{vstop();new Audio(url).play()}catch(e){}};$('theirs').onclick=()=>say(c.av);
+  if($('mine'))$('mine').onclick=()=>{chatClear();try{vstop();vnAudio=new Audio(url);vnAudio.play()}catch(e){}};$('theirs').onclick=()=>{chatClear();say(c.av)};
   app.querySelector('.kblank').innerHTML=`${boy()?FB:FG} <span class="blank filled">${esc(w.tr)}</span>`;
-  const after=()=>{$('cy').innerHTML=guideHTML(esc(noEmo(fillName(c.tk.after))),'cheer',null,c.fv);say(c.fv)};
-  if(url){try{vstop();const a=new Audio(url);a.onended=()=>{say(c.av);setTimeout(after,1400)};a.play().catch(()=>{say(c.av);setTimeout(after,1400)})}catch(e){say(c.av);setTimeout(after,1400)}}else{say(c.av);setTimeout(after,1400)}
+  const mine=RUN.items[RUN.i];const live=()=>RUN&&RUN.items[RUN.i]===mine&&$('cy');const later=(f,ms)=>chatT.push(setTimeout(()=>{if(live())f()},ms));
+  const after=()=>{if(!live())return;$('cy').innerHTML=guideHTML(esc(noEmo(fillName(c.tk.after))),'cheer',null,c.fv);say(c.fv)};
+  const zen=()=>{if(!live())return;say(c.av);later(after,1400)};if(url){try{vstop();const a=new Audio(url);vnAudio=a;a.onended=()=>{vnAudio=null;zen()};a.play().catch(zen)}catch(e){zen()}}else zen()
   foot(true,praise(true)+' '+IC('star','in'))};
  const noMic=()=>{vn.innerHTML=`<p class="note" style="text-align:center">Say it out loud, then tap the button.</p>`;const f=document.createElement('div');f.className='foot';f.id='foot';f.innerHTML=`<button class="btn wide" id="did">I said it! ✓</button>`;const o=$('foot');if(o)o.remove();app.appendChild(f);$('did').onclick=compare};
  if(!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia&&window.MediaRecorder)||micBlocked)return noMic();
@@ -956,7 +958,7 @@ function exCblank(it){
   try{vnStream=await navigator.mediaDevices.getUserMedia({audio:true})}catch(e){try{if(actx)actx.resume()}catch(_){}micBlocked=true;return noMic()}
   const ch=[];try{vnRec=new MediaRecorder(vnStream)}catch(e){vnStop();return noMic()}
   vnRec.ondataavailable=e=>{if(e.data&&e.data.size)ch.push(e.data)};
-  vnRec.onstop=()=>{try{if(actx)actx.resume()}catch(e){}if(ch.length)url=URL.createObjectURL(new Blob(ch,{type:ch[0].type||'audio/webm'}));vnStop();if($('vn'))compare()};
+  vnRec.onstop=()=>{try{if(actx)actx.resume()}catch(e){}if(ch.length)url=URL.createObjectURL(new Blob(ch,{type:ch[0].type||'audio/webm'}));vnStop();if($('vn')&&RUN&&RUN.items[RUN.i]===it)compare()};
   vnRec.start();ui(true);setTimeout(()=>{if(vnRec&&vnRec.state==='recording')vnRec.stop()},4000)};
  ui(false);
  const f=document.createElement('div');f.className='foot';f.id='foot';f.innerHTML=`<button class="btn ghost wide" id="skp">Can't speak now</button>`;app.appendChild(f);$('skp').onclick=()=>{vnStop();RUN.i++;step()};
@@ -989,6 +991,7 @@ function result(ok,id,correctTxt){
  if(!ok)say('p_tryagain');foot(ok,ok?praise()+' '+IC('star','in'):'Not quite!',ok?'':`<div style="margin-bottom:10px">Correct answer: <b>${correctTxt}</b></div>`);
 }
 function step(){
+ if(typeof chatClear==='function')chatClear();if(typeof vnStop==='function')vnStop();
  if(RUN.i>=RUN.items.length)return finish();
  const it=RUN.items[RUN.i];({talk:exTalk,teach:exTeach,gender:exGender,meaning:exMeaning,arabic:exArabic,match:exMatch,convo:exConvo,say:exSay,cpick:exCpick,cblank:exCblank}[it.t])(it);
 }
